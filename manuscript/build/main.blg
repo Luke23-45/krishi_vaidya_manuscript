@@ -1,0 +1,19 @@
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is 'C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\krishivaidya\manuscript\build\main.blg'
+[160] biber-MSWIN64:342> INFO - === 
+[212] Biber.pm:421> INFO - Reading 'C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\krishivaidya\manuscript\build\main.bcf'
+[428] Biber.pm:1002> INFO - Found 18 citekeys in bib section 0
+[459] Biber.pm:4487> INFO - Processing section 0
+[475] Biber.pm:4678> INFO - Looking for bibtex file 'bib/references.bib' for section 0
+[542] bibtex.pm:1713> INFO - LaTeX decoding ...
+[572] bibtex.pm:1519> INFO - Found BibTeX data source 'bib/references.bib'
+[791] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[791] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[791] Biber.pm:4307> INFO - Sorting list 'nyt/apasortcite//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[791] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[852] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[853] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[853] Biber.pm:4307> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[853] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[894] bbl.pm:676> INFO - Writing 'C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\krishivaidya\manuscript\build\main.bbl' with encoding 'UTF-8'
+[937] bbl.pm:779> INFO - Output to C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\krishivaidya\manuscript\build\main.bbl

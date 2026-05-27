@@ -1,0 +1,165 @@
+\chapter{CONCLUSION AND RECOMMENDATIONS}
+
+\ChapterSection{Conclusion}
+
+Krishi Vaidya was developed as an integrated crop-health support system that combines computer
+vision, vision-language modelling, backend orchestration, and a mobile application into one
+project. The work demonstrates that a final-year B.Sc. CSIT project can move beyond a single
+model experiment and produce a connected software system with trained model components,
+application services, mobile workflows, structured data storage, and validation artifacts.
+
+The YOLO component establishes the object-detection layer of the system. It was trained on a
+curated plant-part detection dataset containing 30,981 images and 147,467 object annotations
+across eleven agricultural object classes. The validation and result analysis show that the model
+achieved usable object-detection behavior for the intended plant-part localization task, with the
+best recorded training metrics reaching precision 0.71717, recall 0.74868, mAP50 0.76163, and
+mAP50-95 0.60191. The deployment study further examined threshold behavior and quantized
+variants, which is important because the target system includes mobile and edge-oriented
+constraints.
+
+The VLM component establishes the disease-interpretation layer. The project prepared a structured
+vision-language dataset, validated the dataset pipeline, fine-tuned a Qwen-based VLM using LoRA
+and quantized training techniques, and evaluated prediction behavior through recorded validation
+outputs. The VLM work is technically significant because it supports diagnosis-oriented text and
+structured output rather than only fixed-label classification. At the same time, the current VLM
+results reveal an important limitation: the recorded prediction metrics and parse-error behavior
+show that the VLM pipeline is implemented and measurable, but not yet reliable enough to be
+treated as a final diagnostic authority without further improvement.
+
+The backend component provides the application control layer. It implements authentication,
+domain routes, data models, repository abstraction, scan handling, diagnosis orchestration,
+advisory generation, validation, and test coverage for the scan path. The backend is not only a
+transport layer between the mobile app and the models; it is the component that turns model
+output into a structured application response and maintains system records.
+
+The mobile application provides the user-facing layer. It implements routing, screen structure,
+provider and repository patterns, local SQLite persistence, offline and synchronization support,
+crop and task management, image-based scan workflow, backend diagnosis communication, model asset
+support, localization, and farmer-facing output. This makes the project usable as an application
+prototype rather than only a collection of scripts.
+
+The integrated workflow connects these components into a diagnosis path: the mobile app captures
+or selects an image, the backend receives and validates the scan request, the VLM service handles
+model inference, the backend transforms the result into an advisory response, and the mobile app
+stores and displays the outcome. The integration has been verified from source structure and
+documented data contracts, while live end-to-end runtime evidence remains a required final
+validation step.
+
+Overall, Krishi Vaidya satisfies the core objective of building an integrated agricultural
+diagnosis-support prototype. Its strongest current evidence lies in the completed YOLO artifacts,
+the complete VLM data and training pipeline, the implemented backend, the implemented mobile app,
+and the documented integration architecture. Its most important remaining work is not basic
+implementation, but reliability improvement, executed end-to-end testing, mobile runtime
+evidence, field evaluation, and expert validation of diagnosis and advisory content.
+
+\ChapterSection{Major Contributions}
+
+The major contributions of this project are as follows:
+
+\begin{enumerate}[label=\arabic*.]
+\item A curated YOLO object-detection dataset and trained detector for agricultural plant-part
+localization, including validation metrics, threshold analysis, quantization comparison, and
+error analysis.
+\item A structured VLM dataset and fine-tuning pipeline for crop disease interpretation using
+Qwen-based vision-language modelling, LoRA adaptation, quantized training, prediction parsing,
+and validation reporting.
+\item A backend API that organizes authentication, crop records, scan records, diagnosis
+services, advisory logic, repository abstraction, validation middleware, and scan-related tests.
+\item A React Native/Expo mobile application that supports farmer-facing scan workflow, local
+records, offline persistence, synchronization structure, crop and task management, localization,
+and backend diagnosis communication.
+\item A documented integration workflow that connects the mobile app, backend, VLM inference
+service, and advisory response into a single diagnosis-support path.
+\item A manuscript-ready planning and evidence system that maps model outputs, figures, tables,
+architecture diagrams, limitations, and remaining validation requirements.
+\end{enumerate}
+
+\ChapterSection{Recommendations}
+
+Krishi Vaidya should be continued as an evidence-first system. The next work should not only add
+features, but should strengthen the reliability of the existing components. The recommendations
+are grouped into dataset and model improvements, deployment improvements, and mobile/user
+evaluation improvements.
+
+\ChapterSubsection{Dataset and model improvements}
+
+The YOLO dataset should be expanded with more balanced class coverage. The current object
+distribution is useful for training, but some classes have much fewer annotations than others.
+Additional images for under-represented classes such as maize ear, rice grain cluster,
+cauliflower head, and cabbage head would improve the detector's ability to generalize across
+plant structures. More field images should also be collected under varied lighting, occlusion,
+growth stages, camera quality, and background conditions.
+
+The VLM dataset should be improved with stricter output supervision. The current validation shows
+that parse errors are a major limitation. Future dataset preparation should enforce consistent
+JSON-style response templates, include negative and uncertain cases, and add examples where the
+correct behavior is to decline overconfident diagnosis. The VLM should also be evaluated with
+expert-reviewed labels and advisory text rather than relying only on automated parsing metrics.
+
+The diagnosis pipeline should separate disease classification confidence from advisory
+confidence. A model may identify a likely disease while still lacking enough context to recommend
+chemical or agronomic intervention. Future versions should include confidence calibration,
+uncertainty labels, and escalation guidance such as ``consult an agricultural expert'' when the
+visual evidence is weak.
+
+\ChapterSubsection{System deployment improvements}
+
+The backend and VLM services should be tested under a live end-to-end deployment. The manuscript
+currently documents source-verified integration, but final deployment should include request logs,
+response examples, latency measurements, failure-mode testing, authentication checks, and
+readiness behavior. These results should be archived and added to the appendix before final field
+deployment claims are made.
+
+The backend test suite should be expanded beyond scan-focused tests. Additional tests should cover
+authentication, crops, notes, tasks, advisories, diagnosis history, validation failures, file
+upload limits, and authorization boundaries. This is necessary because the backend is responsible
+for data integrity and user-specific records.
+
+The model-serving boundary should be hardened. The VLM service should expose documented health,
+readiness, timeout, and error responses. The backend should handle VLM unavailability without
+crashing the user workflow. Where possible, model outputs should be schema-validated before being
+stored or returned to the mobile app.
+
+\ChapterSubsection{Mobile app and user evaluation improvements}
+
+The mobile app should be tested on real Android devices and, if available, different device
+classes. The final evidence should include screenshots, scan workflow recordings, local storage
+behavior, offline-to-online synchronization, response latency, error messages, and farmer-facing
+readability checks. These tests are necessary because mobile usability cannot be fully proven from
+source code inspection alone.
+
+The application should also be evaluated with intended users. Farmer-facing language, disease
+names, severity explanations, and advisory instructions should be checked with agricultural
+experts and local users. If Nepali-language output is used, translation quality must be evaluated
+carefully because unclear advice can be more harmful than no advice.
+
+Future versions should include stronger safety boundaries. The mobile app should avoid presenting
+model output as a guaranteed diagnosis. It should show uncertainty, recommend expert consultation
+for severe or unclear cases, and avoid unsupported pesticide prescriptions unless the advisory
+content has been reviewed by qualified agricultural personnel.
+
+\ChapterSection{Future Enhancements}
+
+The following enhancements are recommended for future development:
+
+\begin{enumerate}[label=\arabic*.]
+\item Add a complete end-to-end test run from mobile image submission to backend response, VLM
+inference, advisory generation, local storage, and result display.
+\item Improve VLM structured-output reliability by training with stricter response schemas and
+adding parser-aware validation during evaluation.
+\item Add expert-reviewed disease and advisory labels for the VLM validation set.
+\item Expand the YOLO dataset with more balanced class representation and more field-condition
+images.
+\item Add final mobile screenshots, device-test evidence, and offline synchronization
+demonstrations to the appendix.
+\item Add backend API documentation or Swagger/OpenAPI-style endpoint summaries for easier
+maintenance.
+\item Add deployment documentation for environment variables, model-service startup, backend
+startup, mobile configuration, and production readiness checks.
+\item Conduct a small controlled user evaluation with students, farmers, or agricultural
+technicians to assess usability and clarity of advisory output.
+\item Add privacy and data-protection review for uploaded crop images and user records before
+real-world deployment.
+\item Extend Nepali-language support for disease explanations and farmer-facing recommendations
+after expert review.
+\end{enumerate}

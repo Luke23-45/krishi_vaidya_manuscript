@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=1in}
+\begin{document}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Runtime and resource envelope}
+  \label{tab:runtime_resources}
+  \begin{tabular}{lr}
+    \toprule
+    \textbf{Metric / setting} & \textbf{Value} \\
+    \midrule
+    GPU & NVIDIA L4 \\
+    CUDA / capability & 12.8 / 8.9 \\
+    GPU memory & 22.03 GB \\
+    Peak allocated & 12.56 GB \\
+    Peak reserved & 13.08 GB \\
+    Peak RAM used & 40.6\% \\
+    Attention backend & flash\_attention\_2 \\
+    Liger kernel & True \\
+    torch.compile & False \\
+    bf16 / tf32 & True / True \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\end{document}

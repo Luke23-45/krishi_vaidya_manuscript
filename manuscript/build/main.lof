@@ -1,0 +1,19 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1}{\ignorespaces Verified backend architecture of Krishi Vaidya}}{23}{figure.caption.15}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Mobile application architecture generated from the implemented Expo, provider, repository, offline, API, and ML source structure.}}{29}{figure.caption.19}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Integrated Krishi Vaidya diagnosis workflow across mobile app, backend API, VLM inference gateway, advisory generation, and local persistence.}}{33}{figure.caption.22}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Testing and validation coverage across model, backend, mobile, API, and integration layers.}}{38}{figure.caption.25}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5}{\ignorespaces Training dynamics of the Krishi Vaidya YOLO detector}}{43}{figure.caption.27}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Confidence-threshold sensitivity of the YOLO detector}}{45}{figure.caption.29}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Deployment comparison across baseline and quantized YOLO variants}}{47}{figure.caption.31}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Confusion matrix of the YOLO detector}}{49}{figure.caption.34}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Training dynamics of the Qwen2.5-VL LoRA fine-tuning run}}{51}{figure.caption.36}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Runtime and memory behavior of the VLM training run}}{53}{figure.caption.38}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Dataset composition for the VLM Qwen export}}{54}{figure.caption.40}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Prediction performance of the VLM on the test split}}{55}{figure.caption.43}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Confusion matrix for VLM prediction results}}{57}{figure.caption.46}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Inference diagnostics for VLM predictions}}{57}{figure.caption.47}%
+\addvspace {10\p@ }

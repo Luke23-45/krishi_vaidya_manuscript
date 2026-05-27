@@ -1,0 +1,86 @@
+\chapter*{APPENDIX}
+\addcontentsline{toc}{chapter}{APPENDIX}
+
+\section*{Appendix A: Supplementary Model Outputs}
+\addcontentsline{toc}{section}{Appendix A: Supplementary Model Outputs}
+
+The manuscript-ready YOLO outputs are stored in
+\texttt{data/krishi\_vaidya\_yolo\_data}. This folder contains the training dynamics figure,
+threshold sweep figure, quantization comparison figure, confusion matrix figure, training
+dynamics table, threshold sweep table, deployment summary table, per-class F1 table, and error
+analysis table used in Chapter 4.
+
+The manuscript-ready VLM outputs are stored in
+\texttt{data/krishi\_vaidya\_vlm\_data}. This folder contains the VLM training dynamics figure,
+memory/runtime figure, dataset composition figure, prediction performance figure, confusion
+matrix figure, inference diagnostics figure, training summary table, runtime resource table,
+dataset split table, class distribution table, prediction summary table, per-class metrics table,
+and prediction distribution table used in Chapter 4.
+
+The generated architecture and validation figures are stored in the backend, mobile,
+integration, and validation data folders under \texttt{data/}. These include backend
+architecture, mobile app architecture, integrated diagnosis workflow, and validation coverage
+figures.
+
+\section*{Appendix B: Backend API Details}
+\addcontentsline{toc}{section}{Appendix B: Backend API Details}
+
+The backend source is located in the project \texttt{backend/} directory. The implemented API
+structure includes route groups for authentication, crops, scans, diagnoses, advisories, tasks,
+notes, uploads, and user-related operations. The manuscript documents these route groups in
+Chapter 3 and Chapter 4 using source-backed tables.
+
+Final submission evidence should add one of the following backend artifacts if available:
+
+\begin{enumerate}[label=\arabic*.]
+\item API request-response examples for the scan and diagnosis workflow.
+\item Screenshots or exported documentation from an API client such as Postman or Swagger/OpenAPI.
+\item Executed backend test logs for unit and integration tests.
+\item Environment-variable documentation for local and deployment runs.
+\end{enumerate}
+
+\section*{Appendix C: Mobile Screenshots}
+\addcontentsline{toc}{section}{Appendix C: Mobile Screenshots}
+
+Mobile screenshots are still required for final submission. The source-backed manuscript sections
+already document the implemented mobile route structure, scan workflow, local persistence,
+offline-aware behavior, backend diagnosis client, and model asset support. However, final visual
+evidence should be captured from a running mobile build or emulator.
+
+Recommended screenshots are:
+
+\begin{enumerate}[label=\arabic*.]
+\item Home or dashboard screen.
+\item Crop record or crop detail screen.
+\item Image capture or image selection screen.
+\item Scan review screen before submission.
+\item Diagnosis result screen.
+\item Scan history screen.
+\item Offline or synchronization status screen, if available.
+\item Settings or language/localization screen.
+\end{enumerate}
+
+\section*{Appendix D: Additional Setup and Build Notes}
+\addcontentsline{toc}{section}{Appendix D: Additional Setup and Build Notes}
+
+The manuscript is built from \texttt{manuscript/main.tex}. The PowerShell build script is located
+at \texttt{manuscript/scripts/build.ps1}. The latest verified build produced
+\texttt{manuscript/build/main.pdf}.
+
+The project-level implementation evidence is distributed across the following directories:
+
+\begin{enumerate}[label=\arabic*.]
+\item \texttt{yoloml/}: YOLO training, validation, telemetry, and model-related scripts.
+\item \texttt{vlm\_model/}: VLM dataset preparation, fine-tuning, validation, inference gateway,
+and tests.
+\item \texttt{backend/}: Express/Mongoose API, services, repositories, models, middleware, and
+tests.
+\item \texttt{mobile\_app/app/}: Expo React Native mobile application, feature modules, local
+storage, scan workflow, and API client logic.
+\item \texttt{manuscript/data/}: manuscript-ready model figures, tables, generated architecture
+diagrams, workflow diagrams, and validation assets.
+\end{enumerate}
+
+Before final submission, the following evidence should be added if time permits: complete
+executed-test logs, mobile screenshots, live end-to-end request-response logs, latency
+measurements, and expert-reviewed advisory examples.

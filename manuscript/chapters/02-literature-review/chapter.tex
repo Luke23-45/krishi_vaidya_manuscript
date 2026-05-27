@@ -1,0 +1,255 @@
+\chapter{LITERATURE REVIEW}
+
+\ChapterSection{Digital Agriculture and Crop Disease Diagnosis}
+
+Agriculture remains a core national sector in Nepal and a direct livelihood concern for rural
+households. The Government of Nepal's agricultural statistics report records agriculture as a
+major component of national production, while the National Sample Census of Agriculture 2021/22
+was designed to provide benchmark data on holdings, land use, crops, livestock, irrigation,
+machinery, labour, and agricultural inputs across all districts and local levels
+\parencite{moaldAgricultureStats2080,nsoAgricultureCensus2021}. This national context matters
+for Krishi Vaidya because crop disease diagnosis is not an isolated technical problem. It is a
+field-level decision-support problem that affects farmers who must decide whether a visible crop
+symptom requires treatment, monitoring, or expert consultation.
+
+Plant disease and pest pressure is also a global food-security issue. FAO reports that up to
+40 percent of global crop production can be lost annually due to plant pests and diseases
+\parencite{faoPlantHealthLosses}. The exact loss varies by crop, location, season, management
+practice, and pathogen pressure, but the underlying implication is consistent: delayed or
+incorrect diagnosis can convert a manageable crop-health problem into a production and income
+loss. For smallholder systems, this risk is amplified because advisory services, laboratory
+diagnosis, and trained plant-health experts are not always available at the time and place where
+the farmer first observes the symptom.
+
+\ChapterSubsection{Farmer-facing diagnosis systems}
+
+Farmer-facing diagnosis systems must solve a different problem from laboratory plant pathology.
+They must accept imperfect field images, guide a non-specialist user, and return information in a
+form that is understandable and actionable. A useful system should therefore combine visual
+analysis with farmer-oriented communication. Image recognition alone may identify a visual class,
+but an advisory system must also explain the likely issue, severity, possible management steps,
+and the uncertainty of the result.
+
+Krishi Vaidya follows this practical direction. The project does not treat model prediction as the
+only output. Instead, the mobile app, backend, YOLO detector, VLM diagnosis pipeline, and advisory
+response work together so that image capture, analysis, record keeping, and farmer-facing output
+are connected within one system. This is consistent with the direction of digital agriculture in
+Nepal. FAO's Nepal digital agriculture work highlights the need for stronger digital
+infrastructure, skilled users, coordinated strategy, and advisory services that can support rural
+livelihoods \parencite{faoNepalDigitalAgriculture}.
+
+\ChapterSubsection{Dataset and field-variability challenges}
+
+Dataset quality is a central challenge in crop disease diagnosis. Public plant-disease datasets
+make model development possible, but they do not automatically represent every field condition.
+The PlantVillage study demonstrated the value of image-based plant disease recognition using a
+large curated leaf-image dataset \parencite{mohanty2016plantvillage}. However, controlled or
+semi-controlled leaf imagery can differ substantially from images captured by farmers in real
+fields. Field images may contain mixed lighting, partial occlusion, cluttered background, motion
+blur, multiple plant organs, and symptoms at different stages.
+
+This limitation explains why Krishi Vaidya uses separate but connected model components. The YOLO
+component focuses on locating plant structures relevant to the image, while the VLM component
+produces structured disease-oriented interpretation. The project therefore separates object
+localization from disease reasoning rather than forcing a single classifier to perform every task.
+The literature supports this separation because plant disease analysis can involve classification,
+detection, segmentation, and diagnosis, depending on the visual target and the desired output
+\parencite{liu2021plantDiseaseReview}.
+
+\ChapterSection{Object Detection in Agricultural Vision}
+
+Object detection is appropriate when the system must identify not only what is present in an image
+but also where it appears. In agricultural images, this is useful because disease symptoms and
+plant structures may occupy only part of the image. A detector can localize leaves, panicles,
+fruits, ears, heads, and other crop parts that may then support downstream reasoning or user
+feedback. For Krishi Vaidya, this is the role of the YOLO model: it provides a fast
+object-detection layer for plant-part localization rather than replacing the disease-diagnosis
+logic.
+
+\ChapterSubsection{YOLO-family detectors}
+
+YOLO-family detectors are widely used where real-time or near-real-time object detection is
+important. The Ultralytics YOLOv8 documentation describes YOLOv8 as a model family supporting
+tasks such as detection, segmentation, classification, pose estimation, and oriented bounding
+boxes, with multiple model sizes and deployment modes \parencite{ultralyticsYolov8}. The relevance
+to Krishi Vaidya is practical: a mobile agricultural system benefits from a detector that can be
+trained on custom crop classes, evaluated with standard detection metrics, and exported into
+deployment-oriented formats.
+
+The YOLO section of this manuscript therefore uses YOLO terminology carefully. The model is not
+claimed to diagnose disease. Its manuscript role is object detection: training on the Krishi
+Vaidya bouncer dataset, validating localization performance, comparing thresholds, and evaluating
+deployment variants. This distinction is important because object detection and disease diagnosis
+measure different capabilities.
+
+\ChapterSubsection{Detection metrics}
+
+Object detection performance is normally evaluated through metrics that combine localization and
+classification behavior. Precision measures how many predicted detections are correct. Recall
+measures how many ground-truth objects are found. F1 score summarizes the balance between
+precision and recall. Mean average precision at an intersection-over-union threshold evaluates
+detection quality across classes and confidence thresholds. These metrics are useful because an
+agricultural detector must avoid two opposite failures: false detections that confuse the
+downstream workflow and missed detections that hide relevant plant structures.
+
+Krishi Vaidya uses these metrics in the YOLO validation and results sections. The project also
+uses threshold analysis because the default threshold may not be the best deployment threshold for
+the intended user experience. A higher threshold may reduce false positives but miss subtle or
+small objects; a lower threshold may increase recall but introduce noisy detections. The
+manuscript therefore discusses threshold behavior as an implementation decision, not only as a
+reported number.
+
+\ChapterSubsection{Deployment and quantization}
+
+Deployment constraints are important in mobile and field-oriented agricultural systems. A model
+that performs well on a workstation may still be impractical if it is too large, too slow, or
+incompatible with the target runtime. Ultralytics documents model export paths such as ONNX,
+TensorFlow Lite, and quantized formats, including INT8-oriented deployment options
+\parencite{ultralyticsExport}. This is directly relevant to Krishi Vaidya because the YOLO work
+includes deployment evaluation and because the mobile app contains TFLite model assets.
+
+The literature and tooling therefore justify evaluating more than raw accuracy. The correct
+question is whether the trained detector can support an end-user workflow under realistic
+resource constraints. This manuscript treats quantization as a deployment tradeoff: compression
+and runtime feasibility must be evaluated together with the effect on prediction quality.
+
+\ChapterSection{Vision-Language Models for Diagnosis}
+
+Vision-language models extend the disease-diagnosis workflow beyond fixed-label image
+classification. A VLM can consume an image and generate structured text, making it suitable for
+tasks where the output must include disease name, severity, explanation, and advisory content. In
+Krishi Vaidya, the VLM is used for disease-oriented reasoning and structured output, while the
+backend and mobile app transform that output into a farmer-facing response.
+
+\ChapterSubsection{Multimodal disease reasoning}
+
+Qwen2-VL and Qwen2.5-VL provide relevant foundations for Krishi Vaidya because they are
+vision-language model families designed to process images and text jointly. Qwen2-VL introduced
+dynamic-resolution visual processing and multimodal positional encoding to improve perception
+across different visual inputs \parencite{wang2024qwen2vl}. Qwen2.5-VL further reports advances
+in visual recognition, object localization, document parsing, structured extraction, and
+multimodal reasoning \parencite{bai2025qwen25vl}. These capabilities align with the Krishi
+Vaidya requirement for image-based disease interpretation and structured outputs.
+
+The project does not treat the VLM as an unrestricted chatbot. The VLM pipeline is constrained by
+prompt templates, class taxonomy, JSON-oriented records, prediction parsing, and validation
+metrics. This design is necessary because agricultural diagnosis must be reproducible enough for
+manuscript evaluation and safe enough for advisory presentation.
+
+\ChapterSubsection{LoRA fine-tuning}
+
+Fine-tuning a full multimodal model can be computationally expensive. LoRA addresses this by
+freezing the base model weights and training low-rank adapter matrices, reducing the number of
+trainable parameters required for adaptation \parencite{hu2021lora}. This method is suitable for
+student and research environments where the goal is task adaptation without the cost of full
+model retraining.
+
+Krishi Vaidya uses LoRA-based fine-tuning for the VLM component. The manuscript therefore reports
+the base model, adapter configuration, dataset format, and training behavior as method-level
+details. This is important because the final diagnosis behavior depends not only on the base VLM
+but also on how the adapter was trained and how predictions were parsed.
+
+\ChapterSubsection{Quantized fine-tuning}
+
+Quantized fine-tuning reduces memory requirements further by combining low-bit model loading with
+adapter training. QLoRA demonstrates that gradients can be back-propagated through a frozen
+4-bit quantized model into LoRA adapters, enabling efficient fine-tuning of large language models
+\parencite{dettmers2023qlora}. Krishi Vaidya's VLM section uses this line of work as the basis
+for discussing quantized training configuration and resource behavior.
+
+The manuscript is careful not to overstate this result. Quantization improves feasibility, but it
+does not guarantee high diagnostic accuracy. The VLM results in Chapter 4 therefore distinguish
+between successful training execution, resource feasibility, dataset validity, and the current
+prediction-quality limitations observed in the validation outputs.
+
+\ChapterSubsection{Structured prediction and parseability}
+
+For a farmer-facing advisory system, the model output must be parseable. A natural-language answer
+that cannot be reliably converted into application fields is difficult to store, validate, or show
+consistently in the mobile app. This is why Krishi Vaidya emphasizes structured output and
+prediction parsing. The VLM can generate diagnosis-oriented content, but the backend and mobile
+layers require stable fields such as crop, disease, confidence, severity, advice, and uncertainty.
+
+The VLM results show that parseability is not a minor detail. A model can complete training while
+still producing a large number of outputs that fail the expected parser. The literature review
+therefore supports a central design claim of this manuscript: multimodal diagnosis systems must
+evaluate both semantic correctness and output reliability.
+
+\ChapterSection{Mobile and Backend Systems for Agricultural Advisory}
+
+The backend and mobile app convert model outputs into an operational system. Without these
+layers, the trained models would remain isolated experiments. Krishi Vaidya uses an API-centered
+backend for authentication, scan handling, data persistence, diagnosis orchestration, advisory
+generation, and user records. The mobile app provides the farmer-facing interface for image
+capture, scan submission, crop management, local storage, synchronization, and diagnosis display.
+
+\ChapterSubsection{Mobile scanning workflows}
+
+React Native is an appropriate implementation basis for cross-platform mobile development because
+it enables native Android and iOS applications using React and platform-native capabilities
+\parencite{reactNativeDocs}. Expo adds a structured development workflow, routing support, and
+tooling for building and deploying React Native applications \parencite{expoDocs}. In Krishi
+Vaidya, this technology choice supports rapid development of the scan workflow, crop records,
+local database, localization, and backend communication.
+
+The agricultural requirement shapes the mobile design. A scan workflow should not assume perfect
+connectivity or expert users. It must guide image selection, preserve records, handle failures,
+and present output in a way that is understandable to the farmer. This is why the mobile
+implementation includes repository/provider structure, local persistence, sync status, and
+farmer-facing result screens rather than acting only as a thin image-upload client.
+
+\ChapterSubsection{Offline-first and synchronization patterns}
+
+Rural and field environments often include unstable connectivity. Krishi Vaidya therefore treats
+offline behavior as a functional requirement. The mobile app stores records locally using SQLite
+and uses synchronization logic to reconcile local and remote state when connectivity permits. The
+literature on mobile systems commonly frames this as an offline-first problem: the app should
+remain usable when the network is unavailable, and synchronization should occur later without
+losing user data.
+
+The current manuscript does not claim that all offline cases have been proven by device-level
+testing. It documents the implemented local storage and synchronization structure, then marks
+runtime evidence as a remaining validation requirement. This distinction is necessary for a
+high-quality thesis: implementation evidence and field-readiness evidence are not the same.
+
+\ChapterSubsection{API-backed advisory systems}
+
+The backend uses Express.js and Mongoose. Express documentation defines routing as the mechanism
+through which application endpoints respond to client requests, and middleware as the request
+processing stack that can modify requests, enforce checks, or end the response cycle
+\parencite{expressRouting,expressMiddleware}. Mongoose schemas define the shape of MongoDB
+documents and support validation, indexes, methods, middleware, and model construction
+\parencite{mongooseSchemas}. These ideas map directly to the backend architecture in Krishi
+Vaidya: routes expose the API surface, middleware handles security and validation, services
+implement business logic, repositories isolate persistence, and Mongoose models define stored
+records.
+
+The VLM inference layer uses FastAPI. FastAPI is a Python framework for building APIs using
+standard Python type hints \parencite{fastapiDocs}. This fits the VLM deployment boundary because
+the model pipeline is Python-based, while the main backend remains a Node.js/Express service. The
+result is a two-service architecture: the backend handles application state and orchestration,
+while the VLM service handles multimodal inference.
+
+\ChapterSection{Research Gap}
+
+The reviewed literature and project context show three gaps that Krishi Vaidya addresses at a
+student-project scale.
+
+First, many plant-disease systems stop at image classification. Such systems can be useful, but
+they do not fully address the workflow needed by a farmer who requires image capture, diagnosis,
+advice, history, and record keeping. Krishi Vaidya extends beyond isolated classification by
+combining object detection, VLM-based interpretation, backend orchestration, and a mobile app.
+
+Second, model performance alone is not enough for deployment-oriented agricultural software. A
+usable system must consider model export, structured output, parseability, API contracts,
+offline behavior, security, and validation. Krishi Vaidya documents these engineering boundaries
+explicitly, including the limitations that remain unresolved.
+
+Third, Nepal's digital agriculture context requires practical, accessible, and mobile-oriented
+tools. Official sources identify agriculture as a nationally important sector and digital
+agriculture as an area requiring infrastructure, skills, coordination, and advisory-service
+development \parencite{moaldAgricultureStats2080,nsoAgricultureCensus2021,faoNepalDigitalAgriculture}.
+Krishi Vaidya is positioned within this gap as an integrated prototype for crop-health support,
+not as a replacement for expert agronomists or laboratory diagnosis. Its contribution is the
+integration of trained model components with a backend and mobile workflow suitable for further
+validation, deployment hardening, and field evaluation.

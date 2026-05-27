@@ -1,0 +1,17 @@
+# Table 6: Per-Class Prediction Metrics
+
+| Class | Support | Precision | Recall | F1 | TP | FN | FP |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Maize: Common Rust | 412 | 0.0000 | 0.0000 | 0.0000 | 0 | 412 | 0 |
+| Maize: Healthy | 50 | 0.9091 | 0.4000 | 0.5556 | 20 | 30 | 2 |
+| Maize: Northern Leaf Blight | 55 | 0.1296 | 0.3818 | 0.1935 | 21 | 34 | 141 |
+| Potato: Early Blight | 45 | 1.0000 | 0.1778 | 0.3019 | 8 | 37 | 0 |
+| Potato: Healthy | 5 | 0.0000 | 0.0000 | 0.0000 | 0 | 5 | 0 |
+| Potato: Late Blight | 35 | 0.9167 | 0.3143 | 0.4681 | 11 | 24 | 1 |
+| Tomato: Early Blight | 26 | 0.3333 | 0.0385 | 0.0690 | 1 | 25 | 2 |
+| Tomato: Healthy | 52 | 1.0000 | 0.1731 | 0.2951 | 9 | 43 | 0 |
+| Tomato: Late Blight | 50 | 0.8125 | 0.2600 | 0.3939 | 13 | 37 | 3 |
+| Tomato: Leaf Mold | 25 | 0.9000 | 0.3600 | 0.5143 | 9 | 16 | 1 |
+| Tomato: Septoria Leaf Spot | 43 | 0.8000 | 0.2791 | 0.4138 | 12 | 31 | 3 |
+| Parse Error | 0 | 0.0000 | 0.0000 | 0.0000 | 0 | 0 | 540 |
+| Maize: Early Leaf Spot | 0 | 0.0000 | 0.0000 | 0.0000 | 0 | 0 | 1 |

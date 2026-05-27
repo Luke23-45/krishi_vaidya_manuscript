@@ -1,0 +1,29 @@
+\PrelimHeading{Abstract}
+\PrelimEntry{Abstract}
+
+Krishi Vaidya is an integrated crop-health diagnosis-support system developed as a final-year
+B.Sc. CSIT project. The project combines a YOLO-based object-detection model, a Qwen-based
+vision-language model, an Express/Mongoose backend API, and a React Native/Expo mobile
+application into a single diagnosis workflow. The system is designed for image-based crop
+analysis where a farmer captures or selects a crop image, submits it through the mobile app, and
+receives a structured diagnosis and advisory response through backend and model-service
+orchestration.
+
+The YOLO component was trained for agricultural plant-part localization using a curated dataset
+of 30,981 images and 147,467 object annotations across eleven classes. The VLM component was
+prepared for disease-oriented interpretation using structured image-text data, LoRA-based
+fine-tuning, quantized training, and prediction parsing. The backend implements authentication,
+domain models, repositories, scan handling, diagnosis orchestration, validation middleware, and
+advisory response support. The mobile app implements scan workflow, crop records, local SQLite
+persistence, synchronization structure, localization, and farmer-facing result display.
+
+The completed work demonstrates a functional integrated prototype and provides manuscript-ready
+evidence through model metrics, validation outputs, generated architecture diagrams, source-backed
+tables, and documented test coverage. The strongest evidence is available for the YOLO model,
+VLM data/training pipeline, backend implementation, mobile architecture, and integration design.
+The main limitations are the current VLM prediction reliability, missing live end-to-end runtime
+evidence, incomplete mobile device validation, and the need for agricultural expert review before
+real-world advisory use.
+
+\vspace{2\baselineskip}
+\noindent\textit{\fontsize{10}{12}\selectfont Keywords:} {\fontsize{10}{12}\selectfont Krishi Vaidya, crop disease diagnosis, YOLO, vision-language model, mobile agriculture, backend API}

@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=1in}
+\begin{document}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Prediction summary on the test split}
+  \label{tab:prediction_summary}
+  \begin{tabular}{lr}
+    \toprule
+    \textbf{Metric} & \textbf{Value} \\
+    \midrule
+    Split & test \\
+    Examples & 798 \\
+    Accuracy & 0.1303 \\
+    Macro precision & 0.5232 \\
+    Macro recall & 0.1834 \\
+    Macro F1 & 0.2465 \\
+    Parse-error predictions & 540 (67.7\%) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\end{document}

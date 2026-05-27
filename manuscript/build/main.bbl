@@ -1,0 +1,1685 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/apasortcite//global/global/global}
+    \entry{bai2025qwen25vl}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=1,uniquepart=given,hash=57a8adba5cc2bab3f31533e0cecc106b}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Shuai},
+           giveni={S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=2cf5911274cca6a4856373ca4ffc5553}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Keqin},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=1f6b77a91e6aabb330a12dacbb1afaca}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Xuejing},
+           giveni={X\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=3285d4d1e4e3d71cbf6f1d7292205da4}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Jialin},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=a2d8dc14e742896356083652423f2f70}{%
+           family={Ge},
+           familyi={G\bibinitperiod},
+           given={Wenbin},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0e339e2d98a016927dec3c34c9a12281}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Sibo},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1931ac25a20d7791fabefcfa7575fc9d}{%
+           family={Dang},
+           familyi={D\bibinitperiod},
+           given={Kai},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=c26cc02bbb5db725a2c79cb200894d76}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=be21ceb52b7089f735f8f579b1a18cb6}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shijie},
+           giveni={S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=158e59f864e05ae9b9e387849a705a89}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Sinan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{630dd0397006d5c5de2afc8583ba38fa}
+      \strng{fullhash}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{fullhashraw}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{bibnamehash}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{authorbibnamehash}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{authornamehash}{630dd0397006d5c5de2afc8583ba38fa}
+      \strng{authorfullhash}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{authorfullhashraw}{d83ea8c444ac32ce986d28e86b56d90b}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2502.13923}
+      \field{title}{Qwen2.5-VL Technical Report}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2502.13923
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2502.13923
+      \endverb
+    \endentry
+    \entry{dettmers2023qlora}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=67a40f4e13f66c2e43ce4d7d64b9d9a4}{%
+           family={Dettmers},
+           familyi={D\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=14917de5b5a7cbc3cd12e6467297e657}{%
+           family={Pagnoni},
+           familyi={P\bibinitperiod},
+           given={Artidoro},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c32ace2a5a2590ef3542c3713e05925d}{%
+           family={Holtzman},
+           familyi={H\bibinitperiod},
+           given={Ari},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1dbd3a5b42828fb2cebd7786488ba425}{%
+           family={Zettlemoyer},
+           familyi={Z\bibinitperiod},
+           given={Luke},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
+      \strng{fullhash}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{fullhashraw}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{bibnamehash}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{authorbibnamehash}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{authornamehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
+      \strng{authorfullhash}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{authorfullhashraw}{1bf24d73d3c3884f634a1b420205ff86}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in Neural Information Processing Systems}
+      \field{title}{QLoRA: Efficient Finetuning of Quantized LLMs}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2305.14314
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2305.14314
+      \endverb
+    \endentry
+    \entry{expoDocs}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c29f23f279126757ba18ec74d0d27cfa}{%
+           family={{Expo}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{fullhash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{fullhashraw}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{bibnamehash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{authorbibnamehash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{authornamehash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{authorfullhash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{authorfullhashraw}{c29f23f279126757ba18ec74d0d27cfa}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Expo Documentation}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.expo.dev/
+      \endverb
+      \verb{url}
+      \verb https://docs.expo.dev/
+      \endverb
+    \endentry
+    \entry{expressRouting}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e9b071c130db8519dbf6043e18f22908}{%
+           family={{Express.js}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{fullhash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{fullhashraw}{e9b071c130db8519dbf6043e18f22908}
+      \strng{bibnamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorbibnamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authornamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorfullhash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorfullhashraw}{e9b071c130db8519dbf6043e18f22908}
+      \field{extraname}{1}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Express routing}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://expressjs.com/en/guide/routing.html
+      \endverb
+      \verb{url}
+      \verb https://expressjs.com/en/guide/routing.html
+      \endverb
+    \endentry
+    \entry{expressMiddleware}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e9b071c130db8519dbf6043e18f22908}{%
+           family={{Express.js}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{fullhash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{fullhashraw}{e9b071c130db8519dbf6043e18f22908}
+      \strng{bibnamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorbibnamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authornamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorfullhash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorfullhashraw}{e9b071c130db8519dbf6043e18f22908}
+      \field{extraname}{2}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Using Express middleware}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://expressjs.com/en/guide/using-middleware.html
+      \endverb
+      \verb{url}
+      \verb https://expressjs.com/en/guide/using-middleware.html
+      \endverb
+    \endentry
+    \entry{fastapiDocs}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f275f2a55ee4abdf8875dce6987e2f5f}{%
+           family={{FastAPI}},
+           familyi={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{fullhash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{fullhashraw}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{bibnamehash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{authorbibnamehash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{authornamehash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{authorfullhash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{authorfullhashraw}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{FastAPI Documentation}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://fastapi.tiangolo.com/
+      \endverb
+      \verb{url}
+      \verb https://fastapi.tiangolo.com/
+      \endverb
+    \endentry
+    \entry{faoPlantHealthLosses}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=264d9adc36dcc763205708230a469e23}{%
+           family={{Food and Agriculture Organization of the United Nations}},
+           familyi={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{264d9adc36dcc763205708230a469e23}
+      \strng{fullhash}{264d9adc36dcc763205708230a469e23}
+      \strng{fullhashraw}{264d9adc36dcc763205708230a469e23}
+      \strng{bibnamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorbibnamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authornamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorfullhash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorfullhashraw}{264d9adc36dcc763205708230a469e23}
+      \field{extraname}{1}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{About Plant Production and Protection}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.fao.org/plant-production-protection/about/en
+      \endverb
+      \verb{url}
+      \verb https://www.fao.org/plant-production-protection/about/en
+      \endverb
+    \endentry
+    \entry{faoNepalDigitalAgriculture}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=264d9adc36dcc763205708230a469e23}{%
+           family={{Food and Agriculture Organization of the United Nations}},
+           familyi={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{264d9adc36dcc763205708230a469e23}
+      \strng{fullhash}{264d9adc36dcc763205708230a469e23}
+      \strng{fullhashraw}{264d9adc36dcc763205708230a469e23}
+      \strng{bibnamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorbibnamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authornamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorfullhash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorfullhashraw}{264d9adc36dcc763205708230a469e23}
+      \field{extraname}{2}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{FAO supports Nepal in developing a digital agriculture strategy and action plan}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.fao.org/digital-villages-initiative/asia-pacific/news/fao-supports-nepal-in-developing-a-digital-agriculture-strategy-and-action-plan/en
+      \endverb
+      \verb{url}
+      \verb https://www.fao.org/digital-villages-initiative/asia-pacific/news/fao-supports-nepal-in-developing-a-digital-agriculture-strategy-and-action-plan/en
+      \endverb
+    \endentry
+    \entry{hu2021lora}{article}{}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=e6a95d07b8ae7f14e4eb777c6980a059}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Edward\bibnamedelima J.},
+           giveni={E\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1701c0f05662e92cf52cfc8c16437496}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Yelong},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ab0fdbc1586103dda7ac5e0852e5b2c3}{%
+           family={Wallis},
+           familyi={W\bibinitperiod},
+           given={Phillip},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=eaa5cc98b7f19b4ce07c832213a13b9d}{%
+           family={Allen-Zhu},
+           familyi={A\bibinithyphendelim Z\bibinitperiod},
+           given={Zeyuan},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0d2c91b24f885b22d373a892a768abc8}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yuanzhi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b654b88ecd4c3ff1ea29da275bce701c}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shean},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55f210233ac686af68eba11a97bd84e2}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Lu},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05d71a9c5e7ac79222e01a55af0ccb93}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Weizhu},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d775178c34083951ab1e07df578582c3}
+      \strng{fullhash}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{fullhashraw}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{bibnamehash}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{authorbibnamehash}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{authornamehash}{d775178c34083951ab1e07df578582c3}
+      \strng{authorfullhash}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{authorfullhashraw}{08f4b49735d5d145be00bc9c07f38975}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2106.09685}
+      \field{title}{LoRA: Low-Rank Adaptation of Large Language Models}
+      \field{year}{2021}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2106.09685
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2106.09685
+      \endverb
+    \endentry
+    \entry{liu2021plantDiseaseReview}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=1,uniquepart=given,hash=eec567144e7053ded431c59378f366e7}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jiang},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=aca8c393efd61cde9155d6edae887bcc}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xuewei},
+           giveni={X\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{b98272705b99edf4fe780af950c2d713}
+      \strng{fullhash}{b98272705b99edf4fe780af950c2d713}
+      \strng{fullhashraw}{b98272705b99edf4fe780af950c2d713}
+      \strng{bibnamehash}{b98272705b99edf4fe780af950c2d713}
+      \strng{authorbibnamehash}{b98272705b99edf4fe780af950c2d713}
+      \strng{authornamehash}{b98272705b99edf4fe780af950c2d713}
+      \strng{authorfullhash}{b98272705b99edf4fe780af950c2d713}
+      \strng{authorfullhashraw}{b98272705b99edf4fe780af950c2d713}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Plant Methods}
+      \field{number}{22}
+      \field{title}{Plant diseases and pests detection based on deep learning: a review}
+      \field{volume}{17}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1186/s13007-021-00722-9
+      \endverb
+      \verb{urlraw}
+      \verb https://plantmethods.biomedcentral.com/articles/10.1186/s13007-021-00722-9
+      \endverb
+      \verb{url}
+      \verb https://plantmethods.biomedcentral.com/articles/10.1186/s13007-021-00722-9
+      \endverb
+    \endentry
+    \entry{reactNativeDocs}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6c56f762d9ebe73063cd2d157e97351f}{%
+           family={{Meta Open Source}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{fullhash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{fullhashraw}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{bibnamehash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{authorbibnamehash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{authornamehash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{authorfullhash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{authorfullhashraw}{6c56f762d9ebe73063cd2d157e97351f}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{React Native: Introduction}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://reactnative.dev/docs/getting-started.html
+      \endverb
+      \verb{url}
+      \verb https://reactnative.dev/docs/getting-started.html
+      \endverb
+    \endentry
+    \entry{moaldAgricultureStats2080}{report}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0b7e3574d59dea327fd055f8de97d7fa}{%
+           family={{Ministry of Agriculture and Livestock Development}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Government of Nepal}%
+      }
+      \strng{namehash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{fullhash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{fullhashraw}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{bibnamehash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{authorbibnamehash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{authornamehash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{authorfullhash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{authorfullhashraw}{0b7e3574d59dea327fd055f8de97d7fa}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Statistical Information on Nepalese Agriculture, 2080/81}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.giwmscdnone.gov.np/media/pdf_upload/Statistical%20Information%20on%20Nepalese%20Agriculture%2C%202080_81_a7s8aj4.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.giwmscdnone.gov.np/media/pdf_upload/Statistical%20Information%20on%20Nepalese%20Agriculture%2C%202080_81_a7s8aj4.pdf
+      \endverb
+    \endentry
+    \entry{mohanty2016plantvillage}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=3d5cef4b839058d910a96eb89dd891df}{%
+           family={Mohanty},
+           familyi={M\bibinitperiod},
+           given={Sharada\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=73548d83308fe701f7b5640229166fa9}{%
+           family={Hughes},
+           familyi={H\bibinitperiod},
+           given={David\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c9882c8d17ee9213b85d019ad2595f59}{%
+           family={Salathe},
+           familyi={S\bibinitperiod},
+           given={Marcel},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6ea77a721d17a53fa97fdbc566620da1}
+      \strng{fullhash}{725e949caec84f55994611c09847ce77}
+      \strng{fullhashraw}{725e949caec84f55994611c09847ce77}
+      \strng{bibnamehash}{725e949caec84f55994611c09847ce77}
+      \strng{authorbibnamehash}{725e949caec84f55994611c09847ce77}
+      \strng{authornamehash}{6ea77a721d17a53fa97fdbc566620da1}
+      \strng{authorfullhash}{725e949caec84f55994611c09847ce77}
+      \strng{authorfullhashraw}{725e949caec84f55994611c09847ce77}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Frontiers in Plant Science}
+      \field{title}{Using Deep Learning for Image-Based Plant Disease Detection}
+      \field{volume}{7}
+      \field{year}{2016}
+      \verb{doi}
+      \verb 10.3389/fpls.2016.01419
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1511.08060
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1511.08060
+      \endverb
+    \endentry
+    \entry{mongooseSchemas}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=cadcdedb567abae643e15dcf0974e503}{%
+           family={{Mongoose}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{fullhash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{fullhashraw}{cadcdedb567abae643e15dcf0974e503}
+      \strng{bibnamehash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{authorbibnamehash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{authornamehash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{authorfullhash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{authorfullhashraw}{cadcdedb567abae643e15dcf0974e503}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Schemas}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://mongoosejs.com/docs/guide.html
+      \endverb
+      \verb{url}
+      \verb https://mongoosejs.com/docs/guide.html
+      \endverb
+    \endentry
+    \entry{nsoAgricultureCensus2021}{report}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=feddb77e1ebdb7f5aaec45a99241f8c2}{%
+           family={{National Statistics Office}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Government of Nepal}%
+      }
+      \strng{namehash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{fullhash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{fullhashraw}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{bibnamehash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{authorbibnamehash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{authornamehash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{authorfullhash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{authorfullhashraw}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{National Sample Census of Agriculture 2021/22, NSCA 2021/22}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://microdata.nsonepal.gov.np/index.php/catalog/134/study-description
+      \endverb
+      \verb{url}
+      \verb https://microdata.nsonepal.gov.np/index.php/catalog/134/study-description
+      \endverb
+    \endentry
+    \entry{ultralyticsYolov8}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=88f069848482a556e416f713d2819905}{%
+           family={{Ultralytics}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{88f069848482a556e416f713d2819905}
+      \strng{fullhash}{88f069848482a556e416f713d2819905}
+      \strng{fullhashraw}{88f069848482a556e416f713d2819905}
+      \strng{bibnamehash}{88f069848482a556e416f713d2819905}
+      \strng{authorbibnamehash}{88f069848482a556e416f713d2819905}
+      \strng{authornamehash}{88f069848482a556e416f713d2819905}
+      \strng{authorfullhash}{88f069848482a556e416f713d2819905}
+      \strng{authorfullhashraw}{88f069848482a556e416f713d2819905}
+      \field{extraname}{1}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Explore Ultralytics YOLOv8}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.ultralytics.com/models/yolov8/
+      \endverb
+      \verb{url}
+      \verb https://docs.ultralytics.com/models/yolov8/
+      \endverb
+    \endentry
+    \entry{ultralyticsExport}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=88f069848482a556e416f713d2819905}{%
+           family={{Ultralytics}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{88f069848482a556e416f713d2819905}
+      \strng{fullhash}{88f069848482a556e416f713d2819905}
+      \strng{fullhashraw}{88f069848482a556e416f713d2819905}
+      \strng{bibnamehash}{88f069848482a556e416f713d2819905}
+      \strng{authorbibnamehash}{88f069848482a556e416f713d2819905}
+      \strng{authornamehash}{88f069848482a556e416f713d2819905}
+      \strng{authorfullhash}{88f069848482a556e416f713d2819905}
+      \strng{authorfullhashraw}{88f069848482a556e416f713d2819905}
+      \field{extraname}{2}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Model Export with Ultralytics YOLO}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.ultralytics.com/modes/export/
+      \endverb
+      \verb{url}
+      \verb https://docs.ultralytics.com/modes/export/
+      \endverb
+    \endentry
+    \entry{wang2024qwen2vl}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=1,uniquepart=given,hash=c26cc02bbb5db725a2c79cb200894d76}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=57a8adba5cc2bab3f31533e0cecc106b}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Shuai},
+           giveni={S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=158e59f864e05ae9b9e387849a705a89}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Sinan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=be21ceb52b7089f735f8f579b1a18cb6}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shijie},
+           giveni={S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=bdbfd000a8f63f447f8d94b01d0a95a6}{%
+           family={Fan},
+           familyi={F\bibinitperiod},
+           given={Zhihao},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=dd935a128aad343ed15dbb47a481d356}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Jinze},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=2cf5911274cca6a4856373ca4ffc5553}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Keqin},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=1f6b77a91e6aabb330a12dacbb1afaca}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Xuejing},
+           giveni={X\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=3285d4d1e4e3d71cbf6f1d7292205da4}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Jialin},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=a2d8dc14e742896356083652423f2f70}{%
+           family={Ge},
+           familyi={G\bibinitperiod},
+           given={Wenbin},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{fullhash}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{fullhashraw}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{bibnamehash}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{authorbibnamehash}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{authornamehash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{authorfullhash}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{authorfullhashraw}{22d2ddbb297085cc8bff47ebda6194e8}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2409.12191}
+      \field{title}{Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2409.12191
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2409.12191
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{bai2025qwen25vl}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=1,uniquepart=given,hash=57a8adba5cc2bab3f31533e0cecc106b}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Shuai},
+           giveni={S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=2cf5911274cca6a4856373ca4ffc5553}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Keqin},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=1f6b77a91e6aabb330a12dacbb1afaca}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Xuejing},
+           giveni={X\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=3285d4d1e4e3d71cbf6f1d7292205da4}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Jialin},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=a2d8dc14e742896356083652423f2f70}{%
+           family={Ge},
+           familyi={G\bibinitperiod},
+           given={Wenbin},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0e339e2d98a016927dec3c34c9a12281}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Sibo},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1931ac25a20d7791fabefcfa7575fc9d}{%
+           family={Dang},
+           familyi={D\bibinitperiod},
+           given={Kai},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=c26cc02bbb5db725a2c79cb200894d76}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=be21ceb52b7089f735f8f579b1a18cb6}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shijie},
+           giveni={S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=158e59f864e05ae9b9e387849a705a89}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Sinan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{630dd0397006d5c5de2afc8583ba38fa}
+      \strng{fullhash}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{fullhashraw}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{bibnamehash}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{authorbibnamehash}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{authornamehash}{630dd0397006d5c5de2afc8583ba38fa}
+      \strng{authorfullhash}{d83ea8c444ac32ce986d28e86b56d90b}
+      \strng{authorfullhashraw}{d83ea8c444ac32ce986d28e86b56d90b}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2502.13923}
+      \field{title}{Qwen2.5-VL Technical Report}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2502.13923
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2502.13923
+      \endverb
+    \endentry
+    \entry{dettmers2023qlora}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=67a40f4e13f66c2e43ce4d7d64b9d9a4}{%
+           family={Dettmers},
+           familyi={D\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=14917de5b5a7cbc3cd12e6467297e657}{%
+           family={Pagnoni},
+           familyi={P\bibinitperiod},
+           given={Artidoro},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c32ace2a5a2590ef3542c3713e05925d}{%
+           family={Holtzman},
+           familyi={H\bibinitperiod},
+           given={Ari},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1dbd3a5b42828fb2cebd7786488ba425}{%
+           family={Zettlemoyer},
+           familyi={Z\bibinitperiod},
+           given={Luke},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
+      \strng{fullhash}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{fullhashraw}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{bibnamehash}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{authorbibnamehash}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{authornamehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
+      \strng{authorfullhash}{1bf24d73d3c3884f634a1b420205ff86}
+      \strng{authorfullhashraw}{1bf24d73d3c3884f634a1b420205ff86}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in Neural Information Processing Systems}
+      \field{title}{QLoRA: Efficient Finetuning of Quantized LLMs}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2305.14314
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2305.14314
+      \endverb
+    \endentry
+    \entry{expoDocs}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c29f23f279126757ba18ec74d0d27cfa}{%
+           family={{Expo}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{fullhash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{fullhashraw}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{bibnamehash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{authorbibnamehash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{authornamehash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{authorfullhash}{c29f23f279126757ba18ec74d0d27cfa}
+      \strng{authorfullhashraw}{c29f23f279126757ba18ec74d0d27cfa}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Expo Documentation}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.expo.dev/
+      \endverb
+      \verb{url}
+      \verb https://docs.expo.dev/
+      \endverb
+    \endentry
+    \entry{expressRouting}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e9b071c130db8519dbf6043e18f22908}{%
+           family={{Express.js}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{fullhash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{fullhashraw}{e9b071c130db8519dbf6043e18f22908}
+      \strng{bibnamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorbibnamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authornamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorfullhash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorfullhashraw}{e9b071c130db8519dbf6043e18f22908}
+      \field{extraname}{1}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Express routing}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://expressjs.com/en/guide/routing.html
+      \endverb
+      \verb{url}
+      \verb https://expressjs.com/en/guide/routing.html
+      \endverb
+    \endentry
+    \entry{expressMiddleware}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e9b071c130db8519dbf6043e18f22908}{%
+           family={{Express.js}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{fullhash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{fullhashraw}{e9b071c130db8519dbf6043e18f22908}
+      \strng{bibnamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorbibnamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authornamehash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorfullhash}{e9b071c130db8519dbf6043e18f22908}
+      \strng{authorfullhashraw}{e9b071c130db8519dbf6043e18f22908}
+      \field{extraname}{2}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Using Express middleware}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://expressjs.com/en/guide/using-middleware.html
+      \endverb
+      \verb{url}
+      \verb https://expressjs.com/en/guide/using-middleware.html
+      \endverb
+    \endentry
+    \entry{fastapiDocs}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f275f2a55ee4abdf8875dce6987e2f5f}{%
+           family={{FastAPI}},
+           familyi={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{fullhash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{fullhashraw}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{bibnamehash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{authorbibnamehash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{authornamehash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{authorfullhash}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \strng{authorfullhashraw}{f275f2a55ee4abdf8875dce6987e2f5f}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{FastAPI Documentation}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://fastapi.tiangolo.com/
+      \endverb
+      \verb{url}
+      \verb https://fastapi.tiangolo.com/
+      \endverb
+    \endentry
+    \entry{faoPlantHealthLosses}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=264d9adc36dcc763205708230a469e23}{%
+           family={{Food and Agriculture Organization of the United Nations}},
+           familyi={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{264d9adc36dcc763205708230a469e23}
+      \strng{fullhash}{264d9adc36dcc763205708230a469e23}
+      \strng{fullhashraw}{264d9adc36dcc763205708230a469e23}
+      \strng{bibnamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorbibnamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authornamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorfullhash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorfullhashraw}{264d9adc36dcc763205708230a469e23}
+      \field{extraname}{1}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{About Plant Production and Protection}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.fao.org/plant-production-protection/about/en
+      \endverb
+      \verb{url}
+      \verb https://www.fao.org/plant-production-protection/about/en
+      \endverb
+    \endentry
+    \entry{faoNepalDigitalAgriculture}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=264d9adc36dcc763205708230a469e23}{%
+           family={{Food and Agriculture Organization of the United Nations}},
+           familyi={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{264d9adc36dcc763205708230a469e23}
+      \strng{fullhash}{264d9adc36dcc763205708230a469e23}
+      \strng{fullhashraw}{264d9adc36dcc763205708230a469e23}
+      \strng{bibnamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorbibnamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authornamehash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorfullhash}{264d9adc36dcc763205708230a469e23}
+      \strng{authorfullhashraw}{264d9adc36dcc763205708230a469e23}
+      \field{extraname}{2}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{FAO supports Nepal in developing a digital agriculture strategy and action plan}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.fao.org/digital-villages-initiative/asia-pacific/news/fao-supports-nepal-in-developing-a-digital-agriculture-strategy-and-action-plan/en
+      \endverb
+      \verb{url}
+      \verb https://www.fao.org/digital-villages-initiative/asia-pacific/news/fao-supports-nepal-in-developing-a-digital-agriculture-strategy-and-action-plan/en
+      \endverb
+    \endentry
+    \entry{hu2021lora}{article}{}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=e6a95d07b8ae7f14e4eb777c6980a059}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Edward\bibnamedelima J.},
+           giveni={E\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1701c0f05662e92cf52cfc8c16437496}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Yelong},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ab0fdbc1586103dda7ac5e0852e5b2c3}{%
+           family={Wallis},
+           familyi={W\bibinitperiod},
+           given={Phillip},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=eaa5cc98b7f19b4ce07c832213a13b9d}{%
+           family={Allen-Zhu},
+           familyi={A\bibinithyphendelim Z\bibinitperiod},
+           given={Zeyuan},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0d2c91b24f885b22d373a892a768abc8}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yuanzhi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b654b88ecd4c3ff1ea29da275bce701c}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shean},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55f210233ac686af68eba11a97bd84e2}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Lu},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05d71a9c5e7ac79222e01a55af0ccb93}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Weizhu},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d775178c34083951ab1e07df578582c3}
+      \strng{fullhash}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{fullhashraw}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{bibnamehash}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{authorbibnamehash}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{authornamehash}{d775178c34083951ab1e07df578582c3}
+      \strng{authorfullhash}{08f4b49735d5d145be00bc9c07f38975}
+      \strng{authorfullhashraw}{08f4b49735d5d145be00bc9c07f38975}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2106.09685}
+      \field{title}{LoRA: Low-Rank Adaptation of Large Language Models}
+      \field{year}{2021}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2106.09685
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2106.09685
+      \endverb
+    \endentry
+    \entry{liu2021plantDiseaseReview}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=1,uniquepart=given,hash=eec567144e7053ded431c59378f366e7}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jiang},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=aca8c393efd61cde9155d6edae887bcc}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xuewei},
+           giveni={X\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{b98272705b99edf4fe780af950c2d713}
+      \strng{fullhash}{b98272705b99edf4fe780af950c2d713}
+      \strng{fullhashraw}{b98272705b99edf4fe780af950c2d713}
+      \strng{bibnamehash}{b98272705b99edf4fe780af950c2d713}
+      \strng{authorbibnamehash}{b98272705b99edf4fe780af950c2d713}
+      \strng{authornamehash}{b98272705b99edf4fe780af950c2d713}
+      \strng{authorfullhash}{b98272705b99edf4fe780af950c2d713}
+      \strng{authorfullhashraw}{b98272705b99edf4fe780af950c2d713}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Plant Methods}
+      \field{number}{22}
+      \field{title}{Plant diseases and pests detection based on deep learning: a review}
+      \field{volume}{17}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1186/s13007-021-00722-9
+      \endverb
+      \verb{urlraw}
+      \verb https://plantmethods.biomedcentral.com/articles/10.1186/s13007-021-00722-9
+      \endverb
+      \verb{url}
+      \verb https://plantmethods.biomedcentral.com/articles/10.1186/s13007-021-00722-9
+      \endverb
+    \endentry
+    \entry{reactNativeDocs}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6c56f762d9ebe73063cd2d157e97351f}{%
+           family={{Meta Open Source}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{fullhash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{fullhashraw}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{bibnamehash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{authorbibnamehash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{authornamehash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{authorfullhash}{6c56f762d9ebe73063cd2d157e97351f}
+      \strng{authorfullhashraw}{6c56f762d9ebe73063cd2d157e97351f}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{React Native: Introduction}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://reactnative.dev/docs/getting-started.html
+      \endverb
+      \verb{url}
+      \verb https://reactnative.dev/docs/getting-started.html
+      \endverb
+    \endentry
+    \entry{moaldAgricultureStats2080}{report}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0b7e3574d59dea327fd055f8de97d7fa}{%
+           family={{Ministry of Agriculture and Livestock Development}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Government of Nepal}%
+      }
+      \strng{namehash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{fullhash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{fullhashraw}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{bibnamehash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{authorbibnamehash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{authornamehash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{authorfullhash}{0b7e3574d59dea327fd055f8de97d7fa}
+      \strng{authorfullhashraw}{0b7e3574d59dea327fd055f8de97d7fa}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Statistical Information on Nepalese Agriculture, 2080/81}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.giwmscdnone.gov.np/media/pdf_upload/Statistical%20Information%20on%20Nepalese%20Agriculture%2C%202080_81_a7s8aj4.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.giwmscdnone.gov.np/media/pdf_upload/Statistical%20Information%20on%20Nepalese%20Agriculture%2C%202080_81_a7s8aj4.pdf
+      \endverb
+    \endentry
+    \entry{mohanty2016plantvillage}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=3d5cef4b839058d910a96eb89dd891df}{%
+           family={Mohanty},
+           familyi={M\bibinitperiod},
+           given={Sharada\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=73548d83308fe701f7b5640229166fa9}{%
+           family={Hughes},
+           familyi={H\bibinitperiod},
+           given={David\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c9882c8d17ee9213b85d019ad2595f59}{%
+           family={Salathe},
+           familyi={S\bibinitperiod},
+           given={Marcel},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6ea77a721d17a53fa97fdbc566620da1}
+      \strng{fullhash}{725e949caec84f55994611c09847ce77}
+      \strng{fullhashraw}{725e949caec84f55994611c09847ce77}
+      \strng{bibnamehash}{725e949caec84f55994611c09847ce77}
+      \strng{authorbibnamehash}{725e949caec84f55994611c09847ce77}
+      \strng{authornamehash}{6ea77a721d17a53fa97fdbc566620da1}
+      \strng{authorfullhash}{725e949caec84f55994611c09847ce77}
+      \strng{authorfullhashraw}{725e949caec84f55994611c09847ce77}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Frontiers in Plant Science}
+      \field{title}{Using Deep Learning for Image-Based Plant Disease Detection}
+      \field{volume}{7}
+      \field{year}{2016}
+      \verb{doi}
+      \verb 10.3389/fpls.2016.01419
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1511.08060
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1511.08060
+      \endverb
+    \endentry
+    \entry{mongooseSchemas}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=cadcdedb567abae643e15dcf0974e503}{%
+           family={{Mongoose}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{fullhash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{fullhashraw}{cadcdedb567abae643e15dcf0974e503}
+      \strng{bibnamehash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{authorbibnamehash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{authornamehash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{authorfullhash}{cadcdedb567abae643e15dcf0974e503}
+      \strng{authorfullhashraw}{cadcdedb567abae643e15dcf0974e503}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Schemas}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://mongoosejs.com/docs/guide.html
+      \endverb
+      \verb{url}
+      \verb https://mongoosejs.com/docs/guide.html
+      \endverb
+    \endentry
+    \entry{nsoAgricultureCensus2021}{report}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=feddb77e1ebdb7f5aaec45a99241f8c2}{%
+           family={{National Statistics Office}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Government of Nepal}%
+      }
+      \strng{namehash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{fullhash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{fullhashraw}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{bibnamehash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{authorbibnamehash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{authornamehash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{authorfullhash}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \strng{authorfullhashraw}{feddb77e1ebdb7f5aaec45a99241f8c2}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{National Sample Census of Agriculture 2021/22, NSCA 2021/22}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://microdata.nsonepal.gov.np/index.php/catalog/134/study-description
+      \endverb
+      \verb{url}
+      \verb https://microdata.nsonepal.gov.np/index.php/catalog/134/study-description
+      \endverb
+    \endentry
+    \entry{ultralyticsYolov8}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=88f069848482a556e416f713d2819905}{%
+           family={{Ultralytics}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{88f069848482a556e416f713d2819905}
+      \strng{fullhash}{88f069848482a556e416f713d2819905}
+      \strng{fullhashraw}{88f069848482a556e416f713d2819905}
+      \strng{bibnamehash}{88f069848482a556e416f713d2819905}
+      \strng{authorbibnamehash}{88f069848482a556e416f713d2819905}
+      \strng{authornamehash}{88f069848482a556e416f713d2819905}
+      \strng{authorfullhash}{88f069848482a556e416f713d2819905}
+      \strng{authorfullhashraw}{88f069848482a556e416f713d2819905}
+      \field{extraname}{1}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Explore Ultralytics YOLOv8}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.ultralytics.com/models/yolov8/
+      \endverb
+      \verb{url}
+      \verb https://docs.ultralytics.com/models/yolov8/
+      \endverb
+    \endentry
+    \entry{ultralyticsExport}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=88f069848482a556e416f713d2819905}{%
+           family={{Ultralytics}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{88f069848482a556e416f713d2819905}
+      \strng{fullhash}{88f069848482a556e416f713d2819905}
+      \strng{fullhashraw}{88f069848482a556e416f713d2819905}
+      \strng{bibnamehash}{88f069848482a556e416f713d2819905}
+      \strng{authorbibnamehash}{88f069848482a556e416f713d2819905}
+      \strng{authornamehash}{88f069848482a556e416f713d2819905}
+      \strng{authorfullhash}{88f069848482a556e416f713d2819905}
+      \strng{authorfullhashraw}{88f069848482a556e416f713d2819905}
+      \field{extraname}{2}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Model Export with Ultralytics YOLO}
+      \field{urlday}{27}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.ultralytics.com/modes/export/
+      \endverb
+      \verb{url}
+      \verb https://docs.ultralytics.com/modes/export/
+      \endverb
+    \endentry
+    \entry{wang2024qwen2vl}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=1,uniquepart=given,hash=c26cc02bbb5db725a2c79cb200894d76}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=57a8adba5cc2bab3f31533e0cecc106b}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Shuai},
+           giveni={S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=158e59f864e05ae9b9e387849a705a89}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Sinan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=be21ceb52b7089f735f8f579b1a18cb6}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shijie},
+           giveni={S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=bdbfd000a8f63f447f8d94b01d0a95a6}{%
+           family={Fan},
+           familyi={F\bibinitperiod},
+           given={Zhihao},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=dd935a128aad343ed15dbb47a481d356}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Jinze},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=2cf5911274cca6a4856373ca4ffc5553}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Keqin},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=1f6b77a91e6aabb330a12dacbb1afaca}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Xuejing},
+           giveni={X\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=3285d4d1e4e3d71cbf6f1d7292205da4}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Jialin},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=a2d8dc14e742896356083652423f2f70}{%
+           family={Ge},
+           familyi={G\bibinitperiod},
+           given={Wenbin},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{fullhash}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{fullhashraw}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{bibnamehash}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{authorbibnamehash}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{authornamehash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{authorfullhash}{22d2ddbb297085cc8bff47ebda6194e8}
+      \strng{authorfullhashraw}{22d2ddbb297085cc8bff47ebda6194e8}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2409.12191}
+      \field{title}{Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2409.12191
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2409.12191
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

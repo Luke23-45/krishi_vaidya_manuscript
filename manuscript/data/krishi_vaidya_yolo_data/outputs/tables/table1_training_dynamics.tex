@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=1in}
+\begin{document}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Summary of Training Dynamics and Best-Epoch Performance for Krishi YOLOv11}
+  \label{tab:training_dynamics_summary}
+  \begin{tabular}{lr}
+    \toprule
+    \textbf{Metric / Parameter} & \textbf{Value} \\
+    \midrule
+    Total Epochs Trained & $100$ \\
+    Best Training Epoch & $100$ \\
+    Input Resolution (pixels) & $640 \times 640$ \\
+    Total Training Time & $7.12\,\text{hours}$ \\
+    \midrule
+    \multicolumn{2}{l}{\textit{Loss Residuals at Best Epoch}} \\
+    ~~Train Box Loss & $1.0627$ \\
+    ~~Train Class Loss & $0.1871$ \\
+    ~~Train DFL Loss & $1.0493$ \\
+    ~~Val Box Loss & $0.8855$ \\
+    ~~Val Class Loss & $0.2681$ \\
+    ~~Val DFL Loss & $1.2635$ \\
+    \midrule
+    \multicolumn{2}{l}{\textit{Detection Accuracy at Best Epoch}} \\
+    ~~Precision & $0.7172$ \\
+    ~~Recall & $0.7487$ \\
+    ~~F1-Score & $0.7326$ \\
+    ~~mAP@50 & $0.7616$ \\
+    ~~mAP@50-95 & $0.6019$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\end{document}
