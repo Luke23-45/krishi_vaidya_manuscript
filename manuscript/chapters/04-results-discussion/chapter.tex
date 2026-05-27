@@ -828,6 +828,20 @@ native-specific paths for camera and TFLite functionality. This is important bec
 system must support actual farmer workflows rather than only demonstrate that an image can be sent
 to a model.
 
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/onboarding/onboarding_2.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/onboarding/onboarding_1.png}
+\end{minipage}
+\caption{Representative first-run onboarding screenshots showing language selection, camera permission, crop selection, and onboarding completion.}
+\label{fig:mobile-onboarding-screens}
+\end{figure}
+
 \begin{table}[H]
 \centering
 \caption{Mobile application implementation coverage}
@@ -852,9 +866,23 @@ Offline support & SQLite schema, offline queue, sync queue, network monitor, syn
 
 The application surface is therefore consistent with the thesis objective of building an
 integrated crop-disease support system. However, the evidence currently comes mainly from source
-inspection and generated architecture documentation. Final manuscript completion should still add
-screenshots from a running build, device-specific performance measurements, and user-flow captures
-for the important screens.
+inspection and generated architecture documentation. The manuscript now includes representative
+screenshots from a running build, but device-specific performance measurements and broader
+runtime-flow captures are still needed before making stronger deployment claims.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/homepage/home.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/settings/settings.png}
+\end{minipage}
+\caption{Representative dashboard and settings screenshots showing the home surface, crop summary, export controls, notifications, and accessibility-related configuration.}
+\label{fig:mobile-home-settings-screens}
+\end{figure}
 
 \ChapterSubsection{Scan and Diagnosis Workflow Result}
 
@@ -880,6 +908,20 @@ alternatives, voice output, feedback, reminder setup, share-card generation, and
 matters because advisory delivery and follow-up actions are the parts of the system that make the
 diagnosis usable to a farmer.
 
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/scan/scan_1.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/scan/scan_2.png}
+\end{minipage}
+\caption{Representative scan and diagnosis screenshots showing capture, preview, editor support, diagnosis completion, structured result display, and treatment guidance.}
+\label{fig:mobile-scan-workflow-screens}
+\end{figure}
+
 \ChapterSubsection{Local Data and Offline Result}
 
 The local data layer provides a substantial offline foundation. Scan history, queued uploads, sync
@@ -904,6 +946,27 @@ statistics, network status, and weather-related context. Crop repositories suppo
 updating, archiving, filtering, and retrieving crop plots. Task and note repositories support
 record keeping around farm activities. The data-catalog repository provides read-only crop
 reference information from fixture files.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/crop/crops.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/add_crops/add_crop.png}
+\end{minipage}
+\caption{Representative crop-management screenshots showing the crop dashboard and crop-registration flow.}
+\label{fig:mobile-crop-management-screens}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/krishi_vaidya_mobile_app_data/notes/notes.png}
+\caption{Representative note-creation screenshot showing crop-linked note entry and attachment flow.}
+\label{fig:mobile-notes-screen}
+\end{figure}
 
 This is a strong design decision because a farmer-facing disease application should not treat each
 scan as isolated. Crop condition, planting date, crop stage, task history, notes, weather context,
@@ -949,11 +1012,12 @@ as the same detector pipeline unless a separate model-export and label-alignment
 
 The mobile application has substantial implemented functionality, but the manuscript evidence is
 not yet complete. Source inspection confirms architecture, routes, repositories, persistence,
-offline sync infrastructure, diagnosis calls, localization, and model-asset loading paths. It does
-not by itself prove real-device performance, UI correctness on all supported screen sizes, camera
-behavior on different Android devices, backend latency, or complete sync behavior across all
-domains. These should be added as final manuscript evidence after screenshots, device runs, and
-integration tests are collected.
+offline sync infrastructure, diagnosis calls, localization, and model-asset loading paths. The
+manuscript now includes representative screenshots for onboarding, dashboard, scan, crop, and
+notes flows, but it still does not by itself prove real-device performance, UI correctness on all
+supported screen sizes, camera behavior on different Android devices, backend latency, or
+complete sync behavior across all domains. Those items still need device runs and integration
+tests.
 
 \begin{table}[H]
 \centering
@@ -965,9 +1029,11 @@ integration tests are collected.
 \toprule
 \textbf{Area} & \textbf{Current status} & \textbf{Required final evidence} \\
 \midrule
-Architecture & Source-backed architecture figure generated & Keep figure and add screen-flow screenshots \\
-Navigation & Route files and layouts inspected & Capture app navigation screenshots from running build \\
-Scan workflow & Capture, preview, editor, analysis, result code present & Run device or emulator flow and document observed behavior \\
+Architecture & Source-backed architecture figure generated & Keep figure and screenshot evidence together \\
+Navigation & Route files and layouts inspected & Representative onboarding and dashboard screenshots included \\
+Scan workflow & Capture, preview, editor, analysis, result code present & Representative scan and diagnosis screenshots included \\
+Crop management & Crop dashboard, add-crop, and notes screenshots captured & Validate the workflows on a running device \\
+Settings and export & Settings, export, and notifications screenshots captured & Record runtime behavior and accessibility checks \\
 Offline support & SQLite, queue, sync manager implemented & Test offline-to-online recovery with real queued scans \\
 Backend integration & Diagnosis client targets \texttt{/api/v1/diagnose} & Record request-response examples and latency measurements \\
 TFLite deployment & Model assets and loader present & Verify exported model labels, precision behavior, and device inference time \\

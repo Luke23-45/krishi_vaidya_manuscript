@@ -5,11 +5,11 @@
 | Section | Planned assets |
 | --- | --- |
 | 3.1 | Overall system architecture diagram, end-to-end workflow diagram. |
-| 3.2 | YOLO dataset summary, VLM dataset split/class assets if needed. |
-| 3.3 | YOLO method assets or pipeline diagram if created. |
-| 3.4 | VLM method assets or pipeline diagram if created. |
-| 3.5 | Backend architecture placed; endpoint and data-model tables drafted; entity diagram optional future asset. |
-| 3.6 | Mobile application architecture placed; screenshots and optional detailed workflow diagrams remain future assets. |
+| 3.2 | YOLO and VLM dataset flow diagrams placed. |
+| 3.3 | YOLO training, quantization/export, deployment, and validation flow diagrams placed. |
+| 3.4 | VLM training, inference, API gateway, and validation flow diagrams placed. |
+| 3.5 | Backend architecture, API routing, data-model, diagnosis, and authentication flow diagrams placed. |
+| 3.6 | Mobile application architecture, navigation, scan, offline sync, and on-device inference flow diagrams placed. |
 | 3.7 | Integrated diagnosis workflow figure placed; integration control-flow and data-contract tables drafted. |
 | 3.8 | Validation coverage figure placed; testing and validation evidence summary table drafted. |
 

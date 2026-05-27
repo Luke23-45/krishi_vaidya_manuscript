@@ -11,6 +11,13 @@ The selection of YOLO for this role is consistent with its documented use as a r
 object-detection family with training, validation, prediction, and export workflows
 \parencite{ultralyticsYolov8}.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/yolo/06_system_architecture_overview.pdf}
+\caption{YOLO system architecture overview showing the data, training, validation, deployment, and export pipeline.}
+\label{fig:yolo-system-architecture-overview}
+\end{figure}
+
 \ChapterSubsection{Dataset Construction}
 
 The object-detection dataset was assembled as the Krishi Vaidya bouncer dataset. The local
@@ -68,6 +75,13 @@ while maize ear, rice grain cluster, cauliflower head, and cabbage head have far
 This imbalance is important for interpreting the validation results because class-level behavior
 cannot be understood only from aggregate precision, recall, or mAP values.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/yolo/01_data_pipeline_flow.pdf}
+\caption{YOLO data pipeline flow from raw annotations to canonical export, splitting, and training structure.}
+\label{fig:yolo-data-pipeline-flow}
+\end{figure}
+
 \ChapterSection{YOLO Object-Detection Method}
 
 \ChapterSubsection{Model and Training Setup}
@@ -83,6 +97,13 @@ loss, and Distribution Focal Loss (DFL). The configured loss gains were 7.5 for 
 classification loss, and 1.5 for DFL. The optimizer was selected automatically by the training
 framework, with an initial learning rate of 0.01, final learning-rate factor of 0.01, momentum of
 0.937, and weight decay of 0.0005. Warmup was configured for 3 epochs.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/yolo/02_training_pipeline_flow.pdf}
+\caption{YOLO training pipeline flow from dataset preparation through training configuration, optimization, and checkpoint selection.}
+\label{fig:yolo-training-pipeline-flow}
+\end{figure}
 
 Image augmentation was enabled through common YOLO training transformations. The run used mosaic
 augmentation with probability 1.0, horizontal flipping with probability 0.5, HSV augmentation,
@@ -157,6 +178,20 @@ measured on \texttt{cuda:0}; it should therefore be interpreted as a controlled 
 comparison, not as a final Android-device benchmark. A final phone benchmark should be added only
 after direct mobile profiling is performed.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/yolo/03_quantization_export_flow.pdf}
+\caption{YOLO quantization and export flow showing the transition from trained weights to deployment-ready artifacts.}
+\label{fig:yolo-quantization-export-flow}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/yolo/05_deployment_architecture_flow.pdf}
+\caption{YOLO deployment architecture flow showing the relationship between the trained detector, export formats, and deployment targets.}
+\label{fig:yolo-deployment-architecture-flow}
+\end{figure}
+
 \ChapterSection{VLM Disease-Diagnosis Dataset}
 
 The VLM component was prepared as the disease-classification and disease-interpretation component
@@ -165,6 +200,13 @@ the VLM receives a crop image and a natural-language instruction and is expected
 canonical disease label or a compact structured answer. This design makes the VLM section distinct
 from the detector section: its output must be evaluated not only for classification correctness,
 but also for whether the generated text can be parsed into a usable downstream label.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/vlm/06_system_architecture_overview.pdf}
+\caption{VLM system architecture overview separating dataset processing, training, inference, and serving infrastructure.}
+\label{fig:vlm-system-architecture-overview}
+\end{figure}
 
 \ChapterSubsection{Dataset Pipeline}
 
@@ -181,6 +223,13 @@ are defined but disabled in the current configuration, including PlantSeg, DLCPD
 potato, and rice multicrop sources. Because those sources are disabled, the manuscript should not
 claim that they were used in the reported VLM experiment. They are part of the pipeline design,
 but not part of the active dataset evidence used for the present results.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/vlm/01_data_pipeline_flow.pdf}
+\caption{VLM data pipeline flow from raw sources through curation, canonicalization, export, and training data assembly.}
+\label{fig:vlm-data-pipeline-flow}
+\end{figure}
 
 \ChapterSubsection{Taxonomy and Label Normalization}
 
@@ -241,6 +290,13 @@ learning-rate scheduling, weight decay of 0.01, maximum gradient norm of 1.0, an
 \texttt{paged\_adamw\_8bit} optimization. The resolved run used bfloat16 and TF32, enabled the
 Liger kernel, disabled \texttt{torch.compile}, and used an NVIDIA L4 GPU with 22.03 GB memory.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/vlm/02_training_pipeline_flow.pdf}
+\caption{VLM training pipeline flow from curated dataset export through quantized fine-tuning and checkpoint generation.}
+\label{fig:vlm-training-pipeline-flow}
+\end{figure}
+
 \begin{table}[H]
 \centering
 \caption{VLM fine-tuning configuration}
@@ -284,6 +340,13 @@ sentence that contains useful words but cannot be converted into a canonical lab
 usable by downstream code. Therefore, parseability is treated as part of model performance rather
 than as a cosmetic formatting issue.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/vlm/03_inference_pipeline_flow.pdf}
+\caption{VLM inference pipeline flow showing request preparation, generation, structured parsing, and fallback handling.}
+\label{fig:vlm-inference-pipeline-flow}
+\end{figure}
+
 \ChapterSection{Backend System Architecture}
 
 The backend of Krishi Vaidya was implemented as a TypeScript and Express API named
@@ -306,8 +369,8 @@ storage, VLM inference, and advisory generation.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{data/krishi_vaidya_backend_data/outputs/figures/backend_architecture.pdf}
-\caption{Verified backend architecture of Krishi Vaidya}
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/backend/05_system_architecture_overview.pdf}
+\caption{Backend system architecture overview showing the request stack and external service boundaries.}
 \label{fig:backend-architecture}
 \end{figure}
 
@@ -367,6 +430,13 @@ environment also serves OpenAPI documentation through Swagger UI at \texttt{/api
 generated specification at \texttt{/api/docs.json}. Swagger comments in the route files document
 request bodies, security requirements, path parameters, query parameters, and expected response
 purposes.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/backend/01_api_routing_flow.pdf}
+\caption{Backend API routing flow showing runtime mode selection, route-group registration, and request dispatch boundaries.}
+\label{fig:backend-api-routing-flow}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -449,6 +519,13 @@ or plot identifiers and apply filters before returning results. This pattern red
 accidentally exposing one user's records to another user because ownership filtering is part of
 the data-access layer rather than being repeated manually in every controller.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/backend/03_data_models_persistence_flow.pdf}
+\caption{Backend data model and persistence flow showing the relationship between controllers, services, repositories, and MongoDB collections.}
+\label{fig:backend-data-model-persistence-flow}
+\end{figure}
+
 \ChapterSection{Backend Diagnosis and Advisory Pipeline}
 
 \ChapterSubsection{Image Validation}
@@ -474,6 +551,20 @@ fields such as crop, disease, scientific name, canonical label, confidence, conf
 out-of-distribution flag, symptom descriptions, and alternatives. If the VLM output cannot be
 parsed into JSON, the raw text is still preserved and passed forward as part of the advisory
 generation context.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/vlm/04_api_gateway_flow.pdf}
+\caption{VLM API gateway flow showing the backend request path, readiness check, authentication, inference call, and response parsing boundary.}
+\label{fig:vlm-api-gateway-flow}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/backend/02_diagnosis_pipeline_flow.pdf}
+\caption{Backend diagnosis pipeline flow showing image validation, VLM inference bridging, advisory generation, and response assembly.}
+\label{fig:backend-diagnosis-pipeline-flow}
+\end{figure}
 
 \ChapterSubsection{Google AI Advisory Bridge}
 
@@ -507,6 +598,13 @@ OTP support is implemented for email verification, password reset, and phone ver
 purposes. OTP records store hashes rather than plain OTP values and include expiry and attempt
 tracking. The OTP collection has a unique email-purpose index and an expiry index, so each active
 OTP purpose for an email has a controlled lifecycle.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/backend/04_auth_user_management_flow.pdf}
+\caption{Backend authentication and user-management flow showing registration, login, token refresh, OTP handling, and session control.}
+\label{fig:backend-auth-user-management-flow}
+\end{figure}
 
 \ChapterSubsection{Upload Handling and Cloudinary Storage}
 
@@ -553,8 +651,8 @@ generated from the actual application structure rather than from an assumed desi
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{data/krishi_vaidya_mobile_app_data/outputs/figures/mobile_app_architecture.pdf}
-\caption{Mobile application architecture generated from the implemented Expo, provider, repository, offline, API, and ML source structure.}
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/mobile_app/05_system_architecture_overview.pdf}
+\caption{Mobile application architecture overview showing presentation, state, native modules, and local storage boundaries.}
 \label{fig:mobile-app-architecture}
 \end{figure}
 
@@ -575,6 +673,13 @@ capture, preview, image-editor, analysis, and final-analysis screens. Crop-manag
 include crop creation, crop detail, editing, task creation, note creation, notes, tasks, and
 weather. This structure keeps the scan workflow independent from longer-term farm-record
 management while still allowing results and reminders to connect back to crop records.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/mobile_app/01_user_navigation_routing_flow.pdf}
+\caption{Mobile application navigation and routing flow showing onboarding, tab navigation, and feature-stack transitions.}
+\label{fig:mobile-user-navigation-routing-flow}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -655,6 +760,13 @@ marking local rows as synced until all matching backend endpoints are ready. The
 manuscript should describe the offline sync system as implemented infrastructure with partial
 backend push integration, not as fully proven two-way production synchronization.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/mobile_app/03_offline_sync_data_flow.pdf}
+\caption{Mobile offline synchronization data flow showing local writes, queue management, connectivity checks, and retry behavior.}
+\label{fig:mobile-offline-sync-data-flow}
+\end{figure}
+
 \ChapterSubsection{Scan Workflow and Diagnosis Flow}
 
 The scan workflow is implemented as a deliberate multi-stage process rather than as a single
@@ -680,6 +792,13 @@ configuration, applies a bearer authorization header when configured, uses a 60-
 timeout, logs requests and responses during development, and retries transient failures such as
 timeouts, rate-limit responses, and server errors up to three times with exponential backoff.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/mobile_app/02_scan_pipeline_flow.pdf}
+\caption{Mobile scan pipeline flow showing capture, preview, editing, diagnosis submission, and retry-aware request handling.}
+\label{fig:mobile-scan-pipeline-flow}
+\end{figure}
+
 \ChapterSubsection{On-Device Model Asset Support}
 
 The mobile application includes native TFLite model support through a singleton TFLite service.
@@ -690,6 +809,13 @@ confidence threshold 0.35 and IoU threshold 0.45. The service reads the selected
 from app settings, attempts to load the model with an Android GPU delegate, and falls back to CPU
 loading if the GPU delegate fails. It also exposes runtime precision switching and a benchmark
 method that can load a chosen precision, run inference, and return load time and inference time.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/mobile_app/04_ondevice_ml_inference_flow.pdf}
+\caption{Mobile on-device ML inference flow showing model selection, load fallback, runtime precision switching, and benchmark support.}
+\label{fig:mobile-ondevice-ml-inference-flow}
+\end{figure}
 
 One integration detail must be documented carefully. The YOLO manuscript section describes the
 trained object detector and its class taxonomy from the YOLO training assets, while the mobile
@@ -734,8 +860,8 @@ flow from the implemented source files.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{data/krishi_vaidya_integration_data/outputs/figures/integration_workflow.pdf}
-\caption{Integrated Krishi Vaidya diagnosis workflow across mobile app, backend API, VLM inference gateway, advisory generation, and local persistence.}
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/00_all_flows.pdf}
+\caption{Combined flow-diagram overview covering the subsystem workflows used in the manuscript.}
 \label{fig:integration-workflow}
 \end{figure}
 
@@ -929,15 +1055,7 @@ This separation is important for accuracy. A high YOLO score does not prove that
 correct. A passing backend scan test does not prove that the mobile app works on a physical
 device. A valid VLM inference API test does not prove that the model predictions are accurate.
 The manuscript therefore treats each validation result according to what it actually verifies.
-Figure~\ref{fig:validation-coverage} summarizes the validation coverage and the remaining
-evidence gaps.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{data/krishi_vaidya_validation_data/outputs/figures/validation_coverage.pdf}
-\caption{Testing and validation coverage across model, backend, mobile, API, and integration layers.}
-\label{fig:validation-coverage}
-\end{figure}
+The remaining evidence gaps are described in the subsections that follow.
 
 \ChapterSubsection{YOLO Validation}
 
@@ -947,6 +1065,13 @@ split, threshold analysis, quantized model comparison, per-class metrics, latenc
 confusion matrix outputs, and error-category analysis. The validation artifacts are stored under
 the YOLO result directories and were converted into manuscript-ready figures and tables in the
 YOLO manuscript data folder.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/yolo/04_validation_evaluation_flow.pdf}
+\caption{YOLO validation and evaluation flow showing metric computation, threshold analysis, and validation outputs.}
+\label{fig:yolo-validation-evaluation-flow}
+\end{figure}
 
 The YOLO training metrics show the training trajectory across 100 epochs. The best recorded
 training summary used in the manuscript reports precision 0.71717, recall 0.74868, mAP50
@@ -973,6 +1098,13 @@ validation. Dataset validation checked the prepared Qwen-format records and imag
 recorded dataset-validation summary reports 13,294 images found, 6,647 Qwen records, zero decode
 failures, zero missing Qwen images, and zero recorded issues. This supports the claim that the
 exported VLM dataset was structurally usable for training and evaluation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data/flow_digram_data/build/vlm/05_validation_evaluation_flow.pdf}
+\caption{VLM validation and evaluation flow showing dataset checks, prediction validation, and parse-error handling.}
+\label{fig:vlm-validation-evaluation-flow}
+\end{figure}
 
 Prediction validation was more severe. The independent test split contained 798 examples across
 13 classes. The recorded prediction metrics report accuracy 0.13033, macro precision 0.52317,

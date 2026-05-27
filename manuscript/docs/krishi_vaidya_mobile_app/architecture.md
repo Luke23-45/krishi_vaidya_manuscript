@@ -39,7 +39,7 @@
 | Mobile navigation diagram | Covered in architecture figure; optional detailed future asset | `3.6.2` |
 | Scan workflow diagram | Covered textually; optional detailed future asset | `3.6.5` |
 | Offline synchronization diagram | Covered textually; optional detailed future asset | `3.6.4` |
-| Mobile screenshots | Placeholder | `4.7.3` |
+| Mobile screenshots | Representative screenshots added in Chapter 4; device-run evidence still pending | `4.7.3` |
 
 ## Source-backed architecture summary
 

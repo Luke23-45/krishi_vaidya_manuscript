@@ -42,7 +42,6 @@ try {
             "-interaction=nonstopmode"
             "-file-line-error"
             "-synctex=1"
-            "-usebiber"
             "-outdir=$buildDir"
         )
 

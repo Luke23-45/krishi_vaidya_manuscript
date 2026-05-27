@@ -1,0 +1,131 @@
+﻿% YOLO — System Architecture Overview
+% Source: manuscript/flow_diagram/yolo/06_system_architecture_overview.md
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  flow/.style={-{Latex[length=2.8mm,width=2mm]}, line width=0.8pt,
+               draw=pri!70, rounded corners=6pt},
+  flowret/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=muted!45, densely dashed},
+  flowbi/.style={{Latex[length=2.8mm,width=2mm]}-{Latex[length=2.8mm,width=2mm]},
+                 line width=0.8pt, draw=pri!70, rounded corners=6pt},
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=left, inner sep=8pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
+                   fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
+                   fill=white, inner xsep=3pt, inner ysep=1.5pt,
+                   rounded corners=2pt},
+  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  modulenode/.style={card, align=center, inner sep=6pt,
+                     minimum width=4.5cm, minimum height=1cm,
+                     fill=#1!4, draw=#1!25},
+  confignode/.style={card, align=center, inner sep=5pt,
+                     minimum width=3cm, fill=muted!4, draw=muted!20},
+  arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
+                 fill=white, inner sep=1.5pt, rounded corners=1pt},
+  note/.style={rounded corners=7pt, draw=ink!10, fill=ink!2,
+               inner sep=8pt, align=left, font=\sffamily\tiny,
+               text=ink!78, text width=14.2cm}
+]
+
+\definecolor{pri}{HTML}{16A34A}   % Green
+\definecolor{sec}{HTML}{0284C7}   % Light Blue
+\definecolor{ter}{HTML}{D97706}   % Amber
+\definecolor{quat}{HTML}{7C3AED}  % Purple
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (0,0.3)
+  {YOLO System Architecture Overview};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (0,-1.0)
+  {The high-level architecture of the YOLO computer vision pipeline, separating
+   offline training mechanics from the exported edge artifacts.};
+
+% ━━ TOP CONTROL ROW ━━
+\node[confignode, minimum width=3.75cm, minimum height=0.95cm] (config) at (-0.15,-2.35) {
+  \textbf{Ultralytics YAML}};
+
+\node[confignode, minimum width=3.85cm, minimum height=0.95cm] (client) at (4.75,-2.35) {
+  \textbf{Mobile Client}};
+
+% ━━ LEFT TRAINING COLUMN ━━
+\node[modulenode=sec] (data) at (-4.65,-4.0) {
+  \textbf{Dataset Prep}\\[-1pt]
+  {\tiny Augmentations, Splitting}};
+
+\node[modulenode=pri] (train) at (-4.65,-6.15) {
+  \textbf{Ultralytics Engine}\\[-1pt]
+  {\tiny YOLOv8/11 Fine-Tuning}};
+
+\node[modulenode=ter] (eval) at (-4.65,-8.3) {
+  \textbf{Evaluation}\\[-1pt]
+  {\tiny NMS, mAP Calculation}};
+
+\draw[flow] (data) -- (train);
+\draw[flow] (train) -- (eval);
+
+% ━━ RIGHT DEPLOYMENT COLUMN ━━
+\node[modulenode=quat] (quant) at (4.75,-4.05) {
+  \textbf{Quantization}\\[-1pt]
+  {\tiny INT8 PTQ / ONNX Export}};
+
+\node[modulenode=pri] (edge) at (4.75,-6.3) {
+  \textbf{Edge Runtimes}\\[-1pt]
+  {\tiny TFLite, CoreML, WebNN}};
+
+\draw[flow] (quant) -- (edge);
+\draw[flow, densely dashed, draw=muted!50] (train.east) -- (quant.west) node[arrlbl, midway, above] {\texttt{best.pt}};
+
+% ━━ CONTROL FLOW ━━
+\draw[flowret] (config.west) -- ++(-0.45,0) |- ([xshift=10pt]data.north east);
+\draw[flowbi] (client.east) -- ++(1.05,0) |- (edge.east);
+
+% ━━ NOTE ━━
+\node[note] at (0,-10.0) {
+  \textbf{Architecture}\;\textcolor{muted}{\textemdash}\;
+  The YOLO architecture is cleanly split. The ML lifecycle handles the heavy
+  lifting of data preparation and model training using PyTorch. The resultant
+  artifacts are quantized and exported, decoupling the Python-based training
+  from the lightweight C++/Java/Swift runtimes used on mobile edges.};
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(data)(eval)(quant)(edge)(config)(client)] {};
+
+  \node[groupbox=sec, fit=(data)(train)(eval),
+        inner xsep=10pt, inner ysep=10pt] (gML) {};
+  \node[grouplbl=sec, anchor=south west]
+        at ([xshift=8pt,yshift=4pt]gML.north west) {Training Pipeline};
+
+  \node[groupbox=pri, fit=(quant)(edge),
+        inner xsep=10pt, inner ysep=10pt] (gDeploy) {};
+  \node[grouplbl=pri, anchor=south west]
+        at ([xshift=8pt,yshift=4pt]gDeploy.north west) {Export \& Runtime};
+
+  \node[groupbox=ink, fit=(config)(client),
+        inner xsep=12pt, inner ysep=8pt] (gTop) {};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{YOLO System Architecture Overview}
+\label{fig:yolo-06-system-architecture-overview}
+\end{figure}

@@ -1,19 +1,43 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1}{\ignorespaces Verified backend architecture of Krishi Vaidya}}{23}{figure.caption.15}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Mobile application architecture generated from the implemented Expo, provider, repository, offline, API, and ML source structure.}}{29}{figure.caption.19}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Integrated Krishi Vaidya diagnosis workflow across mobile app, backend API, VLM inference gateway, advisory generation, and local persistence.}}{33}{figure.caption.22}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Testing and validation coverage across model, backend, mobile, API, and integration layers.}}{38}{figure.caption.25}%
+\contentsline {figure}{\numberline {1}{\ignorespaces YOLO system architecture overview showing the data, training, validation, deployment, and export pipeline.}}{15}{figure.caption.12}%
+\contentsline {figure}{\numberline {2}{\ignorespaces YOLO data pipeline flow from raw annotations to canonical export, splitting, and training structure.}}{17}{figure.caption.14}%
+\contentsline {figure}{\numberline {3}{\ignorespaces YOLO training pipeline flow from dataset preparation through training configuration, optimization, and checkpoint selection.}}{18}{figure.caption.15}%
+\contentsline {figure}{\numberline {4}{\ignorespaces YOLO quantization and export flow showing the transition from trained weights to deployment-ready artifacts.}}{21}{figure.caption.17}%
+\contentsline {figure}{\numberline {5}{\ignorespaces YOLO deployment architecture flow showing the relationship between the trained detector, export formats, and deployment targets.}}{21}{figure.caption.18}%
+\contentsline {figure}{\numberline {6}{\ignorespaces VLM system architecture overview separating dataset processing, training, inference, and serving infrastructure.}}{22}{figure.caption.19}%
+\contentsline {figure}{\numberline {7}{\ignorespaces VLM data pipeline flow from raw sources through curation, canonicalization, export, and training data assembly.}}{23}{figure.caption.20}%
+\contentsline {figure}{\numberline {8}{\ignorespaces VLM training pipeline flow from curated dataset export through quantized fine-tuning and checkpoint generation.}}{25}{figure.caption.21}%
+\contentsline {figure}{\numberline {9}{\ignorespaces VLM inference pipeline flow showing request preparation, generation, structured parsing, and fallback handling.}}{27}{figure.caption.23}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Backend system architecture overview showing the request stack and external service boundaries.}}{28}{figure.caption.24}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Backend API routing flow showing runtime mode selection, route-group registration, and request dispatch boundaries.}}{30}{figure.caption.26}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Backend data model and persistence flow showing the relationship between controllers, services, repositories, and MongoDB collections.}}{32}{figure.caption.29}%
+\contentsline {figure}{\numberline {13}{\ignorespaces VLM API gateway flow showing the backend request path, readiness check, authentication, inference call, and response parsing boundary.}}{33}{figure.caption.30}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Backend diagnosis pipeline flow showing image validation, VLM inference bridging, advisory generation, and response assembly.}}{34}{figure.caption.31}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Backend authentication and user-management flow showing registration, login, token refresh, OTP handling, and session control.}}{36}{figure.caption.32}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Mobile application architecture overview showing presentation, state, native modules, and local storage boundaries.}}{38}{figure.caption.33}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Mobile application navigation and routing flow showing onboarding, tab navigation, and feature-stack transitions.}}{39}{figure.caption.34}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Mobile offline synchronization data flow showing local writes, queue management, connectivity checks, and retry behavior.}}{41}{figure.caption.37}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Mobile scan pipeline flow showing capture, preview, editing, diagnosis submission, and retry-aware request handling.}}{42}{figure.caption.38}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Mobile on-device ML inference flow showing model selection, load fallback, runtime precision switching, and benchmark support.}}{43}{figure.caption.39}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Combined flow-diagram overview covering the subsystem workflows used in the manuscript.}}{45}{figure.caption.40}%
+\contentsline {figure}{\numberline {22}{\ignorespaces YOLO validation and evaluation flow showing metric computation, threshold analysis, and validation outputs.}}{50}{figure.caption.43}%
+\contentsline {figure}{\numberline {23}{\ignorespaces VLM validation and evaluation flow showing dataset checks, prediction validation, and parse-error handling.}}{51}{figure.caption.44}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5}{\ignorespaces Training dynamics of the Krishi Vaidya YOLO detector}}{43}{figure.caption.27}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Confidence-threshold sensitivity of the YOLO detector}}{45}{figure.caption.29}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Deployment comparison across baseline and quantized YOLO variants}}{47}{figure.caption.31}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Confusion matrix of the YOLO detector}}{49}{figure.caption.34}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Training dynamics of the Qwen2.5-VL LoRA fine-tuning run}}{51}{figure.caption.36}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Runtime and memory behavior of the VLM training run}}{53}{figure.caption.38}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Dataset composition for the VLM Qwen export}}{54}{figure.caption.40}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Prediction performance of the VLM on the test split}}{55}{figure.caption.43}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Confusion matrix for VLM prediction results}}{57}{figure.caption.46}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Inference diagnostics for VLM predictions}}{57}{figure.caption.47}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Training dynamics of the Krishi Vaidya YOLO detector}}{55}{figure.caption.46}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Confidence-threshold sensitivity of the YOLO detector}}{57}{figure.caption.48}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Deployment comparison across baseline and quantized YOLO variants}}{59}{figure.caption.50}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Confusion matrix of the YOLO detector}}{61}{figure.caption.53}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Training dynamics of the Qwen2.5-VL LoRA fine-tuning run}}{63}{figure.caption.55}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Runtime and memory behavior of the VLM training run}}{65}{figure.caption.57}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Dataset composition for the VLM Qwen export}}{66}{figure.caption.59}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Prediction performance of the VLM on the test split}}{67}{figure.caption.62}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Confusion matrix for VLM prediction results}}{69}{figure.caption.65}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Inference diagnostics for VLM predictions}}{69}{figure.caption.66}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Representative first-run onboarding screenshots showing language selection, camera permission, crop selection, and onboarding completion.}}{76}{figure.caption.71}%
+\contentsline {figure}{\numberline {35}{\ignorespaces Representative dashboard and settings screenshots showing the home surface, crop summary, export controls, notifications, and accessibility-related configuration.}}{77}{figure.caption.73}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Representative scan and diagnosis screenshots showing capture, preview, editor support, diagnosis completion, structured result display, and treatment guidance.}}{78}{figure.caption.74}%
+\contentsline {figure}{\numberline {37}{\ignorespaces Representative crop-management screenshots showing the crop dashboard and crop-registration flow.}}{79}{figure.caption.75}%
+\contentsline {figure}{\numberline {38}{\ignorespaces Representative note-creation screenshot showing crop-linked note entry and attachment flow.}}{80}{figure.caption.76}%
 \addvspace {10\p@ }

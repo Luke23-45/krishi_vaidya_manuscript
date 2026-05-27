@@ -1,0 +1,126 @@
+﻿% VLM — Training Pipeline Flow
+% Source: manuscript/flow_diagram/vlm/02_training_pipeline_flow.md
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  flow/.style={-{Latex[length=2.8mm,width=2mm]}, line width=0.8pt,
+               draw=pri!70, rounded corners=6pt},
+  flowret/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=muted!45, densely dashed},
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=left, inner sep=8pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
+                   fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
+                   fill=white, inner xsep=3pt, inner ysep=1.5pt,
+                   rounded corners=2pt},
+  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  procnode/.style={card, align=center, inner sep=7pt,
+                   minimum width=3.8cm, minimum height=1cm,
+                   fill=#1!4, draw=#1!25},
+  arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
+                 fill=white, inner sep=1.5pt, rounded corners=1pt},
+  note/.style={rounded corners=7pt, draw=ink!10, fill=ink!2,
+               inner sep=8pt, align=left, font=\sffamily\tiny,
+               text=ink!78, text width=14.2cm}
+]
+
+\definecolor{pri}{HTML}{4338CA}   % Indigo
+\definecolor{sec}{HTML}{0D9488}   % Teal
+\definecolor{ter}{HTML}{D97706}   % Amber
+\definecolor{quat}{HTML}{9333EA}  % Purple
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (0,0.3)
+  {VLM Training Pipeline Flow};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (0,-1.0)
+  {PEFT / LoRA tuning of Qwen2.5-VL-3B with visual tokens,
+   distributed via Accelerate, logging to W\&B, culminating
+   in adapter merging.};
+
+% ━━ ROW 1: INPUTS (Funnel) ━━
+\node[procnode=sec] (ds) at (-3.5,-2.2) {
+  \textbf{Processed Dataset}\\[-1pt]
+  {\tiny HuggingFace (from Stage 1)}};
+\node[procnode=ter] (model) at (3.5,-2.2) {
+  \textbf{Base Model}\\[-1pt]
+  {\tiny Qwen/Qwen2.5-VL-3B-Instruct}};
+
+% ━━ ROW 2: PREPARATION ━━
+\node[procnode=pri, text width=5cm] (prep) at (0,-3.8) {
+  \textbf{Preparation}\\[-1pt]
+  {\tiny Load model in bfloat16\\[-1pt]
+   Initialize Qwen2.5\_VLProcessor}};
+
+\draw[flow] (ds.south) -- ++(0,-0.3) -| ([xshift=-15pt]prep.north);
+\draw[flow] (model.south) -- ++(0,-0.3) -| ([xshift=15pt]prep.north);
+
+% ━━ ROW 3: PEFT ━━
+\node[procnode=quat, text width=6cm] (peft) at (0,-5.6) {
+  \textbf{PEFT Configuration (LoRA)}\\[-1pt]
+  {\tiny rank $r=16$, $\alpha=32$\\[-1pt]
+   target: q\_proj, k\_proj, v\_proj, o\_proj}};
+
+\draw[flow] (prep) -- (peft);
+
+% ━━ ROW 4: ACCELERATOR TRAINER ━━
+\node[procnode=pri, text width=7.2cm, minimum height=2.2cm] (trainer) at (0,-8.0) {
+  \textbf{SFTTrainer (TRL)}\\[2pt]
+    \textcolor{ink!72}{\tiny $\bullet$ HF Accelerate (Distributed DDP/DeepSpeed)}\\[-1pt]
+  \textcolor{ink!72}{\tiny $\bullet$ Optimizer: AdamW, Scheduler: Cosine}\\[-1pt]
+  \textcolor{ink!72}{{\tiny $\bullet$ Logging: Weights \& Biases}}};
+\draw[flow] (peft) -- (trainer);
+
+% ━━ ROW 5: OUTPUTS ━━
+\node[procnode=sec] (adapter) at (-3.5,-10.8) {
+  \textbf{LoRA Adapters}\\[-1pt]
+  {\tiny adapter\_model.safetensors}};
+\node[procnode=ter] (merged) at (3.5,-10.8) {
+  \textbf{Merged Model}\\[-1pt]
+  {\tiny final full weights}};
+
+\draw[flow] (trainer.south west) -- ++(0,-0.4) -| (adapter.north);
+\draw[flow] (trainer.south east) -- ++(0,-0.4) -| (merged.north)
+  node[arrlbl, pos=0.8, right] {optional};
+
+% ━━ NOTE ━━
+\node[note] at (0,-12.6) {
+  \textbf{Architecture}\;\textcolor{muted}{\textemdash}\;
+  Training leverages parameter-efficient fine-tuning (PEFT) with LoRA
+  to adapt the vision and language projection layers without modifying
+  the massive base model. Bfloat16 precision prevents underflow issues
+  common in visual token scaling.};
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(ds)(model)(peft)(trainer)(adapter)(merged)] {};
+
+  \node[groupbox=pri, fit=(prep)(peft)(trainer),
+        inner xsep=8pt, inner ysep=8pt] (gTrain) {};
+  \node[grouplbl=pri, anchor=north west]
+        at ([xshift=6pt,yshift=-5pt]gTrain.north west) {Training Loop};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{VLM Training Pipeline Flow}
+\label{fig:vlm-02-training-pipeline-flow}
+\end{figure}

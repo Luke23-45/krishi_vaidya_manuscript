@@ -18,11 +18,11 @@ Store mobile artifacts in:
 | App navigation diagram | `architecture/mobile_navigation_flow.*` | Optional | The generated architecture figure already covers route groups; create only if the final manuscript needs a more detailed route-only figure. |
 | Scan workflow diagram | `architecture/mobile_scan_workflow.*` | Optional | Text has been drafted from scan source files; add a figure if visual clarity is required. |
 | Offline sync diagram | `architecture/mobile_offline_sync.*` | Optional | Text has been drafted from sync source files; add only after final sync behavior is validated. |
-| Home screen screenshot | `screenshots/home.*` | Yes | Capture final UI. |
-| Scan screen screenshot | `screenshots/scan.*` | Yes | Capture final UI. |
-| Diagnosis result screenshot | `screenshots/diagnosis_result.*` | Yes | Capture final UI. |
-| Crop record screenshot | `screenshots/crop_record.*` | Recommended | Capture final UI. |
-| Settings/localization screenshot | `screenshots/settings_or_language.*` | Recommended | Capture final UI. |
+| Home screen screenshot | `screenshots/home.*` | Placed | Added to Chapter 4 as dashboard evidence. |
+| Scan screen screenshot | `screenshots/scan.*` | Placed | Added to Chapter 4 as scan and diagnosis evidence. |
+| Diagnosis result screenshot | `screenshots/diagnosis_result.*` | Placed | Added to Chapter 4 as result and treatment evidence. |
+| Crop record screenshot | `screenshots/crop_record.*` | Placed | Added to Chapter 4 as crop-management evidence. |
+| Settings/localization screenshot | `screenshots/settings_or_language.*` | Placed | Added to Chapter 4 as settings and export evidence. |
 | Device/runtime evidence | `runtime/mobile_runtime_notes.md` | Yes before final claims | Include emulator/device, backend URL, scan flow behavior, latency, and TFLite model-loading notes. |
 
 ## Placeholder rule

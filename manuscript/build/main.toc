@@ -46,129 +46,129 @@
 \contentsline {section}{\numberline {2.5}Research Gap}{13}{section.2.5}%
 \contentsline {chapter}{\numberline {3}MATERIALS AND METHODS}{15}{chapter.3}%
 \contentsline {section}{\numberline {3.1}YOLO Object-Detection Dataset}{15}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Dataset Construction}{15}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.1}Dataset Construction}{16}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Data Sources and Class Mapping}{16}{subsection.3.1.2}%
 \contentsline {section}{\numberline {3.2}YOLO Object-Detection Method}{17}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Model and Training Setup}{17}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Evaluation Metrics}{18}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Confidence Threshold Analysis}{19}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Deployment and Quantization Evaluation}{19}{subsection.3.2.4}%
-\contentsline {section}{\numberline {3.3}VLM Disease-Diagnosis Dataset}{19}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Dataset Pipeline}{20}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Taxonomy and Label Normalization}{20}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Qwen2.5-VL SFT Export}{20}{subsection.3.3.3}%
-\contentsline {section}{\numberline {3.4}VLM Fine-Tuning Method}{21}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Base Model and Adapter Design}{21}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Quantized Training Configuration}{21}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Evaluation and Prediction Parsing}{22}{subsection.3.4.3}%
-\contentsline {section}{\numberline {3.5}Backend System Architecture}{22}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Runtime Modes and Application Initialization}{23}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Dependency Container}{24}{subsection.3.5.2}%
-\contentsline {section}{\numberline {3.6}Backend API Design}{24}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Route Groups}{24}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Controller and Validation Pattern}{25}{subsection.3.6.2}%
-\contentsline {section}{\numberline {3.7}Backend Data Model}{25}{section.3.7}%
-\contentsline {subsection}{\numberline {3.7.1}MongoDB Collections and Domain Entities}{25}{subsection.3.7.1}%
-\contentsline {subsection}{\numberline {3.7.2}Repository Layer}{26}{subsection.3.7.2}%
-\contentsline {section}{\numberline {3.8}Backend Diagnosis and Advisory Pipeline}{26}{section.3.8}%
-\contentsline {subsection}{\numberline {3.8.1}Image Validation}{26}{subsection.3.8.1}%
-\contentsline {subsection}{\numberline {3.8.2}VLM Inference Bridge}{26}{subsection.3.8.2}%
-\contentsline {subsection}{\numberline {3.8.3}Google AI Advisory Bridge}{27}{subsection.3.8.3}%
-\contentsline {section}{\numberline {3.9}Backend Security, Uploads, and Reliability Controls}{27}{section.3.9}%
-\contentsline {subsection}{\numberline {3.9.1}Authentication and Session Handling}{27}{subsection.3.9.1}%
-\contentsline {subsection}{\numberline {3.9.2}Upload Handling and Cloudinary Storage}{28}{subsection.3.9.2}%
-\contentsline {subsection}{\numberline {3.9.3}Request Safety and Error Handling}{28}{subsection.3.9.3}%
-\contentsline {section}{\numberline {3.10}Mobile Application Architecture}{28}{section.3.10}%
-\contentsline {subsection}{\numberline {3.10.1}Purpose and Implementation Scope}{28}{subsection.3.10.1}%
-\contentsline {subsection}{\numberline {3.10.2}Application Shell and Navigation Structure}{29}{subsection.3.10.2}%
-\contentsline {subsection}{\numberline {3.10.3}Provider, Repository, and Dependency Structure}{30}{subsection.3.10.3}%
-\contentsline {subsection}{\numberline {3.10.4}Local Persistence and Offline-Aware Design}{30}{subsection.3.10.4}%
-\contentsline {subsection}{\numberline {3.10.5}Scan Workflow and Diagnosis Flow}{31}{subsection.3.10.5}%
-\contentsline {subsection}{\numberline {3.10.6}On-Device Model Asset Support}{32}{subsection.3.10.6}%
-\contentsline {subsection}{\numberline {3.10.7}Localization, Accessibility, and Farmer-Facing Output}{32}{subsection.3.10.7}%
-\contentsline {section}{\numberline {3.11}Integrated Diagnosis Workflow}{33}{section.3.11}%
-\contentsline {subsection}{\numberline {3.11.1}Integration Objective}{33}{subsection.3.11.1}%
-\contentsline {subsection}{\numberline {3.11.2}End-to-End Control Flow}{34}{subsection.3.11.2}%
-\contentsline {subsection}{\numberline {3.11.3}Backend Orchestration Boundary}{34}{subsection.3.11.3}%
-\contentsline {subsection}{\numberline {3.11.4}VLM Inference Gateway Boundary}{35}{subsection.3.11.4}%
-\contentsline {subsection}{\numberline {3.11.5}Prediction Parsing and Advisory Generation}{36}{subsection.3.11.5}%
-\contentsline {subsection}{\numberline {3.11.6}Mobile Offline and Slow-Network Integration}{36}{subsection.3.11.6}%
-\contentsline {subsection}{\numberline {3.11.7}Structured Response and Farmer-Facing Output}{37}{subsection.3.11.7}%
-\contentsline {subsection}{\numberline {3.11.8}Integration Verification Boundary}{37}{subsection.3.11.8}%
-\contentsline {section}{\numberline {3.12}Testing and Validation}{38}{section.3.12}%
-\contentsline {subsection}{\numberline {3.12.1}Validation Strategy}{38}{subsection.3.12.1}%
-\contentsline {subsection}{\numberline {3.12.2}YOLO Validation}{38}{subsection.3.12.2}%
-\contentsline {subsection}{\numberline {3.12.3}VLM Validation}{39}{subsection.3.12.3}%
-\contentsline {subsection}{\numberline {3.12.4}VLM Inference API Validation}{40}{subsection.3.12.4}%
-\contentsline {subsection}{\numberline {3.12.5}Backend Validation}{40}{subsection.3.12.5}%
-\contentsline {subsection}{\numberline {3.12.6}Mobile Validation}{41}{subsection.3.12.6}%
-\contentsline {subsection}{\numberline {3.12.7}Integration Validation}{41}{subsection.3.12.7}%
-\contentsline {chapter}{\numberline {4}RESULTS AND DISCUSSION}{43}{chapter.4}%
-\contentsline {section}{\numberline {4.1}YOLO Training Results}{43}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Training Dynamics}{43}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Best-Epoch Performance}{44}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}YOLO Deployment and Threshold Results}{45}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Threshold Selection Behavior}{45}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Quantization Tradeoffs}{46}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Per-Class Behavior}{47}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}YOLO Error Analysis}{48}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Confusion Patterns}{48}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Error Categories}{49}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Summary of YOLO Findings}{50}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}VLM Training and Resource Results}{51}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Fine-Tuning Performance}{51}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Runtime and Memory Behavior}{52}{subsection.4.4.2}%
-\contentsline {section}{\numberline {4.5}VLM Prediction Results}{53}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Dataset Split and Class Distribution}{53}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Prediction Summary}{55}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Per-Class Prediction Metrics}{56}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Confusion Matrix and Prediction Distribution}{56}{subsection.4.5.4}%
-\contentsline {subsection}{\numberline {4.5.5}Summary of VLM Findings}{58}{subsection.4.5.5}%
-\contentsline {section}{\numberline {4.6}Backend Implementation Results}{59}{section.4.6}%
-\contentsline {subsection}{\numberline {4.6.1}Implemented API Surface}{59}{subsection.4.6.1}%
-\contentsline {subsection}{\numberline {4.6.2}Layered Implementation Outcome}{59}{subsection.4.6.2}%
-\contentsline {section}{\numberline {4.7}Backend Domain Discussion}{60}{section.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}Authentication and User Management}{60}{subsection.4.7.1}%
-\contentsline {subsection}{\numberline {4.7.2}Scan Lifecycle}{60}{subsection.4.7.2}%
-\contentsline {subsection}{\numberline {4.7.3}Crop, Task, Note, and Advisory Management}{61}{subsection.4.7.3}%
-\contentsline {section}{\numberline {4.8}Backend Diagnosis Integration Discussion}{62}{section.4.8}%
-\contentsline {subsection}{\numberline {4.8.1}Structured Diagnosis Response}{62}{subsection.4.8.1}%
-\contentsline {subsection}{\numberline {4.8.2}Confidence and Out-of-Distribution Handling}{62}{subsection.4.8.2}%
-\contentsline {section}{\numberline {4.9}Backend Verification and Limitations}{62}{section.4.9}%
-\contentsline {subsection}{\numberline {4.9.1}Automated Test Coverage}{62}{subsection.4.9.1}%
-\contentsline {subsection}{\numberline {4.9.2}Current Backend Limitations}{63}{subsection.4.9.2}%
-\contentsline {section}{\numberline {4.10}Mobile App Implementation Results}{64}{section.4.10}%
-\contentsline {subsection}{\numberline {4.10.1}Implemented Application Surface}{64}{subsection.4.10.1}%
-\contentsline {subsection}{\numberline {4.10.2}Scan and Diagnosis Workflow Result}{64}{subsection.4.10.2}%
-\contentsline {subsection}{\numberline {4.10.3}Local Data and Offline Result}{65}{subsection.4.10.3}%
-\contentsline {subsection}{\numberline {4.10.4}Crop Management and Farmer Record-Keeping Result}{65}{subsection.4.10.4}%
-\contentsline {subsection}{\numberline {4.10.5}Model Deployment and Mobile Integration Result}{66}{subsection.4.10.5}%
-\contentsline {subsection}{\numberline {4.10.6}Mobile Verification and Current Limitations}{66}{subsection.4.10.6}%
-\contentsline {section}{\numberline {4.11}Integrated System Discussion}{67}{section.4.11}%
-\contentsline {subsection}{\numberline {4.11.1}End-to-End Integration Outcome}{67}{subsection.4.11.1}%
-\contentsline {subsection}{\numberline {4.11.2}Data Contract Strengths}{68}{subsection.4.11.2}%
-\contentsline {subsection}{\numberline {4.11.3}Offline and Degraded-Network Behavior}{68}{subsection.4.11.3}%
-\contentsline {subsection}{\numberline {4.11.4}Reliability Controls Across the Integrated Path}{69}{subsection.4.11.4}%
-\contentsline {subsection}{\numberline {4.11.5}Integration Limitations and Evidence Gaps}{70}{subsection.4.11.5}%
-\contentsline {subsection}{\numberline {4.11.6}Overall Integrated System Interpretation}{70}{subsection.4.11.6}%
-\contentsline {section}{\numberline {4.12}Cross-System Results Discussion and Limitations}{71}{section.4.12}%
-\contentsline {subsection}{\numberline {4.12.1}Synthesis of Major Results}{71}{subsection.4.12.1}%
-\contentsline {subsection}{\numberline {4.12.2}Model-Level Interpretation}{71}{subsection.4.12.2}%
-\contentsline {subsection}{\numberline {4.12.3}System-Level Interpretation}{72}{subsection.4.12.3}%
-\contentsline {subsection}{\numberline {4.12.4}Reliability and Safety Interpretation}{72}{subsection.4.12.4}%
-\contentsline {subsection}{\numberline {4.12.5}Current Limitations}{73}{subsection.4.12.5}%
-\contentsline {subsection}{\numberline {4.12.6}Implications for Final Manuscript Claims}{74}{subsection.4.12.6}%
-\contentsline {chapter}{\numberline {5}CONCLUSION AND RECOMMENDATIONS}{75}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Conclusion}{75}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Major Contributions}{76}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Recommendations}{77}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Dataset and model improvements}{77}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}System deployment improvements}{77}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Mobile app and user evaluation improvements}{78}{subsection.5.3.3}%
-\contentsline {section}{\numberline {5.4}Future Enhancements}{78}{section.5.4}%
-\contentsline {chapter}{REFERENCE}{80}{chapter*.60}%
-\contentsline {chapter}{APPENDIX}{83}{appendix*.61}%
-\contentsline {section}{Appendix A: Supplementary Model Outputs}{83}{appendix*.61}%
-\contentsline {section}{Appendix B: Backend API Details}{83}{appendix*.61}%
-\contentsline {section}{Appendix C: Mobile Screenshots}{84}{Item.32}%
-\contentsline {section}{Appendix D: Additional Setup and Build Notes}{84}{Item.40}%
+\contentsline {subsection}{\numberline {3.2.2}Evaluation Metrics}{19}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Confidence Threshold Analysis}{20}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Deployment and Quantization Evaluation}{20}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}VLM Disease-Diagnosis Dataset}{22}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Dataset Pipeline}{22}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Taxonomy and Label Normalization}{23}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Qwen2.5-VL SFT Export}{24}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}VLM Fine-Tuning Method}{24}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Base Model and Adapter Design}{24}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Quantized Training Configuration}{24}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Evaluation and Prediction Parsing}{26}{subsection.3.4.3}%
+\contentsline {section}{\numberline {3.5}Backend System Architecture}{27}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Runtime Modes and Application Initialization}{28}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Dependency Container}{29}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Backend API Design}{29}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Route Groups}{29}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Controller and Validation Pattern}{30}{subsection.3.6.2}%
+\contentsline {section}{\numberline {3.7}Backend Data Model}{31}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}MongoDB Collections and Domain Entities}{31}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Repository Layer}{31}{subsection.3.7.2}%
+\contentsline {section}{\numberline {3.8}Backend Diagnosis and Advisory Pipeline}{32}{section.3.8}%
+\contentsline {subsection}{\numberline {3.8.1}Image Validation}{32}{subsection.3.8.1}%
+\contentsline {subsection}{\numberline {3.8.2}VLM Inference Bridge}{33}{subsection.3.8.2}%
+\contentsline {subsection}{\numberline {3.8.3}Google AI Advisory Bridge}{34}{subsection.3.8.3}%
+\contentsline {section}{\numberline {3.9}Backend Security, Uploads, and Reliability Controls}{35}{section.3.9}%
+\contentsline {subsection}{\numberline {3.9.1}Authentication and Session Handling}{35}{subsection.3.9.1}%
+\contentsline {subsection}{\numberline {3.9.2}Upload Handling and Cloudinary Storage}{36}{subsection.3.9.2}%
+\contentsline {subsection}{\numberline {3.9.3}Request Safety and Error Handling}{36}{subsection.3.9.3}%
+\contentsline {section}{\numberline {3.10}Mobile Application Architecture}{37}{section.3.10}%
+\contentsline {subsection}{\numberline {3.10.1}Purpose and Implementation Scope}{37}{subsection.3.10.1}%
+\contentsline {subsection}{\numberline {3.10.2}Application Shell and Navigation Structure}{38}{subsection.3.10.2}%
+\contentsline {subsection}{\numberline {3.10.3}Provider, Repository, and Dependency Structure}{39}{subsection.3.10.3}%
+\contentsline {subsection}{\numberline {3.10.4}Local Persistence and Offline-Aware Design}{40}{subsection.3.10.4}%
+\contentsline {subsection}{\numberline {3.10.5}Scan Workflow and Diagnosis Flow}{41}{subsection.3.10.5}%
+\contentsline {subsection}{\numberline {3.10.6}On-Device Model Asset Support}{42}{subsection.3.10.6}%
+\contentsline {subsection}{\numberline {3.10.7}Localization, Accessibility, and Farmer-Facing Output}{43}{subsection.3.10.7}%
+\contentsline {section}{\numberline {3.11}Integrated Diagnosis Workflow}{44}{section.3.11}%
+\contentsline {subsection}{\numberline {3.11.1}Integration Objective}{44}{subsection.3.11.1}%
+\contentsline {subsection}{\numberline {3.11.2}End-to-End Control Flow}{45}{subsection.3.11.2}%
+\contentsline {subsection}{\numberline {3.11.3}Backend Orchestration Boundary}{46}{subsection.3.11.3}%
+\contentsline {subsection}{\numberline {3.11.4}VLM Inference Gateway Boundary}{47}{subsection.3.11.4}%
+\contentsline {subsection}{\numberline {3.11.5}Prediction Parsing and Advisory Generation}{47}{subsection.3.11.5}%
+\contentsline {subsection}{\numberline {3.11.6}Mobile Offline and Slow-Network Integration}{48}{subsection.3.11.6}%
+\contentsline {subsection}{\numberline {3.11.7}Structured Response and Farmer-Facing Output}{48}{subsection.3.11.7}%
+\contentsline {subsection}{\numberline {3.11.8}Integration Verification Boundary}{49}{subsection.3.11.8}%
+\contentsline {section}{\numberline {3.12}Testing and Validation}{49}{section.3.12}%
+\contentsline {subsection}{\numberline {3.12.1}Validation Strategy}{49}{subsection.3.12.1}%
+\contentsline {subsection}{\numberline {3.12.2}YOLO Validation}{49}{subsection.3.12.2}%
+\contentsline {subsection}{\numberline {3.12.3}VLM Validation}{51}{subsection.3.12.3}%
+\contentsline {subsection}{\numberline {3.12.4}VLM Inference API Validation}{52}{subsection.3.12.4}%
+\contentsline {subsection}{\numberline {3.12.5}Backend Validation}{52}{subsection.3.12.5}%
+\contentsline {subsection}{\numberline {3.12.6}Mobile Validation}{53}{subsection.3.12.6}%
+\contentsline {subsection}{\numberline {3.12.7}Integration Validation}{53}{subsection.3.12.7}%
+\contentsline {chapter}{\numberline {4}RESULTS AND DISCUSSION}{55}{chapter.4}%
+\contentsline {section}{\numberline {4.1}YOLO Training Results}{55}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Training Dynamics}{55}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Best-Epoch Performance}{56}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}YOLO Deployment and Threshold Results}{57}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Threshold Selection Behavior}{57}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Quantization Tradeoffs}{58}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Per-Class Behavior}{59}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}YOLO Error Analysis}{60}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Confusion Patterns}{60}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Error Categories}{61}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Summary of YOLO Findings}{62}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}VLM Training and Resource Results}{63}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Fine-Tuning Performance}{63}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Runtime and Memory Behavior}{64}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}VLM Prediction Results}{65}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Dataset Split and Class Distribution}{65}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Prediction Summary}{67}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Per-Class Prediction Metrics}{68}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Confusion Matrix and Prediction Distribution}{68}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Summary of VLM Findings}{70}{subsection.4.5.5}%
+\contentsline {section}{\numberline {4.6}Backend Implementation Results}{71}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Implemented API Surface}{71}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Layered Implementation Outcome}{71}{subsection.4.6.2}%
+\contentsline {section}{\numberline {4.7}Backend Domain Discussion}{72}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Authentication and User Management}{72}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}Scan Lifecycle}{72}{subsection.4.7.2}%
+\contentsline {subsection}{\numberline {4.7.3}Crop, Task, Note, and Advisory Management}{73}{subsection.4.7.3}%
+\contentsline {section}{\numberline {4.8}Backend Diagnosis Integration Discussion}{74}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Structured Diagnosis Response}{74}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}Confidence and Out-of-Distribution Handling}{74}{subsection.4.8.2}%
+\contentsline {section}{\numberline {4.9}Backend Verification and Limitations}{74}{section.4.9}%
+\contentsline {subsection}{\numberline {4.9.1}Automated Test Coverage}{74}{subsection.4.9.1}%
+\contentsline {subsection}{\numberline {4.9.2}Current Backend Limitations}{75}{subsection.4.9.2}%
+\contentsline {section}{\numberline {4.10}Mobile App Implementation Results}{76}{section.4.10}%
+\contentsline {subsection}{\numberline {4.10.1}Implemented Application Surface}{76}{subsection.4.10.1}%
+\contentsline {subsection}{\numberline {4.10.2}Scan and Diagnosis Workflow Result}{77}{subsection.4.10.2}%
+\contentsline {subsection}{\numberline {4.10.3}Local Data and Offline Result}{78}{subsection.4.10.3}%
+\contentsline {subsection}{\numberline {4.10.4}Crop Management and Farmer Record-Keeping Result}{78}{subsection.4.10.4}%
+\contentsline {subsection}{\numberline {4.10.5}Model Deployment and Mobile Integration Result}{80}{subsection.4.10.5}%
+\contentsline {subsection}{\numberline {4.10.6}Mobile Verification and Current Limitations}{81}{subsection.4.10.6}%
+\contentsline {section}{\numberline {4.11}Integrated System Discussion}{82}{section.4.11}%
+\contentsline {subsection}{\numberline {4.11.1}End-to-End Integration Outcome}{82}{subsection.4.11.1}%
+\contentsline {subsection}{\numberline {4.11.2}Data Contract Strengths}{82}{subsection.4.11.2}%
+\contentsline {subsection}{\numberline {4.11.3}Offline and Degraded-Network Behavior}{83}{subsection.4.11.3}%
+\contentsline {subsection}{\numberline {4.11.4}Reliability Controls Across the Integrated Path}{84}{subsection.4.11.4}%
+\contentsline {subsection}{\numberline {4.11.5}Integration Limitations and Evidence Gaps}{84}{subsection.4.11.5}%
+\contentsline {subsection}{\numberline {4.11.6}Overall Integrated System Interpretation}{85}{subsection.4.11.6}%
+\contentsline {section}{\numberline {4.12}Cross-System Results Discussion and Limitations}{85}{section.4.12}%
+\contentsline {subsection}{\numberline {4.12.1}Synthesis of Major Results}{85}{subsection.4.12.1}%
+\contentsline {subsection}{\numberline {4.12.2}Model-Level Interpretation}{86}{subsection.4.12.2}%
+\contentsline {subsection}{\numberline {4.12.3}System-Level Interpretation}{87}{subsection.4.12.3}%
+\contentsline {subsection}{\numberline {4.12.4}Reliability and Safety Interpretation}{87}{subsection.4.12.4}%
+\contentsline {subsection}{\numberline {4.12.5}Current Limitations}{88}{subsection.4.12.5}%
+\contentsline {subsection}{\numberline {4.12.6}Implications for Final Manuscript Claims}{88}{subsection.4.12.6}%
+\contentsline {chapter}{\numberline {5}CONCLUSION AND RECOMMENDATIONS}{90}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Conclusion}{90}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Major Contributions}{91}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Recommendations}{92}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Dataset and model improvements}{92}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}System deployment improvements}{92}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Mobile app and user evaluation improvements}{93}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Future Enhancements}{93}{section.5.4}%
+\contentsline {chapter}{REFERENCE}{95}{chapter*.84}%
+\contentsline {chapter}{APPENDIX}{98}{appendix*.85}%
+\contentsline {section}{Appendix A: Supplementary Model Outputs}{98}{appendix*.85}%
+\contentsline {section}{Appendix B: Backend API Details}{98}{appendix*.85}%
+\contentsline {section}{Appendix C: Mobile Screenshots}{99}{Item.32}%
+\contentsline {section}{Appendix D: Additional Setup and Build Notes}{99}{Item.40}%

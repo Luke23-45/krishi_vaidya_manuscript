@@ -1,0 +1,114 @@
+﻿% VLM — Validation & Evaluation Flow
+% Source: manuscript/flow_diagram/vlm/05_validation_evaluation_flow.md
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  flow/.style={-{Latex[length=2.8mm,width=2mm]}, line width=0.8pt,
+               draw=pri!70, rounded corners=6pt},
+  flowret/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=muted!45, densely dashed},
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=left, inner sep=8pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
+                   fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
+                   fill=white, inner xsep=3pt, inner ysep=1.5pt,
+                   rounded corners=2pt},
+  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  procnode/.style={card, align=center, inner sep=7pt,
+                   minimum width=4cm, minimum height=1cm,
+                   fill=#1!4, draw=#1!25},
+  resultcard/.style={card, align=center, inner sep=6pt,
+                     fill=ink!4, draw=ink!20},
+  arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
+                 fill=white, inner sep=1.5pt, rounded corners=1pt},
+  note/.style={rounded corners=7pt, draw=ink!10, fill=ink!2,
+               inner sep=8pt, align=left, font=\sffamily\tiny,
+               text=ink!78, text width=14.2cm}
+]
+
+\definecolor{pri}{HTML}{4338CA}   % Indigo
+\definecolor{sec}{HTML}{0D9488}   % Teal
+\definecolor{ter}{HTML}{D97706}   % Amber
+\definecolor{quat}{HTML}{9333EA}  % Purple
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (0,0.3)
+  {VLM Validation \& Evaluation Flow};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (0,-1.0)
+  {Fork-join evaluation pipeline: Running automated test sets against the model
+   using structured generation and evaluating results objectively.};
+
+% ━━ ROW 1: INPUT ━━
+\node[procnode=pri] (testset) at (0,-2.2) {
+  \textbf{Holdout Test Set}\\[-1pt]
+  {\tiny Ground truth annotations}};
+
+% ━━ ROW 2: FORK ━━
+\node[procnode=sec] (gen) at (-3.5,-4.2) {
+  \textbf{Model Generation}\\[2pt]
+    \textcolor{ink!72}{\tiny $\bullet$ Feed images to vLLM}\\[-1pt]
+  \textcolor{ink!72}{\tiny $\bullet$ Enforce JSON schema}\\[-1pt]
+  \textcolor{ink!72}{{\tiny $\bullet$ Extract disease ID}}};
+\node[procnode=ter] (metric) at (3.5,-4.2) {
+  \textbf{Metrics Calculation}\\[2pt]
+    \textcolor{ink!72}{\tiny $\bullet$ Accuracy / Precision / Recall}\\[-1pt]
+  \textcolor{ink!72}{\tiny $\bullet$ Per-class breakdown}\\[-1pt]
+  \textcolor{ink!72}{{\tiny $\bullet$ Confusion matrix}}};
+\draw[flow] (testset.south west) -- ++(0,-0.3) -| (gen.north);
+\draw[flow] (testset.south east) -- ++(0,-0.3) -| (metric.north) node[arrlbl, pos=0.8, right] {truth};
+
+\draw[flow] (gen.east) -- (metric.west) node[arrlbl, midway, above] {predictions};
+
+% ━━ ROW 3: JOIN / OUTPUTS ━━
+\node[resultcard, text width=3.8cm] (report) at (-2.5,-6.8) {
+  \textbf{Eval Report}\\[-1pt]
+  {\tiny JSON metrics, Markdown summary}};
+
+\node[resultcard, text width=3.8cm] (plots) at (2.5,-6.8) {
+  \textbf{Visualizations}\\[-1pt]
+  {\tiny Confusion Matrix (PNG)}};
+
+\draw[flow] (metric.south) -- ++(0,-0.4) -| (report.north);
+\draw[flow] (metric.south) -- ++(0,-0.4) -| (plots.north);
+
+% ━━ NOTE ━━
+\node[note] at (0,-8.8) {
+  \textbf{Process}\;\textcolor{muted}{\textemdash}\;
+  Validation ensures the LoRA weights actually learned the agricultural domain
+  by testing against a pristine holdout set. Because generation is constrained to JSON,
+  predictions can be programmatically compared to ground truth without human grading.};
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(testset)(gen)(metric)(report)(plots)] {};
+
+  \node[groupbox=sec, fit=(gen)(metric),
+        inner xsep=10pt, inner ysep=8pt] (gEval) {};
+  \node[grouplbl=sec, anchor=north west]
+        at ([xshift=2pt]gEval.north west) {Evaluation Loop};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{VLM Validation and Evaluation Flow}
+\label{fig:vlm-05-validation-evaluation-flow}
+\end{figure}
