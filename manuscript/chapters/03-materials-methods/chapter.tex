@@ -2,14 +2,14 @@
 
 \ChapterSection{YOLO Object-Detection Dataset}
 
-The YOLO component of Krishi Vaidya was prepared as a plant-part object-detection model. Its
-purpose is not to produce the final disease diagnosis by itself, but to identify visually relevant
-crop structures that can support the larger image-processing and diagnosis workflow. The detector
-therefore focuses on crop and plant-part classes that are useful for downstream agricultural
+The YOLO component of Krishi Vaidya is designed as a plant-part object-detection model. Its
+purpose is not to yield a final disease diagnosis independently, but to localize visually relevant
+crop structures that contextualize the larger image-processing and diagnosis workflow. The detector
+targets crop and plant-part classes essential for downstream agricultural
 analysis, including leaves, panicles, grain clusters, fruits, ears, and vegetable heads.
-The selection of YOLO for this role is consistent with its documented use as a real-time
-object-detection family with training, validation, prediction, and export workflows
-\parencite{ultralyticsYolov8}.
+The selection of YOLOv8 nano was driven by the constraints of agricultural deployment: it offers
+a practical balance between mean average precision (mAP), inference latency, and model size for
+lightweight deployment workflows \parencite{jiangYOLOSurvey2022,ultralyticsYolov8}.
 
 \begin{figure}[H]
 \centering
@@ -20,8 +20,8 @@ object-detection family with training, validation, prediction, and export workfl
 
 \ChapterSubsection{Dataset Construction}
 
-The object-detection dataset was assembled as the Krishi Vaidya bouncer dataset. The local
-dataset documentation records a WebDataset export with separate training and validation shards.
+The object-detection dataset was assembled as the Krishi Vaidya plant-part detection dataset.
+The local dataset documentation records a WebDataset export with separate training and validation shards.
 Each sample is represented as an image and a JSON annotation record, where bounding boxes are
 stored in COCO-style pixel \texttt{xywh} format. The derived YOLO export remains the training
 format for the detector, while the canonical local dataset remains the source-of-truth artifact.
@@ -194,12 +194,14 @@ after direct mobile profiling is performed.
 
 \ChapterSection{VLM Disease-Diagnosis Dataset}
 
-The VLM component was prepared as the disease-classification and disease-interpretation component
-of Krishi Vaidya. Unlike the YOLO detector, which predicts bounding boxes for plant structures,
-the VLM receives a crop image and a natural-language instruction and is expected to return a
-canonical disease label or a compact structured answer. This design makes the VLM section distinct
-from the detector section: its output must be evaluated not only for classification correctness,
-but also for whether the generated text can be parsed into a usable downstream label.
+The Vision-Language Model (VLM) serves as the core disease-interpretation engine of Krishi
+Vaidya. Unlike the YOLO detector, which predicts bounding boxes for plant structures, the VLM
+processes a full crop image alongside a natural-language instruction to generate a structured
+diagnostic response. The decision to use a lightweight 3-billion-parameter VLM
+(Qwen2.5-VL-3B) with parameter-efficient fine-tuning (LoRA), rather than a larger 7B or 14B
+model, was deliberate: it matches the computational constraints of a student research
+environment using a single L4-class GPU. Consequently, VLM evaluation cannot rely only on
+standard classification metrics; its output must also be assessed for structural parseability.
 
 \begin{figure}[H]
 \centering
@@ -220,9 +222,8 @@ for rice, maize, potato, and tomato, and 600 records for cauliflower and cabbage
 
 The active source configuration enables PlantVillage as a local-folder source. Additional sources
 are defined but disabled in the current configuration, including PlantSeg, DLCPD25, VegNet, Irish
-potato, and rice multicrop sources. Because those sources are disabled, the manuscript should not
-claim that they were used in the reported VLM experiment. They are part of the pipeline design,
-but not part of the active dataset evidence used for the present results.
+potato, and rice multicrop sources. These disabled sources are part of the pipeline design but not
+part of the active dataset evidence used for the reported VLM experiment.
 
 \begin{figure}[H]
 \centering
@@ -236,7 +237,7 @@ but not part of the active dataset evidence used for the present results.
 The VLM taxonomy defines crop-specific disease labels and maps aliases into canonical labels. The
 configured taxonomy includes rice, maize, potato, tomato, cauliflower, and cabbage, but the
 reported VLM training and prediction outputs contain a subset of those taxonomy classes. The
-manuscript-ready class-distribution table reports eleven Qwen records classes: maize common rust,
+manuscript-ready class-distribution table reports eleven classes in the Qwen records: maize common rust,
 maize healthy, maize northern leaf blight, potato early blight, potato healthy, potato late blight,
 tomato early blight, tomato healthy, tomato late blight, tomato leaf mold, and tomato septoria
 leaf spot.
@@ -349,15 +350,14 @@ than as a cosmetic formatting issue.
 
 \ChapterSection{Backend System Architecture}
 
-The backend of Krishi Vaidya was implemented as a TypeScript and Express API named
-\texttt{krishi-vaidya-api}. Its role is to connect the mobile application, persistent farm records,
-image storage, authentication, diagnosis inference, and advisory generation into one server-side
-interface. The backend is not only a request router; it contains explicit layers for configuration,
-middleware, routes, controllers, services, repositories, data models, and external integrations.
-Express routing and middleware concepts provide the basis for organizing endpoint handlers and
-request-processing controls \parencite{expressRouting,expressMiddleware}.
-This layered structure was used so that HTTP concerns, business rules, database access, and
-third-party service calls remain separated.
+The backend of Krishi Vaidya is implemented as a TypeScript and Express API. Its role is to
+orchestrate the interactions between the mobile client, persistent farm records, image storage,
+authentication, VLM inference, and advisory generation into a unified server-side interface. To
+manage this complexity, the architecture follows a layered design pattern that separates
+configuration, middleware, routing, controllers, services, repositories, and data models. This
+separation keeps HTTP transport logic, core business rules, database persistence, and external
+ML service integrations isolated, reducing the ``hidden technical debt'' common in
+ML-integrated systems \parencite{sculleyMLTechDebt2015}.
 
 Figure~\ref{fig:backend-architecture} summarizes the verified backend architecture. The figure was
 generated from the implemented source structure rather than from a hypothetical design. The mobile
@@ -628,14 +628,14 @@ more diagnostic detail.
 
 \ChapterSubsection{Purpose and Implementation Scope}
 
-The mobile application is the farmer-facing interface of Krishi Vaidya. It is implemented as an
-Expo React Native application under \texttt{mobile\_app/app}. Its role is broader than image
-capture alone: it provides onboarding, crop-plot management, scan capture, image review, diagnosis
-submission, result presentation, local scan history, reminders, notifications, settings, data
-export, and offline-aware operation. The application therefore acts as the field interface that
-connects the trained model work and the backend API to a practical user workflow.
-React Native and Expo support this cross-platform mobile implementation model
-\parencite{reactNativeDocs,expoDocs}.
+The mobile application serves as the primary farmer-facing interface for Krishi Vaidya. It is
+implemented using React Native and Expo for cross-platform development
+\parencite{reactNativeDocs,expoDocs}. Its functional scope extends beyond basic image capture:
+it includes user onboarding, longitudinal crop-plot management, offline-aware scan queuing,
+diagnosis submission, structured result presentation, and localized record keeping. By treating
+the mobile application as a local-first system \parencite{kleppmannLocalFirst2019} rather than a
+thin client, the design bridges raw model inference and a practical agricultural
+decision-support workflow.
 
 The implemented mobile project uses Expo Router as its routing layer, React Native as the runtime,
 TanStack Query for server-state mutation handling, SQLite for local persistence, Zustand-style
@@ -756,9 +756,9 @@ interrupted processing items, listens for app-state changes, and starts a period
 a five-minute interval. Sync queue processing uses batches of ten items and stops when
 connectivity is lost. The implementation already provides the synchronization mechanism, but the
 source code also makes clear that some generic table-push behavior is currently represented by
-marking local rows as synced until all matching backend endpoints are ready. Therefore, the mobile
-manuscript should describe the offline sync system as implemented infrastructure with partial
-backend push integration, not as fully proven two-way production synchronization.
+marking local rows as synced until all matching backend endpoints are ready. The current evidence
+therefore describes offline sync as implemented infrastructure with partial backend push
+integration, not as fully proven two-way production synchronization.
 
 \begin{figure}[H]
 \centering
@@ -817,13 +817,12 @@ method that can load a chosen precision, run inference, and return load time and
 \label{fig:mobile-ondevice-ml-inference-flow}
 \end{figure}
 
-One integration detail must be documented carefully. The YOLO manuscript section describes the
-trained object detector and its class taxonomy from the YOLO training assets, while the mobile
-TFLite service currently defines a disease-label list in source code. The manuscript should not
-claim that this mobile TFLite asset has already been fully reconciled with the YOLO detector
-taxonomy unless that alignment is separately verified. For this reason, the mobile section treats
-TFLite support as implemented mobile inference infrastructure and identifies model-taxonomy
-alignment as an integration verification item.
+One integration detail requires careful interpretation. The YOLO section describes the trained
+object detector and its class taxonomy from the YOLO training assets, while the mobile TFLite
+service currently defines a disease-label list in source code. The evidence does not yet prove
+that the packaged mobile TFLite asset has been fully reconciled with the YOLO detector taxonomy.
+For this reason, the mobile section treats TFLite support as implemented mobile inference
+infrastructure and identifies model-taxonomy alignment as an integration verification item.
 
 \ChapterSubsection{Localization, Accessibility, and Farmer-Facing Output}
 
@@ -1031,14 +1030,15 @@ displayed, stored, revisited, exported, and used for follow-up actions.
 
 \ChapterSubsection{Integration Verification Boundary}
 
-The integration workflow is source-verified, but not yet fully runtime-verified in the manuscript.
-Source inspection confirms the route contracts, validation checks, inference gateway contract,
-advisory schema validation, mobile network branches, offline queueing, and result-display mapping.
+The integration workflow is verified from source structure and contracts, but it is not yet fully
+runtime-verified. Source inspection confirms the route contracts, validation checks, inference
+gateway contract, advisory schema validation, mobile network branches, offline queuing, and
+result-display mapping.
 The available VLM API tests also cover health readiness, authentication requirement, bad-scope
 rejection, invalid-image rejection, successful inference response mapping, vLLM error mapping, and
-rate-limit behavior. However, the final thesis should still add live mobile-to-backend request
-examples, emulator or physical-device screenshots, measured latency, and an offline-to-online
-sync demonstration before making production-readiness claims.
+rate-limit behavior. Live mobile-to-backend request examples, emulator or physical-device
+screenshots, measured latency, and an offline-to-online sync demonstration remain necessary
+before production-readiness claims can be made.
 
 \ChapterSection{Testing and Validation}
 
@@ -1054,8 +1054,8 @@ integration-boundary verification.
 This separation is important for accuracy. A high YOLO score does not prove that the backend is
 correct. A passing backend scan test does not prove that the mobile app works on a physical
 device. A valid VLM inference API test does not prove that the model predictions are accurate.
-The manuscript therefore treats each validation result according to what it actually verifies.
-The remaining evidence gaps are described in the subsections that follow.
+Each validation result is therefore interpreted according to what it actually verifies. The
+remaining evidence gaps are described in the subsections that follow.
 
 \ChapterSubsection{YOLO Validation}
 
@@ -1157,9 +1157,9 @@ related-scan lookup.
 There are 21 visible scan-service unit test cases and 26 visible scan-route integration test cases.
 This is meaningful evidence for the scan domain, but it is not complete backend coverage.
 Equivalent test evidence is not yet visible for every authentication, crop, task, note, advisory,
-diagnosis, VLM-client, Google-advisory-client, and upload-validation path. Therefore, the backend
-should be described as partially automated-tested, with scan behavior well represented and broader
-route-domain tests still required before claiming full backend verification.
+diagnosis, VLM-client, Google-advisory-client, and upload-validation path. The backend is
+therefore partially automated-tested: scan behavior is well represented, while broader
+route-domain tests remain necessary before full backend verification can be claimed.
 
 \ChapterSubsection{Mobile Validation}
 
@@ -1172,11 +1172,10 @@ enough to document the implemented architecture, but it does not prove physical-
 The visible mobile test evidence is an ONNX YOLO engine test harness. It provides utilities for
 model loading, warmup, dummy-image inference, detection validation, inference-result validation,
 and full test-suite execution. However, it is a harness rather than evidence of a complete
-executed mobile app test suite. The mobile manuscript should therefore avoid claiming full
-app-level validation until an emulator or physical-device run is recorded. The remaining evidence
-should include screen screenshots, camera behavior, TFLite loading behavior, mobile-to-backend
-request timing, result-screen rendering, offline queue behavior, and recovery after network
-restoration.
+executed mobile app test suite. Full app-level validation remains incomplete until an emulator or
+physical-device run is recorded. The remaining evidence should include screen screenshots, camera
+behavior, TFLite loading behavior, mobile-to-backend request timing, result-screen rendering,
+offline queue behavior, and recovery after network restoration.
 
 \ChapterSubsection{Integration Validation}
 
@@ -1184,15 +1183,14 @@ Integration validation is currently source-verified and contract-described rathe
 runtime-demonstrated. The source confirms the mobile-to-backend route contract, backend upload
 validation, backend-to-VLM readiness and inference calls, VLM gateway authentication and image
 validation, backend VLM prediction parsing, advisory schema validation, structured response
-assembly, mobile result mapping, and offline queueing. The generated integration diagram and
+assembly, mobile result mapping, and offline queuing. The generated integration diagram and
 integration tables document those boundaries.
 
 The final missing step is live end-to-end validation. A complete final validation pass should run
 the mobile app against a configured backend and VLM gateway, capture a real diagnosis request,
 record the backend response JSON, collect backend and VLM logs, measure latency, verify the result
-screen, and test offline-to-online recovery. Until that evidence is added, the manuscript should
-state that the integration workflow is implemented and source-verified, not that it has been
-fully production-validated.
+screen, and test offline-to-online recovery. Until that evidence is added, the integration
+workflow is best interpreted as implemented and source-verified, not fully production-validated.
 
 \begin{table}[H]
 \centering

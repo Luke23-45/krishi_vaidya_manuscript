@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.12) (preloaded format=xelatex 2026.5.26)  28 MAY 2026 03:06
+This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.12) (preloaded format=xelatex 2026.5.26)  28 MAY 2026 11:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1449,11 +1449,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 17--23
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 26--32
-
- []
-
 ) (frontmatter/declaration.tex [1
 
 
@@ -1467,43 +1462,12 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 ]) (frontmatter/board-approval.tex
 [3
 
-]
-Underfull \hbox (badness 1960) in paragraph at lines 16--22
-\TU/TimesNewRoman(0)/m/n/12 Department: Department of Computer
- []
+]) (frontmatter/acknowledgements.tex [4
 
+]) (frontmatter/abstract.tex [5
 
-Underfull \hbox (badness 1960) in paragraph at lines 25--31
-\TU/TimesNewRoman(0)/m/n/12 Department: Department of Computer
- []
-
-
-Underfull \hbox (badness 1960) in paragraph at lines 36--42
-\TU/TimesNewRoman(0)/m/n/12 Department: Department of Computer
- []
-
-
-Underfull \hbox (badness 1960) in paragraph at lines 45--51
-\TU/TimesNewRoman(0)/m/n/12 Department: Department of Computer
- []
-
-) (frontmatter/acknowledgements.tex [4
-
-] [5]) (frontmatter/abstract.tex [6
-
-]
-Underfull \hbox (badness 2042) in paragraph at lines 20--27
-[]\TU/TimesNewRoman(0)/m/n/12 The completed work demonstrates a functional inte
-grated prototype and provides
- []
-
-
-Underfull \hbox (badness 1509) in paragraph at lines 20--27
-\TU/TimesNewRoman(0)/m/n/12 evidence is available for the YOLO model, VLM data/
-training pipeline, backend
- []
-
-) (frontmatter/abstract-nepali.tex [7
+])
+(frontmatter/abstract-nepali.tex [6
 
 ]
 Package microtype Info: Loading generic protrusion settings for font family
@@ -1753,10 +1717,10 @@ Package microtype Info: Character `\textexclamdown ' is missing
 Package microtype Info: Character `\textquestiondown ' is missing
 (microtype)             in font `\TU/Kalimati(0)/m/n/14'.
 (microtype)             Ignoring protrusion settings for this character.
-) (frontmatter/acronyms.tex [8
+) (frontmatter/acronyms.tex [7
 
 ])
-(frontmatter/symbols.tex [9
+(frontmatter/symbols.tex [8
 
 ]
 Underfull \hbox (badness 2772) in paragraph at lines 8--9
@@ -1764,25 +1728,25 @@ Underfull \hbox (badness 2772) in paragraph at lines 8--9
 ound-truth
  []
 
-) [10
+) [9
 
 ]
 (C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\krishivaidya\manus
-cript\build\main.toc [11
+cript\build\main.toc [10
 
-] [12] [13] [14])
+] [11] [12] [13])
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
- [15]
+ [14]
 (C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\krishivaidya\manus
-cript\build\main.lot [16
+cript\build\main.lot [15
 
 ])
 \tf@lot=\write6
 \openout6 = `main.lot'.
 
- [17]
+ [16]
 (C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\krishivaidya\manus
 cript\build\main.lof
 Underfull \hbox (badness 1221) in paragraph at lines 17--17
@@ -1790,7 +1754,7 @@ Underfull \hbox (badness 1221) in paragraph at lines 17--17
 mage validation, 
  []
 
-[18
+[17
 
 ]
 Underfull \hbox (badness 5817) in paragraph at lines 20--20
@@ -1810,48 +1774,42 @@ Underfull \hbox (badness 1436) in paragraph at lines 38--38
 ion, and 
  []
 
-
-Underfull \hbox (badness 1005) in paragraph at lines 42--42
- [][] [][]\TU/TimesNewRoman(0)/m/n/12 Representative note-creation screenshot s
-howing crop-linked 
- []
-
 )
 \tf@lof=\write7
 \openout7 = `main.lof'.
 
- [19] [20] (chapters/01-introduction/chapter.tex
+ [18] [19] (chapters/01-introduction/chapter.tex
 CHAPTER 1.
+
+Underfull \hbox (badness 1127) in paragraph at lines 24--33
+\TU/TimesNewRoman(0)/m/n/12 Nations, []2026b[]). Yet connecting these capabilit
+ies into a coherent, farmer-usable
+ []
+
 [1
 
 
 
-] [2]
-Underfull \hbox (badness 1931) in paragraph at lines 82--85
-[]\TU/TimesNewRoman(0)/m/n/12 How can an integrated mobile, backend, object-det
-ection, and vision-
- []
-
-
-Underfull \hbox (badness 1038) in paragraph at lines 82--85
-\TU/TimesNewRoman(0)/m/n/12 language system be designed and implemented to supp
-ort image-based
- []
-
-[3] [4] [5]) (chapters/02-literature-review/chapter.tex [6]
+] [2] [3] [4]) (chapters/02-literature-review/chapter.tex [5]
 CHAPTER 2.
-[7
+[6
 
-] [8] [9] [10] [11] [12]) (chapters/03-materials-methods/chapter.tex [13]
-[14]
-CHAPTER 3.
-File: data/flow_digram_data/build/yolo/06_system_architecture_overview.pdf Grap
-hic file (type pdf)
-<use data/flow_digram_data/build/yolo/06_system_architecture_overview.pdf>
+] [7] [8]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+ [9] [10]
+Underfull \hbox (badness 1406) in paragraph at lines 204--212
+\TU/TimesNewRoman(0)/m/n/12 high identification accuracy for crop diseases when
+ fine-tuned on domain-specific
+ []
+
+[11] [12] [13]) (chapters/03-materials-methods/chapter.tex [14]
+CHAPTER 3.
+File: data/flow_digram_data/build/yolo/06_system_architecture_overview.pdf Grap
+hic file (type pdf)
+<use data/flow_digram_data/build/yolo/06_system_architecture_overview.pdf>
 [15
 
 ] [16]
@@ -1879,7 +1837,7 @@ File: data/flow_digram_data/build/vlm/01_data_pipeline_flow.pdf Graphic file (t
 ype pdf)
 <use data/flow_digram_data/build/vlm/01_data_pipeline_flow.pdf>
  [23]
-Underfull \hbox (badness 1147) in paragraph at lines 256--264
+Underfull \hbox (badness 1147) in paragraph at lines 257--265
 []\TU/TimesNewRoman(0)/m/n/12 Prompt templates are selected deterministically f
 rom the sample identifier. Three
  []
@@ -1961,18 +1919,12 @@ Graphic file (type pdf)
 File: data/flow_digram_data/build/00_all_flows.pdf Graphic file (type pdf)
 <use data/flow_digram_data/build/00_all_flows.pdf>
  [44]
-Underfull \hbox (badness 2582) in paragraph at lines 876--882
+Underfull \hbox (badness 2582) in paragraph at lines 875--881
 []\TU/TimesNewRoman(0)/m/n/12 When the device is online, the mobile API client 
 sends a multipart request to
  []
 
-[45] [46] [47] [48]
-Underfull \hbox (badness 2213) in paragraph at lines 1034--1042
-\TU/TimesNewRoman(0)/m/n/12 readiness, authentication requirement, bad-scope re
-jection, invalid-image rejection,
- []
-
-[49]
+[45] [46] [47] [48] [49]
 File: data/flow_digram_data/build/yolo/04_validation_evaluation_flow.pdf Graphi
 c file (type pdf)
 <use data/flow_digram_data/build/yolo/04_validation_evaluation_flow.pdf>
@@ -2018,7 +1970,7 @@ File: data/krishi_vaidya_vlm_data/outputs/figures/figure2_memory_runtime.pdf Gr
 aphic file (type pdf)
 <use data/krishi_vaidya_vlm_data/outputs/figures/figure2_memory_runtime.pdf>
  [64]
-Underfull \hbox (badness 1062) in paragraph at lines 377--380
+Underfull \hbox (badness 1062) in paragraph at lines 379--382
 []\TU/TimesNewRoman(0)/m/n/12 The resource profile supports the technical feasi
 bility of adapter fine-tuning a 3B-
  []
@@ -2041,7 +1993,7 @@ File: data/krishi_vaidya_vlm_data/outputs/figures/figure6_inference_diagnostics
 <use data/krishi_vaidya_vlm_data/outputs/figures/figure6_inference_diagnostics.
 pdf>
  [69] [70] [71] [72] [73]
-Underfull \hbox (badness 4144) in paragraph at lines 770--777
+Underfull \hbox (badness 4144) in paragraph at lines 772--779
 \TU/TimesNewRoman(0)/m/n/12 statistics, resolution creation, duplicate-resoluti
 on prevention, resolution retrieval,
  []
@@ -2070,36 +2022,43 @@ File: data/krishi_vaidya_mobile_app_data/scan/scan_2.png Graphic file (type bmp
 File: data/krishi_vaidya_mobile_app_data/crop/crops.png Graphic file (type bmp)
 
 <data/krishi_vaidya_mobile_app_data/crop/crops.png>
-File: data/krishi_vaidya_mobile_app_data/add_crops/add_crop.png Graphic file (t
-ype bmp)
-<data/krishi_vaidya_mobile_app_data/add_crops/add_crop.png>
- [78]
 File: data/krishi_vaidya_mobile_app_data/notes/notes.png Graphic file (type bmp
 )
 <data/krishi_vaidya_mobile_app_data/notes/notes.png>
- [79] [80] [81] [82] [83]
-Underfull \hbox (badness 1377) in paragraph at lines 1167--1171
+ [78]
+File: data/krishi_vaidya_mobile_app_data/add_crops/add_crop.png Graphic file (t
+ype bmp)
+<data/krishi_vaidya_mobile_app_data/add_crops/add_crop.png>
+ [79] [80] [81] [82]
+Underfull \hbox (badness 1377) in paragraph at lines 1169--1173
 []\TU/TimesNewRoman(0)/m/n/12 These controls are valuable because the system de
 pends on machine-learning and
  []
 
-[84] [85] [86] [87] [88]) (chapters/05-conclusion-recommendations/chapter.tex
-[89]
+[83] [84] [85] [86] [87]) (chapters/05-conclusion-recommendations/chapter.tex
+[88]
 CHAPTER 5.
-[90
+[89
 
-] [91] [92]
-Underfull \hbox (badness 1590) in paragraph at lines 148--150
-[]\TU/TimesNewRoman(0)/m/n/12 Improve VLM structured-output reliability by trai
-ning with stricter response
+] [90] [91] [92]) [93] [94
+
+
+] [95] [96] [97]
+Underfull \hbox (badness 2547) in paragraph at lines 54--54
+\TU/TimesNewRoman(0)/m/n/12 Cropquant-air: An ai-powered system for real-time d
+etection of small ob-
  []
 
-[93]) [94] [95
 
+Underfull \hbox (badness 1286) in paragraph at lines 54--54
+\TU/TimesNewRoman(0)/m/n/12 jects in agricultural fields. \TU/TimesNewRoman(0)/
+m/it/12 Frontiers in Plant Science\TU/TimesNewRoman(0)/m/n/12 , \TU/TimesNewRom
+an(0)/m/it/12 14\TU/TimesNewRoman(0)/m/n/12 , 1132093. []$[][][][][] []
+ []
 
-] [96] (appendix/appendices.tex [97] [98
+[98] (appendix/appendices.tex [99] [100
 
-] [99]) [100]
+] [101]) [102]
 (C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\krishivaidya\manus
 cript\build\main.aux)
  ***********
@@ -2111,13 +2070,13 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 37192 strings out of 402986
- 768494 string characters out of 5448503
- 1766823 words of memory out of 5000000
- 65247 multiletter control sequences out of 15000+600000
+ 37350 strings out of 402986
+ 775224 string characters out of 5448503
+ 1769108 words of memory out of 5000000
+ 65405 multiletter control sequences out of 15000+600000
  633162 words of font info for 96 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  89i,12n,107p,1281b,5158s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on C:\Users\Hellx\Documents\Programming\python\Project\iron\bc\k
-rishivaidya\manuscript\build\main.xdv (121 pages, 2282872 bytes).
+rishivaidya\manuscript\build\main.pdf (122 pages).

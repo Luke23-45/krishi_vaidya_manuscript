@@ -3,47 +3,41 @@
 \contentsline {chapter}{Declaration}{ii}{section*.2}%
 \contentsline {chapter}{Letter of Forward}{iii}{section*.3}%
 \contentsline {chapter}{Board of Examination and Certificate of Approval}{iv}{section*.4}%
-\contentsline {chapter}{Acknowledgements}{vi}{section*.5}%
-\contentsline {chapter}{Abstract}{vii}{section*.6}%
-\contentsline {chapter}{Shodhsar (Abstract in Nepali)}{viii}{section*.7}%
-\contentsline {chapter}{List of Acronyms and Abbreviations}{ix}{section*.8}%
-\contentsline {chapter}{List of Symbols}{x}{section*.9}%
-\contentsline {chapter}{List of Tables}{xvi}{section*.10}%
-\contentsline {chapter}{List of Figures}{xviii}{section*.11}%
+\contentsline {chapter}{Acknowledgements}{v}{section*.5}%
+\contentsline {chapter}{Abstract}{vi}{section*.6}%
+\contentsline {chapter}{Shodhsar (Abstract in Nepali)}{vii}{section*.7}%
+\contentsline {chapter}{List of Acronyms and Abbreviations}{viii}{section*.8}%
+\contentsline {chapter}{List of Symbols}{ix}{section*.9}%
+\contentsline {chapter}{List of Tables}{xv}{section*.10}%
+\contentsline {chapter}{List of Figures}{xvii}{section*.11}%
 \contentsline {chapter}{\numberline {1}INTRODUCTION}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}Crop disease diagnosis challenge}{1}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}Computer vision and mobile advisory context}{2}{subsection.1.1.2}%
-\contentsline {subsection}{\numberline {1.1.3}Krishi Vaidya project context}{2}{subsection.1.1.3}%
-\contentsline {section}{\numberline {1.2}Problem Statement}{3}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Visual detection problem}{3}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Disease interpretation problem}{3}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}Mobile access and advisory workflow problem}{3}{subsection.1.2.3}%
-\contentsline {section}{\numberline {1.3}Objectives}{4}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}General objective}{4}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}Specific objectives}{4}{subsection.1.3.2}%
-\contentsline {section}{\numberline {1.4}Scope}{4}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Limitations}{5}{section.1.5}%
-\contentsline {section}{\numberline {1.6}Methodology Overview}{5}{section.1.6}%
-\contentsline {section}{\numberline {1.7}Report Organization}{6}{section.1.7}%
-\contentsline {chapter}{\numberline {2}LITERATURE REVIEW}{7}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Digital Agriculture and Crop Disease Diagnosis}{7}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Farmer-facing diagnosis systems}{7}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Dataset and field-variability challenges}{8}{subsection.2.1.2}%
-\contentsline {section}{\numberline {2.2}Object Detection in Agricultural Vision}{8}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}YOLO-family detectors}{9}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Detection metrics}{9}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Deployment and quantization}{9}{subsection.2.2.3}%
-\contentsline {section}{\numberline {2.3}Vision-Language Models for Diagnosis}{10}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Multimodal disease reasoning}{10}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}LoRA fine-tuning}{11}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Quantized fine-tuning}{11}{subsection.2.3.3}%
-\contentsline {subsection}{\numberline {2.3.4}Structured prediction and parseability}{11}{subsection.2.3.4}%
-\contentsline {section}{\numberline {2.4}Mobile and Backend Systems for Agricultural Advisory}{12}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Mobile scanning workflows}{12}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Offline-first and synchronization patterns}{12}{subsection.2.4.2}%
-\contentsline {subsection}{\numberline {2.4.3}API-backed advisory systems}{13}{subsection.2.4.3}%
-\contentsline {section}{\numberline {2.5}Research Gap}{13}{section.2.5}%
+\contentsline {section}{\numberline {1.2}Problem Statement}{2}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Visual detection challenge}{2}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Disease interpretation challenge}{3}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Mobile access and advisory workflow challenge}{3}{subsection.1.2.3}%
+\contentsline {section}{\numberline {1.3}Objectives}{3}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}General objective}{3}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Specific objectives}{3}{subsection.1.3.2}%
+\contentsline {section}{\numberline {1.4}Scope and Boundary Conditions}{4}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Report Organization}{5}{section.1.5}%
+\contentsline {chapter}{\numberline {2}LITERATURE REVIEW}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Crop Disease Diagnosis as a Decision-Support Problem}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Deep Learning for Plant Disease Detection}{7}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Dataset evolution and the lab-to-field gap}{7}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Existing mobile disease-detection systems}{8}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Object Detection in Agricultural Vision}{8}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}The YOLO detector family}{8}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Detection evaluation methodology}{9}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Small-object and dense-detection challenges}{9}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Quantization and deployment}{10}{subsection.2.3.4}%
+\contentsline {section}{\numberline {2.4}Vision-Language Models for Structured Diagnosis}{10}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}From classification to structured reasoning}{10}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Parameter-efficient fine-tuning}{11}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Structured output and parseability}{12}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Offline-First Mobile Architecture}{12}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Backend Architecture and ML System Design}{13}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Research Gap and Positioning}{13}{section.2.7}%
 \contentsline {chapter}{\numberline {3}MATERIALS AND METHODS}{15}{chapter.3}%
 \contentsline {section}{\numberline {3.1}YOLO Object-Detection Dataset}{15}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Dataset Construction}{16}{subsection.3.1.1}%
@@ -106,7 +100,7 @@
 \contentsline {chapter}{\numberline {4}RESULTS AND DISCUSSION}{55}{chapter.4}%
 \contentsline {section}{\numberline {4.1}YOLO Training Results}{55}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Training Dynamics}{55}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Best-Epoch Performance}{56}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.2}Best-Epoch Performance and Benchmarking}{56}{subsection.4.1.2}%
 \contentsline {section}{\numberline {4.2}YOLO Deployment and Threshold Results}{57}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Threshold Selection Behavior}{57}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Quantization Tradeoffs}{58}{subsection.4.2.2}%
@@ -122,7 +116,7 @@
 \contentsline {subsection}{\numberline {4.5.1}Dataset Split and Class Distribution}{65}{subsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Prediction Summary}{67}{subsection.4.5.2}%
 \contentsline {subsection}{\numberline {4.5.3}Per-Class Prediction Metrics}{68}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Confusion Matrix and Prediction Distribution}{68}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.4}Confusion Matrix and Prediction Distribution}{69}{subsection.4.5.4}%
 \contentsline {subsection}{\numberline {4.5.5}Summary of VLM Findings}{70}{subsection.4.5.5}%
 \contentsline {section}{\numberline {4.6}Backend Implementation Results}{71}{section.4.6}%
 \contentsline {subsection}{\numberline {4.6.1}Implemented API Surface}{71}{subsection.4.6.1}%
@@ -142,33 +136,33 @@
 \contentsline {subsection}{\numberline {4.10.2}Scan and Diagnosis Workflow Result}{77}{subsection.4.10.2}%
 \contentsline {subsection}{\numberline {4.10.3}Local Data and Offline Result}{78}{subsection.4.10.3}%
 \contentsline {subsection}{\numberline {4.10.4}Crop Management and Farmer Record-Keeping Result}{78}{subsection.4.10.4}%
-\contentsline {subsection}{\numberline {4.10.5}Model Deployment and Mobile Integration Result}{80}{subsection.4.10.5}%
-\contentsline {subsection}{\numberline {4.10.6}Mobile Verification and Current Limitations}{81}{subsection.4.10.6}%
-\contentsline {section}{\numberline {4.11}Integrated System Discussion}{82}{section.4.11}%
-\contentsline {subsection}{\numberline {4.11.1}End-to-End Integration Outcome}{82}{subsection.4.11.1}%
-\contentsline {subsection}{\numberline {4.11.2}Data Contract Strengths}{82}{subsection.4.11.2}%
-\contentsline {subsection}{\numberline {4.11.3}Offline and Degraded-Network Behavior}{83}{subsection.4.11.3}%
-\contentsline {subsection}{\numberline {4.11.4}Reliability Controls Across the Integrated Path}{84}{subsection.4.11.4}%
-\contentsline {subsection}{\numberline {4.11.5}Integration Limitations and Evidence Gaps}{84}{subsection.4.11.5}%
-\contentsline {subsection}{\numberline {4.11.6}Overall Integrated System Interpretation}{85}{subsection.4.11.6}%
-\contentsline {section}{\numberline {4.12}Cross-System Results Discussion and Limitations}{85}{section.4.12}%
-\contentsline {subsection}{\numberline {4.12.1}Synthesis of Major Results}{85}{subsection.4.12.1}%
-\contentsline {subsection}{\numberline {4.12.2}Model-Level Interpretation}{86}{subsection.4.12.2}%
-\contentsline {subsection}{\numberline {4.12.3}System-Level Interpretation}{87}{subsection.4.12.3}%
-\contentsline {subsection}{\numberline {4.12.4}Reliability and Safety Interpretation}{87}{subsection.4.12.4}%
-\contentsline {subsection}{\numberline {4.12.5}Current Limitations}{88}{subsection.4.12.5}%
-\contentsline {subsection}{\numberline {4.12.6}Implications for Final Manuscript Claims}{88}{subsection.4.12.6}%
-\contentsline {chapter}{\numberline {5}CONCLUSION AND RECOMMENDATIONS}{90}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Conclusion}{90}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Major Contributions}{91}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Recommendations}{92}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Dataset and model improvements}{92}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}System deployment improvements}{92}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Mobile app and user evaluation improvements}{93}{subsection.5.3.3}%
-\contentsline {section}{\numberline {5.4}Future Enhancements}{93}{section.5.4}%
-\contentsline {chapter}{REFERENCE}{95}{chapter*.84}%
-\contentsline {chapter}{APPENDIX}{98}{appendix*.85}%
-\contentsline {section}{Appendix A: Supplementary Model Outputs}{98}{appendix*.85}%
-\contentsline {section}{Appendix B: Backend API Details}{98}{appendix*.85}%
-\contentsline {section}{Appendix C: Mobile Screenshots}{99}{Item.32}%
-\contentsline {section}{Appendix D: Additional Setup and Build Notes}{99}{Item.40}%
+\contentsline {subsection}{\numberline {4.10.5}Model Deployment and Mobile Integration Result}{79}{subsection.4.10.5}%
+\contentsline {subsection}{\numberline {4.10.6}Mobile Verification and Current Limitations}{80}{subsection.4.10.6}%
+\contentsline {section}{\numberline {4.11}Integrated System Discussion}{81}{section.4.11}%
+\contentsline {subsection}{\numberline {4.11.1}End-to-End Integration Outcome}{81}{subsection.4.11.1}%
+\contentsline {subsection}{\numberline {4.11.2}Data Contract Strengths}{81}{subsection.4.11.2}%
+\contentsline {subsection}{\numberline {4.11.3}Offline and Degraded-Network Behavior}{82}{subsection.4.11.3}%
+\contentsline {subsection}{\numberline {4.11.4}Reliability Controls Across the Integrated Path}{83}{subsection.4.11.4}%
+\contentsline {subsection}{\numberline {4.11.5}Integration Limitations and Evidence Gaps}{83}{subsection.4.11.5}%
+\contentsline {subsection}{\numberline {4.11.6}Overall Integrated System Interpretation}{84}{subsection.4.11.6}%
+\contentsline {section}{\numberline {4.12}Cross-System Results Discussion and Limitations}{84}{section.4.12}%
+\contentsline {subsection}{\numberline {4.12.1}Synthesis of Major Results as a Design-Science Contribution}{84}{subsection.4.12.1}%
+\contentsline {subsection}{\numberline {4.12.2}Model-Level Interpretation}{85}{subsection.4.12.2}%
+\contentsline {subsection}{\numberline {4.12.3}System-Level Interpretation}{86}{subsection.4.12.3}%
+\contentsline {subsection}{\numberline {4.12.4}Reliability and Safety Interpretation}{86}{subsection.4.12.4}%
+\contentsline {subsection}{\numberline {4.12.5}Current Limitations}{87}{subsection.4.12.5}%
+\contentsline {subsection}{\numberline {4.12.6}Implications for Final Manuscript Claims}{87}{subsection.4.12.6}%
+\contentsline {chapter}{\numberline {5}CONCLUSION AND RECOMMENDATIONS}{89}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Conclusion}{89}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Contributions}{90}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Lessons Learned}{91}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Recommendations}{91}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Immediate priorities}{91}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Near-term improvements}{92}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Long-term research directions}{92}{subsection.5.4.3}%
+\contentsline {chapter}{REFERENCE}{94}{chapter*.85}%
+\contentsline {chapter}{APPENDIX}{100}{appendix*.86}%
+\contentsline {section}{Appendix A: Supplementary Model Outputs}{100}{appendix*.86}%
+\contentsline {section}{Appendix B: Backend API Details}{100}{appendix*.86}%
+\contentsline {section}{Appendix C: Mobile Screenshots}{101}{Item.30}%
+\contentsline {section}{Appendix D: Additional Setup and Build Notes}{101}{Item.38}%

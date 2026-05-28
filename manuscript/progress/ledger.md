@@ -7,11 +7,11 @@ Status values: `Not started`, `In progress`, `Ready to draft`, `Needs asset`, `D
 | Area | Required items | Status |
 | --- | --- | --- |
 | Front matter | Title page, recommendation, declaration, letter of forward, board approval, acknowledgements, English abstract, Nepali abstract, acronyms, symbols | In progress; abstracts/acronyms/symbols drafted, identity placeholders remain |
-| Chapter 1 | Background, problem statement, objectives, scope, limitations, methodology overview, report organization | Drafted |
-| Chapter 2 | Digital agriculture, crop disease diagnosis, object detection, VLMs, mobile/backend systems, research gap | Drafted |
+| Chapter 1 | Background, problem statement, objectives, scope, limitations, methodology overview, report organization | Polished |
+| Chapter 2 | Digital agriculture, crop disease diagnosis, object detection, VLMs, mobile/backend systems, research gap | Polished |
 | Chapter 3 | System design, datasets, YOLO method, VLM method, backend method, mobile method, integration, validation | In progress |
 | Chapter 4 | YOLO results, VLM results, backend results, mobile results, integrated discussion, limitations | In progress |
-| Chapter 5 | Conclusion, contributions, recommendations, future work | Drafted |
+| Chapter 5 | Conclusion, contributions, recommendations, future work | Polished |
 | References | Literature and technical citations | Drafted |
 | Appendix | Supplementary outputs, API details, screenshots, additional setup notes | Drafted; screenshots and logs remain placeholders |
 

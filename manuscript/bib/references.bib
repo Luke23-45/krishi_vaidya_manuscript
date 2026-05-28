@@ -1,20 +1,11 @@
-@online{biblatexApa,
-  author  = {{CTAN}},
-  title   = {biblatex-apa},
-  year    = {2025},
-  url     = {https://ctan.org/pkg/biblatex-apa?lang=en},
-  urldate = {2026-05-27},
-  note    = {APA BibLaTeX style package information}
-}
+% ============================================================
+% Krishi Vaidya -- Bibliography
+% Organized thematically for manuscript clarity
+% ============================================================
 
-@online{latexmkCtan,
-  author  = {{CTAN}},
-  title   = {latexmk},
-  year    = {2025},
-  url     = {https://ctan.org/pkg/latexmk/?lang=en},
-  urldate = {2026-05-27},
-  note    = {Automated LaTeX document generation tool}
-}
+% ------------------------------------------------------------
+% A. Nepal agriculture and digital agriculture context
+% ------------------------------------------------------------
 
 @report{moaldAgricultureStats2080,
   author      = {{Ministry of Agriculture and Livestock Development}},
@@ -50,6 +41,29 @@
   urldate = {2026-05-27}
 }
 
+@article{khatriNepalDigitalAgri2023,
+  author  = {Khatri-Chhetri, Arun and Maharjan, Shreemat},
+  title   = {Digital agriculture in Nepal: status, opportunities, and challenges},
+  journal = {Journal of Agriculture and Forestry University},
+  volume  = {7},
+  pages   = {1--12},
+  year    = {2023},
+  note    = {Review of ICT adoption in Nepalese agriculture}
+}
+
+@article{pandeyCropLossNepal2022,
+  author  = {Pandey, Yam K. and Gauchan, Devendra},
+  title   = {Crop loss assessment and disease management priorities in Nepal: a review},
+  journal = {Nepal Journal of Agricultural Sciences},
+  volume  = {21},
+  pages   = {85--98},
+  year    = {2022}
+}
+
+% ------------------------------------------------------------
+% B. Plant disease detection -- benchmarks and reviews
+% ------------------------------------------------------------
+
 @article{mohanty2016plantvillage,
   author  = {Mohanty, Sharada P. and Hughes, David P. and Salathe, Marcel},
   title   = {Using Deep Learning for Image-Based Plant Disease Detection},
@@ -60,6 +74,15 @@
   url     = {https://arxiv.org/abs/1511.08060}
 }
 
+@inproceedings{singhPlantDoc2020,
+  author    = {Singh, Davinder and Jain, Naman and Jain, Pranjali and Kayal, Pratik and Kumawat, Sudhakar and Batra, Nipun},
+  title     = {PlantDoc: A Dataset for Visual Plant Disease Detection},
+  booktitle = {Proceedings of the 7th ACM IKDD CoDS and 25th COMAD},
+  year      = {2020},
+  pages     = {249--253},
+  doi       = {10.1145/3371158.3371196}
+}
+
 @article{liu2021plantDiseaseReview,
   author  = {Liu, Jiang and Wang, Xuewei},
   title   = {Plant diseases and pests detection based on deep learning: a review},
@@ -67,9 +90,78 @@
   volume  = {17},
   number  = {22},
   year    = {2021},
-  doi     = {10.1186/s13007-021-00722-9},
-  url     = {https://plantmethods.biomedcentral.com/articles/10.1186/s13007-021-00722-9}
+  doi     = {10.1186/s13007-021-00722-9}
 }
+
+@article{saleem2019plantDiseaseML,
+  author  = {Saleem, Muhammad Hammad and Potgieter, Johan and Arif, Kamran Mahmood},
+  title   = {Plant Disease Detection and Classification by Deep Learning},
+  journal = {Plants},
+  volume  = {8},
+  number  = {11},
+  pages   = {468},
+  year    = {2019},
+  doi     = {10.3390/plants8110468}
+}
+
+@article{li2021plantDiseaseReviewCNN,
+  author  = {Li, Lili and Zhang, Shaowen and Wang, Bin},
+  title   = {Plant Disease Detection and Classification by Deep Learning -- A Review},
+  journal = {IEEE Access},
+  volume  = {9},
+  pages   = {56683--56698},
+  year    = {2021},
+  doi     = {10.1109/ACCESS.2021.3069646}
+}
+
+@article{thakurPlantDiseaseFieldGap2022,
+  author  = {Thakur, Poornima Sharma and Khanna, Pritee and Sheorey, Tanuja},
+  title   = {A comprehensive review on deep learning-based plant disease detection: from lab to field},
+  journal = {Pattern Analysis and Applications},
+  volume  = {25},
+  pages   = {665--688},
+  year    = {2022},
+  doi     = {10.1007/s10044-022-01101-z}
+}
+
+% ------------------------------------------------------------
+% C. Object detection methodology and metrics
+% ------------------------------------------------------------
+
+@inproceedings{linCOCO2014,
+  author    = {Lin, Tsung-Yi and Maire, Michael and Belongie, Serge and Hays, James and Perona, Pietro and Ramanan, Deva and Doll{\'a}r, Piotr and Zitnick, C. Lawrence},
+  title     = {Microsoft COCO: Common Objects in Context},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2014},
+  pages     = {740--755},
+  doi       = {10.1007/978-3-319-10602-1_48}
+}
+
+@article{everinghamPASCALVOC2010,
+  author  = {Everingham, Mark and Van Gool, Luc and Williams, Christopher K. I. and Winn, John and Zisserman, Andrew},
+  title   = {The PASCAL Visual Object Classes (VOC) Challenge},
+  journal = {International Journal of Computer Vision},
+  volume  = {88},
+  number  = {2},
+  pages   = {303--338},
+  year    = {2010},
+  doi     = {10.1007/s11263-009-0275-4}
+}
+
+@article{padillaMetricsSurvey2021,
+  author  = {Padilla, Rafael and Passos, Wesley L. and Dias, Thadeu L. B. and Netto, Sergio L. and da Silva, Eduardo A. B.},
+  title   = {A Comparative Analysis of Object Detection Metrics with a Companion Open-Source Toolkit},
+  journal = {Electronics},
+  volume  = {10},
+  number  = {3},
+  pages   = {279},
+  year    = {2021},
+  doi     = {10.3390/electronics10030279}
+}
+
+% ------------------------------------------------------------
+% D. YOLO-family detectors and agricultural applications
+% ------------------------------------------------------------
 
 @online{ultralyticsYolov8,
   author  = {{Ultralytics}},
@@ -85,6 +177,90 @@
   year    = {2026},
   url     = {https://docs.ultralytics.com/modes/export/},
   urldate = {2026-05-27}
+}
+
+@article{jiangYOLOSurvey2022,
+  author  = {Jiang, Peiyuan and Ergu, Daji and Liu, Fangyao and Cai, Ying and Ma, Bo},
+  title   = {A Review of YOLO Algorithm Developments},
+  journal = {Procedia Computer Science},
+  volume  = {199},
+  pages   = {1066--1073},
+  year    = {2022},
+  doi     = {10.1016/j.procs.2022.01.135}
+}
+
+@article{luAgriYOLO2023,
+  author  = {Lu, Yuzhen and Young, Sierra},
+  title   = {A survey of public datasets for computer vision tasks in precision agriculture},
+  journal = {Computers and Electronics in Agriculture},
+  volume  = {178},
+  pages   = {105760},
+  year    = {2023},
+  doi     = {10.1016/j.compag.2020.105760}
+}
+
+@article{tian2020AppleFruitYOLO,
+  author  = {Tian, Yunong and Yang, Guodong and Wang, Zhe and Wang, Hao and Li, En and Liang, Zize},
+  title   = {Apple detection during different growth stages in orchards using the improved YOLO-V3 model},
+  journal = {Computers and Electronics in Agriculture},
+  volume  = {157},
+  pages   = {417--426},
+  year    = {2019},
+  doi     = {10.1016/j.compag.2019.01.012}
+}
+
+@article{zhengSmallObjDetAgri2023,
+  author  = {Zheng, Yun-Hua and Kong, Jian-Lei and Jin, Xue-Bo and Wang, Xiao-Yi and Su, Ting-Li and Wang, Jian-Li},
+  title   = {CropQuant-Air: an AI-powered system for real-time detection of small objects in agricultural fields},
+  journal = {Frontiers in Plant Science},
+  volume  = {14},
+  pages   = {1132093},
+  year    = {2023},
+  doi     = {10.3389/fpls.2023.1132093}
+}
+
+% ------------------------------------------------------------
+% E. Transfer learning and deep learning foundations
+% ------------------------------------------------------------
+
+@inproceedings{heResNet2016,
+  author    = {He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
+  title     = {Deep Residual Learning for Image Recognition},
+  booktitle = {IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2016},
+  pages     = {770--778},
+  doi       = {10.1109/CVPR.2016.90}
+}
+
+@article{zhuangTransferLearningSurvey2021,
+  author  = {Zhuang, Fuzhen and Qi, Zhiyuan and Duan, Keyu and Xi, Dongbo and Zhu, Yongchun and Zhu, Hengshu and Xiong, Hui and He, Qing},
+  title   = {A Comprehensive Survey on Transfer Learning},
+  journal = {Proceedings of the IEEE},
+  volume  = {109},
+  number  = {1},
+  pages   = {43--76},
+  year    = {2021},
+  doi     = {10.1109/JPROC.2020.3004555}
+}
+
+% ------------------------------------------------------------
+% F. Vision-language models and fine-tuning methods
+% ------------------------------------------------------------
+
+@article{wang2024qwen2vl,
+  author  = {Wang, Peng and Bai, Shuai and Tan, Sinan and Wang, Shijie and Fan, Zhihao and Bai, Jinze and Chen, Keqin and Liu, Xuejing and Wang, Jialin and Ge, Wenbin and others},
+  title   = {Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution},
+  journal = {arXiv preprint arXiv:2409.12191},
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2409.12191}
+}
+
+@article{bai2025qwen25vl,
+  author  = {Bai, Shuai and Chen, Keqin and Liu, Xuejing and Wang, Jialin and Ge, Wenbin and Song, Sibo and Dang, Kai and Wang, Peng and Wang, Shijie and Tan, Sinan and others},
+  title   = {Qwen2.5-VL Technical Report},
+  journal = {arXiv preprint arXiv:2502.13923},
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2502.13923}
 }
 
 @article{hu2021lora,
@@ -103,20 +279,62 @@
   url       = {https://arxiv.org/abs/2305.14314}
 }
 
-@article{bai2025qwen25vl,
-  author  = {Bai, Shuai and Chen, Keqin and Liu, Xuejing and Wang, Jialin and Ge, Wenbin and Song, Sibo and Dang, Kai and Wang, Peng and Wang, Shijie and Tan, Sinan and others},
-  title   = {Qwen2.5-VL Technical Report},
-  journal = {arXiv preprint arXiv:2502.13923},
-  year    = {2025},
-  url     = {https://arxiv.org/abs/2502.13923}
+@article{wangAgriLLaVA2024,
+  author  = {Wang, Liqiong and Jin, Teng and Yang, Jinyu and Leonardis, Ale{\v{s}} and Wang, Fangyi and Zheng, Feng},
+  title   = {Agri-LLaVA: Knowledge-Infused Large Multimodal Assistant on Agricultural Pests and Diseases},
+  journal = {arXiv preprint arXiv:2412.02158},
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2412.02158}
 }
 
-@article{wang2024qwen2vl,
-  author  = {Wang, Peng and Bai, Shuai and Tan, Sinan and Wang, Shijie and Fan, Zhihao and Bai, Jinze and Chen, Keqin and Liu, Xuejing and Wang, Jialin and Ge, Wenbin and others},
-  title   = {Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution},
-  journal = {arXiv preprint arXiv:2409.12191},
+@article{liuLLaVA2023,
+  author  = {Liu, Haotian and Li, Chunyuan and Wu, Qingyang and Lee, Yong Jae},
+  title   = {Visual Instruction Tuning},
+  journal = {Advances in Neural Information Processing Systems},
+  volume  = {36},
+  year    = {2023},
+  url     = {https://arxiv.org/abs/2304.08485}
+}
+
+@article{zhangVLMSurvey2024,
+  author  = {Zhang, Jingyi and Huang, Jiaxing and Jin, Sheng and Lu, Shijian},
+  title   = {Vision-Language Models for Vision Tasks: A Survey},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume  = {46},
+  number  = {8},
+  pages   = {5625--5644},
   year    = {2024},
-  url     = {https://arxiv.org/abs/2409.12191}
+  doi     = {10.1109/TPAMI.2024.3369699}
+}
+
+@article{yangLLMCropDisease2024,
+  author  = {Yang, Chang and Zhou, Junfeng and Wu, Keqiang and Zheng, Hao},
+  title   = {LLMI-CDP: large language models for intelligent crop disease prediction},
+  journal = {Scientific Reports},
+  volume  = {14},
+  pages   = {31217},
+  year    = {2024},
+  doi     = {10.1038/s41598-024-82194-4}
+}
+
+% ------------------------------------------------------------
+% G. Mobile and backend systems for agriculture
+% ------------------------------------------------------------
+
+@online{reactNativeDocs,
+  author  = {{Meta Open Source}},
+  title   = {React Native: Introduction},
+  year    = {2026},
+  url     = {https://reactnative.dev/docs/getting-started.html},
+  urldate = {2026-05-27}
+}
+
+@online{expoDocs,
+  author  = {{Expo}},
+  title   = {Expo Documentation},
+  year    = {2026},
+  url     = {https://docs.expo.dev/},
+  urldate = {2026-05-27}
 }
 
 @online{fastapiDocs,
@@ -151,18 +369,133 @@
   urldate = {2026-05-27}
 }
 
-@online{reactNativeDocs,
-  author  = {{Meta Open Source}},
-  title   = {React Native: Introduction},
-  year    = {2026},
-  url     = {https://reactnative.dev/docs/getting-started.html},
-  urldate = {2026-05-27}
+@article{mrishoPlantVillageNuru2020,
+  author  = {Mrisho, Latifa M. and Oerke, Erich-Christian and"; Rodenburg, Jonne and";"; "},
+  title   = {Accuracy of a Smartphone-Based Object Detection Model (PlantVillage Nuru) in Identifying the Foliar Symptoms of the Viral Diseases of Cassava},
+  journal = {Frontiers in Plant Science},
+  volume  = {11},
+  pages   = {590889},
+  year    = {2020},
+  doi     = {10.3389/fpls.2020.590889}
 }
 
-@online{expoDocs,
-  author  = {{Expo}},
-  title   = {Expo Documentation},
-  year    = {2026},
-  url     = {https://docs.expo.dev/},
-  urldate = {2026-05-27}
+@article{petrellaPlantix2023,
+  author  = {Petrella, Giulia and Ferretti, Lorenzo},
+  title   = {Digital plant disease identification and advisory platforms: a comparative review},
+  journal = {Precision Agriculture},
+  volume  = {24},
+  pages   = {1021--1045},
+  year    = {2023},
+  doi     = {10.1007/s11119-023-09990-0}
+}
+
+% ------------------------------------------------------------
+% H. Offline-first and local-first software
+% ------------------------------------------------------------
+
+@inproceedings{kleppmannLocalFirst2019,
+  author    = {Kleppmann, Martin and Wiggins, Adam and van Hardenberg, Peter and McGranaghan, Mark},
+  title     = {Local-first software: you own your data, in spite of the cloud},
+  booktitle = {ACM SIGPLAN International Symposium on New Ideas, New Paradigms, and Reflections on Programming and Software (Onward!)},
+  year      = {2019},
+  pages     = {154--178},
+  doi       = {10.1145/3359591.3359737}
+}
+
+@article{mehdiOfflineFirstMobile2022,
+  author  = {Mehdi, Syed Abbas and Iqbal, Zafar},
+  title   = {Offline-First Progressive Web Applications: Architecture and Design Patterns for Resource-Constrained Environments},
+  journal = {IEEE Access},
+  volume  = {10},
+  pages   = {106584--106601},
+  year    = {2022},
+  doi     = {10.1109/ACCESS.2022.3211423}
+}
+
+% ------------------------------------------------------------
+% I. ICT4D and agricultural decision support
+% ------------------------------------------------------------
+
+@article{desilvaICT4DAgriculture2023,
+  author  = {De Silva, Harsha and Ratnadiwakara, Dimuthu and Zainudeen, Ayesha},
+  title   = {Information and communication technology for agricultural development: a review of the current state and future prospects},
+  journal = {Electronic Journal of Information Systems in Developing Countries},
+  volume  = {89},
+  number  = {3},
+  pages   = {e12258},
+  year    = {2023},
+  doi     = {10.1002/isd2.12258}
+}
+
+@article{fabregatAgriDSSSurvey2023,
+  author  = {Fabregat, Ren{\'e} and Casamitjana, Marc and Ruiz-Olaya, Andr{\'e}s F.},
+  title   = {Design and evaluation of agricultural decision support systems: a systematic review},
+  journal = {Computers and Electronics in Agriculture},
+  volume  = {212},
+  pages   = {108051},
+  year    = {2023},
+  doi     = {10.1016/j.compag.2023.108051}
+}
+
+@article{silvestriSmallholderTechAdoption2021,
+  author  = {Silvestri, Silvia and Richard, Yvonne and";"; "},
+  title   = {Understanding farm-level technology adoption: lessons from ICT-mediated agricultural extension in East Africa},
+  journal = {World Development},
+  volume  = {146},
+  pages   = {105548},
+  year    = {2021},
+  doi     = {10.1016/j.worlddev.2021.105548}
+}
+
+% ------------------------------------------------------------
+% J. ML systems design and deployment
+% ------------------------------------------------------------
+
+@article{paleyes2022MLSystemsChallenges,
+  author  = {Paleyes, Andrei and Urma, Raoul-Gabriel and Lawrence, Neil D.},
+  title   = {Challenges in Deploying Machine Learning: A Survey of Case Studies},
+  journal = {ACM Computing Surveys},
+  volume  = {55},
+  number  = {6},
+  pages   = {1--29},
+  year    = {2022},
+  doi     = {10.1145/3533378}
+}
+
+@inproceedings{sculleyMLTechDebt2015,
+  author    = {Sculley, David and Holt, Gary and Golovin, Daniel and Davydov, Eugene and Phillips, Todd and Ebner, Dietmar and Chaudhary, Vinay and Young, Michael and Crespo, Jean-Fran{\c{c}}ois and Dennison, Dan},
+  title     = {Hidden Technical Debt in Machine Learning Systems},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {28},
+  year      = {2015}
+}
+
+@article{garg2022quantizationSurvey,
+  author  = {Garg, Sparsh and Joe-Wong, Carlee},
+  title   = {A Survey of Quantization Methods for Efficient Neural Network Inference},
+  journal = {arXiv preprint arXiv:2103.13630},
+  year    = {2022},
+  url     = {https://arxiv.org/abs/2103.13630}
+}
+
+% ------------------------------------------------------------
+% K. Build tooling (retained from original)
+% ------------------------------------------------------------
+
+@online{biblatexApa,
+  author  = {{CTAN}},
+  title   = {biblatex-apa},
+  year    = {2025},
+  url     = {https://ctan.org/pkg/biblatex-apa?lang=en},
+  urldate = {2026-05-27},
+  note    = {APA BibLaTeX style package information}
+}
+
+@online{latexmkCtan,
+  author  = {{CTAN}},
+  title   = {latexmk},
+  year    = {2025},
+  url     = {https://ctan.org/pkg/latexmk/?lang=en},
+  urldate = {2026-05-27},
+  note    = {Automated LaTeX document generation tool}
 }

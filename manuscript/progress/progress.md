@@ -12,10 +12,10 @@
 | Integration workflow | Drafted | Review wording, generated workflow figure, integration tables, and evidence-gap wording in the PDF. |
 | Testing and validation | Drafted | Review source-backed validation summary, generated validation coverage figure, and evidence-gap wording in the PDF. |
 | Results discussion and limitations | Drafted | Review cross-system synthesis tables and ensure claims remain consistent with available evidence. |
-| Literature review | Drafted | Review citation quality and add institution-required sources if supervisors request them. |
-| Conclusion and recommendations | Drafted | Review wording against final limitations and validation evidence. |
-| Introduction | Drafted | Review Nepal context and objectives; keep unsupported claims out. |
-| Abstracts | Drafted | Review English and Nepali abstracts after final title/name metadata is confirmed. |
+| Literature review | Polished | Add institution-required sources only if supervisors request them. |
+| Conclusion and recommendations | Polished | Re-check after any new runtime evidence is added. |
+| Introduction | Polished | Re-check after any new runtime evidence is added. |
+| Abstracts | Polished | Review Nepali abstract and front-matter identity after final metadata is confirmed. |
 | Appendices | Drafted | Add mobile screenshots, executed-test logs, and API examples when captured. |
 | Table of contents | In progress | Use `table_of_contents_progress.md` as the active structure. |
 | Citations | Drafted | 18 cited sources are included; add more only for new claims. |
@@ -45,6 +45,8 @@
 - Chapter 1 introduction has been replaced with Krishi Vaidya-specific Nepal context, problem statement, objectives, scope, limitations, methodology overview, and report organization.
 - English abstract, Nepali abstract, acronyms, symbols, bibliography, and appendix content have been replaced with project-specific content.
 - The manuscript build completed successfully after adding the testing/validation and cross-system discussion sections.
+- A final prose-polish pass was completed across the English abstract and Chapters 1--5, removing internal drafting language, tightening evidence boundaries, replacing the leftover YOLO dataset nickname with plant-part dataset terminology, and strengthening the research-gap, validation-boundary, integration, and conclusion wording.
+- The manuscript build completed successfully after the final prose-polish pass.
 
 ## Active blockers
 
@@ -62,9 +64,9 @@
 
 ## Build notes
 
-Latest build output: `build/main.pdf` (104 pages)
+Latest build output: `build/main.pdf` (121 pages)
 
-The build completes. The build script still prints a `latexmk -usebiber` option warning from its fallback behavior, and MiKTeX prints maintenance warnings about updates, but the generated PDF is produced successfully.
+The build completes. MiKTeX prints maintenance warnings about updates and LaTeX reports several underfull boxes, but the generated PDF is produced successfully.
 
 ## Update rule
 

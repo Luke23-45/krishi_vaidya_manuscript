@@ -12,6 +12,22 @@ $buildDir = Join-Path $manuscriptRoot "build"
 $mainTex = Join-Path $manuscriptRoot "main.tex"
 $mainJobName = [System.IO.Path]::GetFileNameWithoutExtension($mainTex)
 
+function Clear-BuildDirectory {
+    $resolvedRoot = (Resolve-Path -LiteralPath $manuscriptRoot).Path
+    $buildParent = Split-Path -Parent $buildDir
+    $resolvedBuildParent = (Resolve-Path -LiteralPath $buildParent).Path
+
+    if ($resolvedBuildParent -ne $resolvedRoot) {
+        throw "Refusing to clear build directory outside manuscript root: $buildDir"
+    }
+
+    if (Test-Path $buildDir) {
+        Get-ChildItem -LiteralPath $buildDir -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
+    }
+
+    New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
+}
+
 if (-not (Test-Path $mainTex)) {
     throw "Could not find main.tex at $mainTex"
 }
@@ -19,8 +35,7 @@ if (-not (Test-Path $mainTex)) {
 New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
 
 if ($Clean) {
-    Get-ChildItem -LiteralPath $buildDir -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
-    New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
+    Clear-BuildDirectory
 }
 
 Push-Location $manuscriptRoot
@@ -54,6 +69,7 @@ try {
         & $latexmk.Source @latexmkArgs
         if ($LASTEXITCODE -ne 0) {
             $usedFallback = $true
+            Clear-BuildDirectory
         }
     }
     else {

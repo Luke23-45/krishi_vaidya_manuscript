@@ -53,15 +53,15 @@ run, not in an earlier intermediate checkpoint.
   \end{tabular}
 \end{table}
 
-\ChapterSubsection{Best-Epoch Performance}
+\ChapterSubsection{Best-Epoch Performance and Benchmarking}
 
 Table~\ref{tab:yolo-training-dynamics-summary} summarizes the final and best-epoch values. The
 model achieved precision of 0.7172, recall of 0.7487, F1-score of 0.7326, mAP@50 of 0.7616, and
-mAP@50-95 of 0.6019. The recall is slightly higher than precision, which means the detector is
-more inclined toward finding annotated objects than toward filtering out every uncertain
-prediction. For the Krishi Vaidya workflow, this is a reasonable property for a first-stage visual
-detector because missed plant regions can prevent later analysis, while uncertain detections can
-still be filtered by thresholding, downstream validation, or user interaction.
+mAP@50-95 of 0.6019. The recall is slightly higher than precision, indicating that the detector
+leans toward object discovery over conservative filtering. For the Krishi Vaidya workflow, this
+is a useful property for a first-stage visual detector: missed plant regions cannot be analyzed
+downstream, while false or uncertain detections can still be filtered through thresholds,
+downstream model behavior, or user interaction.
 
 The difference between mAP@50 and mAP@50-95 also matters. mAP@50 measures whether detected
 objects overlap the ground truth at a moderate threshold, while mAP@50-95 requires stronger
@@ -267,12 +267,14 @@ absolute true-positive counts are small. In contrast, rice panicle and rice leaf
 missed-detection rates, and rice grain cluster has a high ghost-detection rate. These results
 indicate that class-specific improvements are more important than simply extending training time.
 
-The rice panicle result deserves careful interpretation. The dataset contains 115,046 rice
-panicle annotations, far more than any other class. Many panicle objects are likely small,
-clustered, or visually dense, and the curation report also shows that many dropped objects were
-related to out-of-bounds, truncated, or very small annotations. The high false-negative count
-therefore indicates a concrete limitation of the current detector: it can learn useful aggregate
-detection behavior, but dense or small structures remain difficult.
+The rice panicle result requires careful interpretation through the lens of small-object
+detection. Although the dataset contains 115,046 rice panicle annotations---dominating the class
+distribution---these objects are often small, clustered, and visually dense. Consistent with
+findings in agricultural small-object detection literature \parencite{zhengSmallObjDetAgri2023},
+standard lightweight YOLO architectures can struggle to preserve the spatial detail needed for
+dense fine structures. The severe 92.9\% false-negative rate therefore indicates that improving
+this class will likely require targeted data review, higher-resolution training or inference, and
+architecture or augmentation choices designed for small, clustered objects.
 
 \ChapterSubsection{Summary of YOLO Findings}
 
@@ -443,9 +445,9 @@ for the aggregate accuracy.
 \ChapterSubsection{Prediction Summary}
 
 The test-set prediction metrics reveal a clear gap between supervised fine-tuning loss and usable
-structured prediction. Table~\ref{tab:vlm-prediction-summary} reports accuracy of 0.1303, macro
+structured prediction. Table~\ref{tab:vlm-prediction-summary} reports an accuracy of 0.1303, macro
 precision of 0.5232, macro recall of 0.1834, and macro F1-score of 0.2465 over 798 test examples.
-The most important result is that 540 predictions, or 67.7\%, are parse-error predictions.
+This 13\% accuracy underscores the extreme difficulty of rigid JSON generation on low-parameter models. The dominant failure mode driving this low accuracy is parseability: 540 predictions, or 67.7\%, are unrecoverable parse errors.
 
 \begin{figure}[H]
 \centering
@@ -473,12 +475,16 @@ The most important result is that 540 predictions, or 67.7\%, are parse-error pr
   \end{tabular}
 \end{table}
 
-This result is a central limitation of the current VLM implementation. The model was not judged
-only by whether the generated text looked plausible; it was judged by whether the generated output
-could be parsed into a canonical label for downstream use. A model response that cannot be parsed
-into \texttt{canonical\_label} cannot reliably drive the backend diagnosis or mobile-app result
-flow. Therefore, the parse-error rate directly reduces the practical diagnostic usability of the
-current VLM.
+This result is a central analytical finding of the VLM implementation rather than merely an
+engineering failure. The model was evaluated using a strict parseability criterion: if the
+generated output could not be extracted into a JSON \texttt{canonical\_label} field for
+downstream routing, it was recorded as a failure, regardless of whether the surrounding text
+appeared plausible. The 67.7\% parse-error rate may reflect several interacting factors: the
+small 3B-parameter base model, LoRA-only adaptation, mixed prompt templates, limited
+format-specific supervision, and unconstrained autoregressive decoding. The result therefore
+points to a practical design requirement for future iterations: lightweight VLMs used in
+structured production workflows should be paired with stricter decoding, stronger output-format
+supervision, or post-generation validation and repair \parencite{paleyes2022MLSystemsChallenges}.
 
 \ChapterSubsection{Per-Class Prediction Metrics}
 
@@ -628,11 +634,10 @@ Advisories & GET, POST, PATCH, DELETE & Advisory model & Active advisories, dism
 }
 \end{table}
 
-The implemented API surface is broader than a diagnosis-only prototype. It supports both disease
-analysis and crop-management records. This matters for the final system because the mobile
-application needs more than a single prediction endpoint: it must keep user-specific farm context,
-historical scans, and advisory state. The backend provides this context through authenticated,
-user-scoped resources rather than through anonymous image processing alone.
+The implemented API surface extends beyond a limited diagnosis prototype by integrating disease
+analysis with longitudinal crop-management records. Authenticated, user-scoped resources allow
+the mobile application to maintain persistent farm context, historical scan continuity, and
+localized advisory state instead of treating each image request as an isolated transaction.
 
 \ChapterSubsection{Layered Implementation Outcome}
 
@@ -666,10 +671,10 @@ Models & \texttt{src/models} & MongoDB schemas, indexes, validation rules, docum
 }
 \end{table}
 
-This separation is useful for thesis interpretation because it shows that the backend was designed
-as a maintainable application component, not as a collection of unrelated Express handlers. The
-service and repository layers also make testing more practical because domain behavior can be
-tested below the HTTP layer.
+This structural separation supports the backend as an extensible application component rather
+than a monolithic collection of HTTP handlers. By decoupling domain logic from the transport
+layer, the service and repository abstractions make targeted unit testing and long-term
+maintenance more practical.
 
 \ChapterSection{Backend Domain Discussion}
 
@@ -677,11 +682,11 @@ tested below the HTTP layer.
 
 The authentication implementation supports registration, login, access-token refresh, logout,
 logout from all devices, OTP sending, OTP verification, forgot-password, and password reset. The
-password policy requires at least eight characters and at least one uppercase letter, one lowercase
-letter, and one number. Refresh tokens are not stored as plain tokens; they are represented through
-hashed records with lookup identifiers and revocation state. This is an appropriate design choice
-because refresh tokens are long-lived compared with access tokens and should not be recoverable
-from the database as usable secrets.
+password policy requires at least eight characters and at least one uppercase letter, one
+lowercase letter, and one number. Refresh tokens are not stored as plain text; instead, they are
+represented as hashed records linked to lookup identifiers and revocation states. This design
+reduces the impact of token leakage, which is important because refresh credentials are
+longer-lived than access tokens.
 
 User management includes profile retrieval and update, profile-picture upload, password change,
 account deletion, and push-token add/remove operations. The profile schema includes bilingual and
@@ -700,12 +705,11 @@ status and crop type, soft deletion, batch deletion, grouped views, related scan
 scan resolution, resolution retrieval, follow-up linkage, pending-scan retrieval, offline-scan
 retrieval, offline scan synchronization, result updates, and failed-scan marking.
 
-The scan-resolution model adds an important post-diagnosis layer. A completed scan can be marked
-as treated, resolved naturally, crop removed, or false positive. Treatment text, notes, and
-follow-up scan identifiers can be stored. This makes the backend suitable for tracking what happens
-after a disease prediction, which is important for an agricultural advisory system because diagnosis
-alone does not measure whether the farmer acted on the recommendation or whether the crop condition
-improved.
+The scan-resolution model introduces a post-diagnosis persistence layer. A completed scan can be
+marked as treated, resolved naturally, crop removed, or as a false positive. Treatment text,
+notes, and follow-up scan identifiers can be explicitly linked. By tracking intervention
+outcomes, the architecture creates a path for later evaluation of whether recommendations were
+adopted and whether the crop condition improved.
 
 \ChapterSubsection{Crop, Task, Note, and Advisory Management}
 
@@ -723,9 +727,8 @@ uncompletion operations.
 
 Notes provide a record-keeping layer. A note is linked to a crop plot and can optionally be linked
 to a scan. It stores note type, title, body, image URIs, public image identifiers, tags, and
-soft-delete state. The implementation supports adding and removing images after note creation,
-which is important because farmers may add evidence over time rather than at the exact moment the
-note is first created.
+soft-delete state. The implementation permits image attachment and removal after note creation,
+which supports field observations that may need additional photographic evidence over time.
 
 Advisories provide a notification-like layer for crop decisions. The advisory model supports
 weather alerts, irrigation needs, fertilizer reminders, pest risk, disease risk, harvest windows,
@@ -737,16 +740,15 @@ model uses an expiry index, which allows expired advisories to be cleaned up aut
 
 \ChapterSubsection{Structured Diagnosis Response}
 
-The backend diagnosis pipeline produces a structured response rather than returning raw model text
-to the mobile app. The response contains disease name, Nepali disease name, scientific name, crop,
-confidence, confidence tier, out-of-distribution flag, symptom descriptions, advisory details,
-processing time, request identifier, timestamp, and model version. The advisory object contains
-treatment steps, prevention tips, safety warnings, organic alternatives, and source URLs.
+The backend diagnosis pipeline produces a strictly enforced response payload rather than
+forwarding raw autoregressive VLM text to the mobile client. The schema encapsulates disease
+names, bilingual fields, taxonomy, crop context, confidence values, out-of-distribution flags,
+etiology, and actionable advisory arrays.
 
-This response structure is important because the mobile application needs stable fields for display
-and decision support. It also reduces the risk of presenting unstructured model text directly to a
-farmer. The backend still uses the VLM output, but it places a second structured-generation and
-schema-validation step after the VLM to produce an application-facing advisory response.
+This architectural boundary gives the mobile application predictable fields for UI rendering and
+localized decision support. By placing a schema-validation step between VLM generation and client
+transport, the backend reduces the risk that hallucinated or misformatted generated text reaches
+the user-facing interface.
 
 \ChapterSubsection{Confidence and Out-of-Distribution Handling}
 
@@ -820,13 +822,12 @@ broader automated tests remain future documentation tasks.
 
 \ChapterSubsection{Implemented Application Surface}
 
-The mobile application implementation shows that Krishi Vaidya has progressed beyond a model-only
-prototype. The app contains a complete navigation shell, onboarding flow, scan workflow, crop
-dashboard, history view, settings area, notification handling, export features, and local
-persistence. The implemented source also contains development fallbacks for web execution and
-native-specific paths for camera and TFLite functionality. This is important because the final
-system must support actual farmer workflows rather than only demonstrate that an image can be sent
-to a model.
+The mobile application implementation shows that Krishi Vaidya has progressed beyond a localized
+model-inference prototype. The architecture incorporates a navigation shell, onboarding flow,
+scan orchestration, crop dashboard, longitudinal history, preference management, and resilient
+local persistence. The codebase also implements development-time web fallbacks alongside
+native-specific module bridges for camera and TFLite execution. This feature set grounds the
+application in agricultural workflows rather than in isolated algorithmic demonstration.
 
 \begin{figure}[H]
 \centering
@@ -894,19 +895,18 @@ uses a visible phase model. This gives the app a controlled interaction sequence
 an image, review image quality, optionally refine the image, run detection, submit for diagnosis,
 and display a structured report.
 
-The cloud diagnosis path is directly aligned with the backend diagnosis endpoint. The mobile API
-client posts multipart image data to \texttt{/api/v1/diagnose} and accepts an optional crop-name
-hint. The diagnosis hook then adapts behavior to network status. Online devices attempt cloud
-diagnosis. Slow connections attempt cloud diagnosis with a five-second fallback threshold. Offline
-devices queue the scan and attempt cached advisory output. This design is appropriate for
-agricultural use in Nepal because field connectivity can be unstable, and the application should
-not fail completely when the server is temporarily unreachable.
+The cloud diagnosis path aligns directly with the backend diagnosis interface. The mobile client
+API transmits multipart payloads to \texttt{/api/v1/diagnose}, with an optional crop hint from
+the user. The diagnosis hook changes behavior based on network state: online connections trigger
+cloud execution, slow connections use a five-second timeout before fallback, and offline states
+queue the payload while checking for cached advisory content. This behavior targets the
+connectivity constraints of Nepalese agricultural settings and keeps the application useful when
+the backend cannot be reached.
 
-The result workflow is also broader than a plain prediction label. The result view model parses
-diagnosis output for disease fields, advisory content, treatment timeline steps, organic
-alternatives, voice output, feedback, reminder setup, share-card generation, and PDF export. This
-matters because advisory delivery and follow-up actions are the parts of the system that make the
-diagnosis usable to a farmer.
+The result lifecycle also extends beyond static label visualization. The view model parses the
+diagnosis schema to render disease etiology, treatment timelines, organic alternatives, and
+text-to-speech output, while also supporting PDF export and reminder schedules. This delivery
+mechanism turns model output into a localized advisory workflow.
 
 \begin{figure}[H]
 \centering
@@ -935,7 +935,7 @@ offline-to-online recovery: pending queue items, batch processing, retry state, 
 app-resume triggers, and periodic synchronization. Second, it makes visible where final integration
 work remains. The sync manager source marks some generic pending database changes as synced until
 corresponding backend table-specific push handlers are implemented. Therefore, the correct
-manuscript interpretation is that offline queueing and sync infrastructure are implemented, while
+manuscript interpretation is that offline queuing and sync infrastructure are implemented, while
 complete two-way synchronization for every local table remains a future integration task.
 
 \ChapterSubsection{Crop Management and Farmer Record-Keeping Result}
@@ -955,24 +955,25 @@ reference information from fixture files.
 \end{minipage}\hfill
 \begin{minipage}[t]{0.49\textwidth}
 \centering
-\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/add_crops/add_crop.png}
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/notes/notes.png}
 \end{minipage}
-\caption{Representative crop-management screenshots showing the crop dashboard and crop-registration flow.}
+\caption{Representative crop-management screenshots showing the crop dashboard and note-creation.}
+
 \label{fig:mobile-crop-management-screens}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{data/krishi_vaidya_mobile_app_data/notes/notes.png}
-\caption{Representative note-creation screenshot showing crop-linked note entry and attachment flow.}
-\label{fig:mobile-notes-screen}
+\includegraphics[width=\linewidth]{data/krishi_vaidya_mobile_app_data/add_crops/add_crop.png}
+\caption{Representation of crop-registration screenshot.}
+\label{fig:mobile-crop-registration}
 \end{figure}
 
-This is a strong design decision because a farmer-facing disease application should not treat each
-scan as isolated. Crop condition, planting date, crop stage, task history, notes, weather context,
-and advisory reminders all provide context for later decisions. The implementation therefore
-supports a richer thesis claim: Krishi Vaidya is a mobile crop-health management system with an
-AI-assisted diagnosis workflow, not only a crop-image classifier.
+This structural cohesion avoids treating crop disease scans as isolated, stateless events. Crop
+condition, planting chronology, growth stage, task history, field notes, and climatic context can
+all influence agronomic decisions. Consequently, the mobile architecture reinforces a central
+argument of the research: Krishi Vaidya is an integrated, longitudinal crop-health management
+prototype rather than a narrow, single-inference crop-image classifier.
 
 \ChapterSubsection{Model Deployment and Mobile Integration Result}
 
@@ -1004,9 +1005,9 @@ Taxonomy alignment & Mobile labels differ from YOLO manuscript detector taxonomy
 
 The last row is important. The mobile source currently defines disease labels in the TFLite
 service, while the YOLO section of this manuscript documents the trained detector from its own
-training assets. This does not mean the mobile implementation is invalid, but it does mean the
-final manuscript should avoid claiming that the mobile TFLite package has already been validated
-as the same detector pipeline unless a separate model-export and label-alignment check is added.
+training assets. This does not mean the mobile implementation is invalid, but the current
+evidence should not be interpreted as validation that the mobile TFLite package is the
+same detector pipeline unless a separate model-export and label-alignment check is added.
 
 \ChapterSubsection{Mobile Verification and Current Limitations}
 
@@ -1043,11 +1044,11 @@ Automated tests & Limited inference-engine test harness visible & Add app-level 
 }
 \end{table}
 
-Overall, the mobile app section can be written as an implemented and source-verified application
-component with clear remaining evidence requirements. It should not be reduced to a placeholder:
-the codebase contains a real application architecture and multiple completed user-facing
-workflows. At the same time, the thesis should remain precise by distinguishing implemented source
-structure from runtime validation that still needs to be captured for the final submission.
+Overall, the mobile app is an implemented and source-verified application component with clear
+remaining evidence requirements. It is not a placeholder: the codebase contains a real
+application architecture and multiple completed user-facing workflows. The interpretation remains
+precise by distinguishing implemented source structure from runtime validation that still needs to
+be captured for final submission.
 
 \ChapterSection{Integrated System Discussion}
 
@@ -1128,8 +1129,9 @@ connectivity loss while keeping the cloud path available when the network return
 The remaining limitation is that full two-way synchronization across all local tables is not yet
 proven. The sync manager has the structure for queued operations, retry state, network monitoring,
 app-resume synchronization, and periodic synchronization, but some generic table-push behavior is
-still represented as local status updates until matching backend handlers are completed. This
-distinction should remain clear in the final manuscript.
+still represented as local status updates until matching backend handlers are completed. The
+current evidence therefore supports offline-aware infrastructure, not complete production-grade
+bidirectional synchronization.
 
 \ChapterSubsection{Reliability Controls Across the Integrated Path}
 
@@ -1172,12 +1174,11 @@ how far an invalid or unavailable component can propagate through the user-facin
 \ChapterSubsection{Integration Limitations and Evidence Gaps}
 
 The current integration evidence is source-backed and architecture-backed, but it is not yet a
-complete deployment evaluation. The manuscript now has the implemented route contracts, generated
-integration diagram, method description, and integration discussion. However, the final thesis
-should still include live evidence from the complete running system. The most important missing
-items are a real mobile-to-backend diagnosis request, captured response JSON, backend logs or
-screenshots, VLM gateway readiness and inference logs, mobile result screenshots, offline queue
-demonstration, and measured latency from image submission to final result.
+complete deployment evaluation. The available evidence includes implemented route contracts, a
+generated integration diagram, method description, and integration discussion. The most important
+remaining artifacts are a real mobile-to-backend diagnosis request, captured response JSON,
+backend logs or screenshots, VLM gateway readiness and inference logs, mobile result screenshots,
+offline queue demonstration, and measured latency from image submission to final result.
 
 There are also two technical alignment issues that must remain visible. First, VLM evaluation in
 this manuscript shows a high parse-error rate and low prediction accuracy on the independent test
@@ -1211,7 +1212,7 @@ Model alignment & Partially documented with caveats & Reconcile mobile TFLite la
 
 \ChapterSubsection{Overall Integrated System Interpretation}
 
-The integrated system should be described as a substantial implemented prototype with a complete
+The integrated system is best interpreted as a substantial implemented prototype with a complete
 source-backed diagnosis pathway and clear remaining runtime-evidence requirements. Its strongest
 engineering qualities are modular boundaries, explicit validation, structured response contracts,
 offline-aware mobile behavior, and farmer-facing result handling. Its main weaknesses are not
@@ -1219,35 +1220,36 @@ architectural absence but incomplete final verification: live end-to-end screens
 measurements, mobile model alignment, and broader automated integration tests still need to be
 added.
 
-This interpretation is important for manuscript accuracy. Overclaiming production readiness would
-be unsupported, but under-describing the integration would also be inaccurate. The source code
-shows that Krishi Vaidya is not merely a YOLO model, a VLM experiment, a backend, or a mobile app
-in isolation. It is an integrated agricultural advisory system whose final thesis narrative should
-present both the completed engineering structure and the remaining verification work with equal
-precision.
+This interpretation is important for accuracy. Production readiness would be unsupported, but
+reducing the project to isolated components would also be inaccurate. The source code shows that
+Krishi Vaidya is an integrated agricultural advisory system, not merely a YOLO model, a VLM
+experiment, a backend, or a mobile app in isolation. The final argument must therefore present
+both the completed engineering structure and the remaining verification work with equal precision.
 
 \ChapterSection{Cross-System Results Discussion and Limitations}
 
-\ChapterSubsection{Synthesis of Major Results}
+\ChapterSubsection{Synthesis of Major Results as a Design-Science Contribution}
 
-The main result of Krishi Vaidya is an implemented multi-component agricultural advisory system
-with substantial evidence at the model, backend, mobile, and integration layers. The YOLO
-subsystem provides the strongest quantitative model result. It has training curves, threshold
-analysis, deployment comparisons, per-class metrics, confusion-matrix outputs, and error-analysis
-artifacts. The VLM subsystem provides a complete fine-tuning and evaluation pipeline, but its
-prediction results reveal a serious reliability limitation. The backend subsystem provides a
-structured API layer with domain models, upload validation, authentication/session controls,
-diagnosis orchestration, advisory generation, and scan-domain tests. The mobile app provides a
-farmer-facing interface with scan workflow, offline-aware diagnosis behavior, crop management,
-history, settings, localization, and result actions. The integration workflow connects these
-components through a source-verified diagnosis path.
+The principal outcome of Krishi Vaidya is not merely a software artifact, but a design-science
+contribution to the architecture of agricultural advisory systems. The integrated
+multi-component system yields evidence across the model, backend, mobile, and integration
+layers. The YOLO subsystem provides the strongest quantitative modeling result, including
+threshold analysis and quantized deployment profiling. The VLM subsystem provides a complete
+fine-tuning pipeline while identifying structured parseability as a critical reliability
+bottleneck. The backend subsystem implements an orchestration boundary that validates uploads,
+bridges ML microservices, and generates schema-enforced advisories. The mobile application
+implements a local-first \parencite{kleppmannLocalFirst2019} farmer-facing interface with
+offline-aware diagnostic queuing, longitudinal crop management, and localized result rendering.
 
-The strongest overall contribution is therefore not a single model score. It is the construction
-of a full crop-health support pipeline that begins with field image capture and ends with a
-structured advisory report. This matters because many prototype systems stop at a classifier
-output. Krishi Vaidya contains the additional engineering needed to make the output usable:
-backend validation, structured response assembly, mobile presentation, scan history, reminders,
-offline queueing, and farmer-facing language support.
+The strongest overarching contribution of this research is therefore architectural. By
+constructing a crop-health support pipeline from field image capture to a schema-validated,
+bilingual advisory report, Krishi Vaidya makes visible the ``hidden technical debt''
+\parencite{sculleyMLTechDebt2015} between a trained classifier and a deployed application. While
+much of the existing literature stops at reporting classification accuracy
+\parencite{liu2021plantDiseaseReview, wangAgriLLaVA2024}, Krishi Vaidya documents the additional
+engineering required to make model output practically usable: defensive backend validation,
+structured response assembly, resilient local-first mobile persistence, and farmer-facing
+linguistic translation.
 
 \begin{table}[H]
 \centering
@@ -1304,8 +1306,8 @@ The important system-level finding is that the engineering structure is ahead of
 evidence. The source code shows a serious architecture, but the final manuscript still needs
 runtime captures to prove how the system behaves when all services are running together. This is a
 normal distinction in software-engineering research: implemented structure and runtime validation
-are related, but they are not the same evidence. The manuscript should use both, and should never
-replace missing runtime evidence with assumptions.
+are related, but they are not the same evidence. Both forms of evidence are useful, but missing
+runtime evidence cannot be replaced with assumptions.
 
 \ChapterSubsection{Reliability and Safety Interpretation}
 
@@ -1319,10 +1321,9 @@ instead of raw model text.
 These controls improve engineering safety, but they do not solve every agronomic safety problem.
 Model uncertainty, class imbalance, field-image variability, pesticide recommendation risk,
 out-of-distribution images, and incorrect crop hints can still affect final advice. The system
-therefore should present confidence, uncertainty, retake guidance, safety warnings, and expert
+should therefore present confidence, uncertainty, retake guidance, safety warnings, and expert
 consultation guidance where appropriate. The backend already includes confidence-tier and
-out-of-distribution fields, which should remain central in the final app presentation and
-manuscript claims.
+out-of-distribution fields, which remain central to the app presentation and final claims.
 
 \ChapterSubsection{Current Limitations}
 
@@ -1377,16 +1378,14 @@ Agronomic safety & Generated advice can still be uncertain or unsafe if not cons
 
 \ChapterSubsection{Implications for Final Manuscript Claims}
 
-The final manuscript should make strong claims where the evidence is strong and cautious claims
-where the evidence is incomplete. It can strongly claim that the project implements a modular
-Krishi Vaidya system with YOLO, VLM, backend, mobile, and integration components. It can strongly
-claim that YOLO and VLM datasets and outputs have been analyzed and documented using available
-figures and tables. It can strongly claim that the backend and mobile application contain
-substantial implemented architecture.
+The final claims must be strong where the evidence is strong and cautious where the evidence is
+incomplete. The project can claim a modular Krishi Vaidya system with YOLO, VLM, backend, mobile,
+and integration components. It can claim that YOLO and VLM datasets and outputs have been
+analyzed and documented using available figures and tables. It can also claim that the backend
+and mobile application contain substantial implemented architecture.
 
-It should not claim that the current VLM model is already highly accurate. It should not claim
-that the mobile app has been field-tested unless those tests are actually performed. It should not
-claim full production readiness until deployment, latency, screenshots, runtime logs, and broader
-automated tests are added. This disciplined boundary will make the thesis stronger, not weaker,
-because it shows that the project team understands the difference between implementation,
-evaluation, and deployment.
+The evidence does not support claims that the current VLM model is already highly accurate, that
+the mobile app has been field-tested, or that the system is production-ready. Those claims require
+deployment evidence, latency measurements, screenshots, runtime logs, and broader automated tests.
+Maintaining this boundary strengthens the thesis because it shows a clear distinction between
+implementation, evaluation, and deployment.
