@@ -1,0 +1,225 @@
+﻿% Backend — API Routing & Middleware Flow
+% Source: manuscript/flow_diagram/backend/01_api_routing_flow.md
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  % ── arrows ──────────────────────────────────────────────
+  flow/.style={-{Latex[length=2.8mm,width=2mm]}, line width=0.7pt,
+               draw=pri!70, rounded corners=3pt},
+  flowret/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=muted!45, densely dashed},
+  errflow/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=alert!50, densely dashed},
+  % ── containers ─────────────────────────────────────────
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=left, inner sep=9pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
+                   fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
+                   fill=white, inner xsep=3pt, inner ysep=1.5pt,
+                   rounded corners=2pt},
+  % ── title ──────────────────────────────────────────────
+  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  % ── specialised nodes ──────────────────────────────────
+  banner/.style={card, text width=13.2cm, inner sep=10pt},
+  mwpill/.style={rounded corners=5pt, fill=#1!10, draw=#1!30,
+                 line width=0.5pt, inner xsep=7pt, inner ysep=4pt,
+                 font=\sffamily\tiny\bfseries, text=#1!80,
+                 minimum height=0.7cm, minimum width=1.9cm, align=center},
+  routecard/.style={card, text width=4.8cm, minimum height=2.2cm},
+  procnode/.style={card, align=center, inner sep=7pt,
+                   minimum width=2.7cm, minimum height=0.95cm,
+                   fill=#1!5, draw=#1!25},
+  wideproc/.style={card, text width=13.2cm, align=center,
+                   fill=#1!4, draw=#1!20, inner sep=8pt},
+  arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
+                 fill=white, inner sep=1.5pt, rounded corners=1pt},
+  note/.style={rounded corners=7pt, draw=ink!10, fill=ink!2,
+               inner sep=8pt, align=left, font=\sffamily\tiny,
+               text=ink!78, text width=14.2cm}
+]
+
+% ── COLOURS ──────────────────────────────────────────────
+\definecolor{pri}{HTML}{2563EB}
+\definecolor{sec}{HTML}{059669}
+\definecolor{ter}{HTML}{D97706}
+\definecolor{quat}{HTML}{7C3AED}
+\definecolor{alert}{HTML}{DC2626}
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  TITLE
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[titlebar, minimum width=15.2cm] at (0,0.3)
+  {API Routing \& Middleware Flow};
+\node[font=\sffamily\footnotesize, text=muted, text width=14.8cm,
+      align=center] at (0,-0.55)
+  {Express.js bootstrap and ordered middleware registration\\
+   with public vs protected route dispatch plus the layered request path.};
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  LAYER 1 — SERVER BOOTSTRAP
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[banner, fill=pri!3, draw=pri!18] (boot) at (0,-2.0) {
+  \textbf{\textcolor{pri}{Server Bootstrap}}
+  \hfill \textcolor{muted}{\texttt{server.ts}}\\[3pt]
+  \textcolor{ink!78}{%
+    \textbf{1.}\;Load \texttt{.env} via \texttt{dotenv}
+    \quad \textbf{2.}\;Validate config (Zod schema)
+    \quad \textbf{3.}\;Connect MongoDB Atlas\\[1pt]
+    \textbf{4.}\;Register DI container
+        (repos, services, controllers)
+    \quad \textbf{5.}\;Create Express app
+    \quad \textbf{6.}\;Listen on PORT}};
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  LAYER 2 — MIDDLEWARE PIPELINE
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[mwpill=pri]   (mw1) at (-6,-4.0) {helmet};
+\node[mwpill=pri]   (mw2) at (-3,-4.0) {cors};
+\node[mwpill=ter]   (mw3) at ( 0,-4.0) {rateLimit};
+\node[mwpill=ter]   (mw4) at ( 3,-4.0) {body parsers};
+\node[mwpill=muted] (mw5) at ( 6,-4.0) {morgan};
+
+% middleware chain
+\draw[flow] (mw1) -- (mw2);
+\draw[flow] (mw2) -- (mw3);
+\draw[flow] (mw3) -- (mw4);
+\draw[flow] (mw4) -- (mw5);
+
+% boot → middleware (enter at centre)
+\draw[flow] (boot.south) -- (mw3.north);
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  LAYER 3 — ROUTE DISPATCH
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[procnode=pri, minimum width=3cm] (router) at (0,-5.7)
+  {\textbf{Route Matcher}\\[-1pt]{\tiny\texttt{/api/v1/*}}};
+
+% middleware → router
+\draw[flow] (mw3.south) -- (router.north);
+
+% public routes
+\node[routecard, fill=sec!4, draw=sec!20] (pub) at (-4.5,-7.9) {
+  \textbf{\textcolor{sec}{Public Routes}}\\[2pt]
+    \textcolor{ink!72}{\texttt{GET\;\;/health} \textrightarrow{} liveness\\}
+  \textcolor{ink!72}{\texttt{POST /auth/*} \textrightarrow{} register,\\}
+  \textcolor{ink!72}{\hspace*{1.6em}login, refresh, OTP\\}
+  \textcolor{ink!72}{\texttt{POST /diagnose} \textrightarrow{} diagnosis}};
+% protected routes
+\node[routecard, fill=quat!4, draw=quat!20] (pro) at (4.5,-7.9) {
+  \textbf{\textcolor{quat}{Protected Routes}}
+  \hfill{\tiny\textcolor{quat!60}{JWT}}\\[2pt]
+    \textcolor{ink!72}{\texttt{/users} \textrightarrow{} profile CRUD\\}
+  \textcolor{ink!72}{\texttt{/crops} \textrightarrow{} crop management\\}
+  \textcolor{ink!72}{\texttt{/scans} \textrightarrow{} scan records\\}
+  \textcolor{ink!72}{\texttt{/tasks, /notes, /advisories}}};
+% router → routes
+\draw[flow] (router.south west) -- (pub.north);
+\draw[flow] (router.south east) -- (pro.north);
+\node[arrlbl] at (-2.6,-6.6) {no auth};
+\node[arrlbl] at ( 2.6,-6.6) {authMiddleware};
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  LAYER 4 — CONTROLLER BAND
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[wideproc=sec] (ctrl) at (0,-10.0) {
+  \textbf{\textcolor{sec}{Controller Layer}}
+  \quad\textcolor{muted}{\textemdash}\quad
+  {\small validate request body
+   \textrightarrow{} invoke service method
+   \textrightarrow{} shape JSON response}};
+
+% routes → controller
+\draw[flow] (pub.south)  -- ++(0,-0.3) -| ([xshift=-15pt]ctrl.north);
+\draw[flow] (pro.south)  -- ++(0,-0.3) -| ([xshift=15pt]ctrl.north);
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  LAYER 5 — SERVICE / REPOSITORY / MONGODB
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[procnode=ter]  (svc)  at (-4,-11.6)
+  {\textbf{Service}\\[-1pt]{\tiny business rules}};
+\node[procnode=quat] (repo) at ( 0,-11.6)
+  {\textbf{Repository}\\[-1pt]{\tiny data access}};
+\node[procnode=pri, minimum width=2.8cm] (db) at ( 4,-11.6)
+  {\textbf{MongoDB}\\[-1pt]{\tiny document store}};
+
+\draw[flow] (ctrl.south) -- (svc.north);
+\draw[flow] (svc)  -- (repo) node[arrlbl, midway, above] {DTO};
+\draw[flow] (repo) -- (db)   node[arrlbl, midway, above] {ODM};
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  ERROR HANDLER (side path)
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[procnode=alert, minimum width=2.6cm] (errh) at (7.5,-11.6)
+  {\textbf{Error Handler}\\[-1pt]{\tiny ApiError \textrightarrow{} JSON}};
+\draw[errflow] (db.east) -- (errh.west)
+  node[arrlbl, midway, above, text=alert!60] {catch};
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  RESPONSE
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[procnode=sec, minimum width=3.4cm] (resp) at (0,-13.0)
+  {\textbf{JSON Response}\\[-1pt]{\tiny structured envelope}};
+\draw[flowret] (db.south) |- (resp.east);
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  ANNOTATION
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\node[note] at (0,-14.5) {
+  \textbf{Design rationale}\;\textcolor{muted}{\textemdash}\;
+  Middleware executes in strict registration order.
+  Public routes (\texttt{/health}, \texttt{/diagnose},
+  \texttt{/auth/*}) bypass JWT verification; protected routes
+  inject \texttt{req.user} via \texttt{authMiddleware}.
+  Controller\,\textrightarrow\,Service\,\textrightarrow\,Repository\,\textrightarrow\,MongoDB
+  enforces separation of validation, business logic,
+  and persistence.};
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+%  BACKGROUND GROUPS
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\begin{scope}[on background layer]
+  % overall container
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(boot)(mw1)(mw5)(pub)(pro)(ctrl)(svc)(db)(errh)(resp)] {};
+
+  % middleware group
+  \node[groupbox=pri, fit=(mw1)(mw2)(mw3)(mw4)(mw5),
+        inner xsep=10pt, inner ysep=9pt] (gMW) {};
+  \node[grouplbl=pri, anchor=north west]
+        at ([xshift=2pt]gMW.north west) {Middleware Pipeline};
+
+  % route dispatch group
+  \node[groupbox=sec, fit=(router)(pub)(pro),
+        inner xsep=8pt, inner ysep=8pt] (gRT) {};
+  \node[grouplbl=sec, anchor=north west]
+        at ([xshift=2pt]gRT.north west) {Route Dispatch};
+
+  % processing group
+  \node[groupbox=ter, fit=(svc)(repo)(db),
+        inner xsep=8pt, inner ysep=8pt] (gPR) {};
+  \node[grouplbl=ter, anchor=north west]
+        at ([xshift=2pt]gPR.north west) {Processing Chain};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{API Routing and Middleware Flow}
+\label{fig:backend-01-api-routing-flow}
+\end{figure}

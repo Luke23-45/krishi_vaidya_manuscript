@@ -1,0 +1,115 @@
+% System Analysis — Object Model Diagram
+% Extracted from chapters/03-system-analysis/chapter.tex
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  rel/.style={-{Latex[length=2.5mm,width=1.8mm]}, line width=0.8pt, draw=muted!80, rounded corners=6pt},
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=left, inner sep=8pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  class/.style={card, minimum width=3.4cm, minimum height=1.3cm,
+                fill=#1!4, draw=#1!30},
+  arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
+                 fill=white, inner sep=1.5pt, rounded corners=1pt},
+  titlebar/.style={rounded corners=8pt, fill=sec, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
+                   fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
+                   fill=white, inner xsep=3pt, inner ysep=1.5pt,
+                   rounded corners=2pt}
+]
+
+\definecolor{pri}{HTML}{E11D48}   % Rose
+\definecolor{sec}{HTML}{0891B2}   % Cyan
+\definecolor{ter}{HTML}{D97706}   % Amber
+\definecolor{quat}{HTML}{7C3AED}  % Purple
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (4.5,5.8)
+  {System Object Model Diagram};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (4.5,4.9)
+  {The core domain entities representing Krishi Vaidya's data models across mobile local stores and backend databases.};
+
+% ━━ CLASSES ━━
+\node[class=sec] (user) at (0,2.8) {\textcolor{sec}{\textbf{User}}\\[2pt]
+  {\tiny id}\\[-2pt]
+  {\tiny profile}\\[-2pt]
+  {\tiny preferences}};
+
+\node[class=pri] (crop) at (4.5,2.8) {\textcolor{pri}{\textbf{CropPlot}}\\[2pt]
+  {\tiny crop type}\\[-2pt]
+  {\tiny location}\\[-2pt]
+  {\tiny growth stage}};
+
+\node[class=ter] (scan) at (9,2.8) {\textcolor{ter}{\textbf{Scan}}\\[2pt]
+  {\tiny image}\\[-2pt]
+  {\tiny status}\\[-2pt]
+  {\tiny timestamps}};
+
+\node[class=quat] (diag) at (9,0) {\textcolor{quat}{\textbf{Diagnosis}}\\[2pt]
+  {\tiny disease}\\[-2pt]
+  {\tiny confidence}\\[-2pt]
+  {\tiny severity}};
+
+\node[class=pri] (adv) at (4.5,0) {\textcolor{pri}{\textbf{Advisory}}\\[2pt]
+  {\tiny treatment}\\[-2pt]
+  {\tiny prevention}\\[-2pt]
+  {\tiny safety notes}};
+
+\node[class=sec] (task) at (0,0) {\textcolor{sec}{\textbf{CropTask}}\\[2pt]
+  {\tiny title}\\[-2pt]
+  {\tiny due date}\\[-2pt]
+  {\tiny status}};
+
+\node[class=muted] (note) at (0,-2.4) {\textcolor{muted}{\textbf{CropNote}}\\[2pt]
+  {\tiny content}\\[-2pt]
+  {\tiny image refs}\\[-2pt]
+  {\tiny created date}};
+
+\node[class=ink] (repo) at (4.5,-2.4) {\textbf{Repositories}\\[2pt]
+  {\tiny backend repositories}\\[-2pt]
+  {\tiny mobile local stores}};
+
+% ━━ RELATIONSHIPS ━━
+\draw[rel] (user) -- node[arrlbl, above] {owns} (crop);
+\draw[rel] (crop) -- node[arrlbl, above] {has} (scan);
+\draw[rel] (scan) -- node[arrlbl, right] {produces} (diag);
+\draw[rel] (diag) -- node[arrlbl, below] {drives} (adv);
+\draw[rel] (crop) -- node[arrlbl, right, near end] {schedules} (task);
+\draw[rel] (crop) -- node[arrlbl, left, near end] {records} (note);
+\draw[rel, dashed, draw=ink!40] (repo) -- (crop);
+\draw[rel, dashed, draw=ink!40] (repo.east) -| (scan.south);
+\draw[rel, dashed, draw=ink!40] (repo) -- (adv);
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(user)(repo)(diag)(current bounding box.north)] {};
+        
+  \node[groupbox=ter, fit=(crop)(scan)(diag)(adv),
+        inner xsep=16pt, inner ysep=12pt] (gData) {};
+  \node[grouplbl=ter, anchor=north east]
+        at ([xshift=-4pt]gData.north east) {Core Diagnostic Flow Entities};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{Object model showing the main Krishi Vaidya domain entities}
+\label{fig:system-object-model}
+\end{figure}

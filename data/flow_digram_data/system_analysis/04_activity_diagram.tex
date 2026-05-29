@@ -1,0 +1,89 @@
+% System Analysis — Activity Diagram
+% Extracted from chapters/03-system-analysis/chapter.tex
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur,shapes.geometric}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  flow/.style={-{Latex[length=2.5mm,width=1.8mm]}, line width=1.0pt, draw=pri!80, rounded corners=6pt},
+  flowalt/.style={-{Latex[length=2.5mm,width=1.8mm]}, line width=1.0pt, draw=sec!80, rounded corners=6pt},
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=center, inner sep=8pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  activitystep/.style={card, minimum width=3.8cm, minimum height=1.1cm,
+                       fill=#1!4, draw=#1!30, font=\sffamily\bfseries\scriptsize},
+  decision/.style={diamond, aspect=2.2, draw=ter!40, line width=0.8pt, fill=ter!5,
+                   align=center, inner sep=2pt, font=\sffamily\bfseries\scriptsize,
+                   text=ink, blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+                   shadow yshift=-1pt, shadow opacity=13}},
+  arrlbl/.style={font=\sffamily\tiny\bfseries, text=ink!80, fill=bg!45, inner sep=2pt, rounded corners=2pt},
+  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt, fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70, fill=white, inner xsep=3pt, inner ysep=1.5pt, rounded corners=2pt}
+]
+
+\definecolor{pri}{HTML}{E11D48}   % Rose
+\definecolor{sec}{HTML}{0891B2}   % Cyan
+\definecolor{ter}{HTML}{D97706}   % Amber
+\definecolor{quat}{HTML}{7C3AED}  % Purple
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (0,2.6)
+  {System Activity Diagram};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (0,1.7)
+  {The workflow for scan submission, depicting the decision logic branching between online diagnosis and offline queuing.};
+
+% ━━ NODES ━━
+\node[activitystep=pri] (capture) at (0,0) {\textcolor{pri}{Capture or select}\\[-2pt]\textcolor{pri}{crop image}};
+\node[activitystep=pri] (quality) at (0,-1.5) {\textcolor{pri}{Preview, edit, and}\\[-2pt]\textcolor{pri}{assess image}};
+\node[decision] (network) at (0,-3.4) {Network\\[-2pt]available?};
+
+\node[activitystep=sec] (queue) at (-4.2,-5.4) {\textcolor{sec}{Save locally and}\\[-2pt]\textcolor{sec}{queue retry}};
+
+\node[activitystep=quat] (submit) at (4.2,-5.4) {\textcolor{quat}{Submit to backend}\\[-2pt]\textcolor{quat}{diagnosis API}};
+\node[activitystep=quat] (parse) at (4.2,-7.0) {\textcolor{quat}{Validate, infer, parse,}\\[-2pt]\textcolor{quat}{and generate advisory}};
+
+\node[activitystep=pri] (display) at (0,-8.6) {\textcolor{pri}{Display result and}\\[-2pt]\textcolor{pri}{store history}};
+
+% ━━ FLOWS ━━
+\draw[flow] (capture) -- (quality);
+\draw[flow] (quality) -- (network);
+
+\draw[flowalt] (network) -| node[arrlbl, pos=0.25, above] {No} (queue);
+\draw[flow, draw=quat!80] (network) -| node[arrlbl, pos=0.25, above] {Yes} (submit);
+
+\draw[flowalt] (queue) |- (display);
+\draw[flow, draw=quat!80] (submit) -- (parse);
+\draw[flow, draw=quat!80] (parse) |- (display);
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(queue)(submit)(display)(current bounding box.north)] {};
+        
+  \node[groupbox=sec, fit=(queue), inner xsep=12pt, inner ysep=12pt] (gOff) {};
+  \node[grouplbl=sec, anchor=south west] at ([xshift=4pt]gOff.south west) {Offline Path};
+  
+  \node[groupbox=quat, fit=(submit)(parse), inner xsep=12pt, inner ysep=12pt] (gOn) {};
+  \node[grouplbl=quat, anchor=south east] at ([xshift=-4pt]gOn.south east) {Online Path};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{Activity diagram for scan submission under online and offline conditions}
+\label{fig:scan-activity-diagram}
+\end{figure}

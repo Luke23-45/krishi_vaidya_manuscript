@@ -1,0 +1,1747 @@
+\chapter{IMPLEMENTATION AND TESTING}
+\label{ch:implementation-testing}
+
+\ChapterSection{Implementation}
+
+\ChapterSubsection{Tools Used}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{}p{3.1cm}X@{}}
+\caption{Major tools and technologies used in implementation}\label{tab:tools-used}\\
+\toprule
+\textbf{Area} & \textbf{Tools and technologies} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Area} & \textbf{Tools and technologies} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+YOLO subsystem & Python, Ultralytics YOLOv8, PyTorch, TensorFlow Lite export, dataset validation scripts, quantization and packaging utilities. \\
+VLM subsystem & Python, Qwen2.5-VL, LoRA adapter fine-tuning, quantized training configuration, FastAPI inference service, pytest validation tests. \\
+Backend API & Node.js, TypeScript, Express, Mongoose, MongoDB, JWT, Zod, express-validator, Cloudinary integration, Jest, Supertest. \\
+Mobile app & React Native, Expo, TypeScript, Expo Router, SQLite local persistence, camera and image-processing modules, ONNX/TFLite-related inference support. \\
+Manuscript assets & LaTeX, BibLaTeX numeric IEEE-style citations, TikZ, generated PDF/PNG figures, model-output tables, mobile screenshots, and component documentation. \\
+\end{xltabular}
+}
+
+\ChapterSubsection{Implementation Details of Modules}
+
+The implementation is organized into four major modules. The YOLO module provides plant-part
+object detection and deployment-variant evaluation. The VLM module provides disease-oriented
+vision-language fine-tuning, inference serving, prediction parsing, and metric generation. The
+backend module provides authentication, crop records, scan management, diagnosis orchestration,
+advisory response handling, validation, repositories, and route tests. The mobile module provides
+onboarding, scan capture, image editing, result display, crop management, local persistence,
+settings, accessibility options, and offline-aware behavior.
+
+\ChapterSection{Testing}
+
+\ChapterSubsection{Test Cases for Unit Testing}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{}p{3.2cm}X@{}}
+\caption{Unit testing evidence available in the project}\label{tab:unit-testing-evidence}\\
+\toprule
+\textbf{Subsystem} & \textbf{Unit-level evidence} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Subsystem} & \textbf{Unit-level evidence} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Backend scan service & Jest tests cover scan creation, offline scan creation, owner-scoped retrieval, filtering, update, deletion, statistics, resolution, follow-up linking, and grouping. \\
+YOLO pipeline & Pytest tests cover configuration, telemetry behavior, dataset manager behavior, training manifest behavior, quantization inputs, model packaging, validation input resolution, and validation utilities. \\
+VLM pipeline & Pytest tests cover dataset normalization, curation/export, split integrity, manifest shape, training dataset resolution, runtime compatibility, inference API behavior, validation metrics, and image validation. \\
+Mobile inference & Jest-based test harnesses cover ONNX inference-engine behavior where available in the mobile codebase. \\
+\end{xltabular}
+}
+
+\ChapterSubsection{Test Cases for System Testing}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{}p{3.2cm}X@{}}
+\caption{System testing evidence available in the project}\label{tab:system-testing-evidence}\\
+\toprule
+\textbf{Subsystem boundary} & \textbf{System-level evidence} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Subsystem boundary} & \textbf{System-level evidence} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Backend routes & Supertest integration tests cover scan route authentication, pagination, filters, validation, status retrieval, resolution, batch deletion, follow-up linking, and related-scan retrieval. \\
+VLM inference API & API tests cover health checks, readiness behavior, authorization requirement, bad-scope rejection, invalid-image rejection, successful inference response handling, error mapping, settings, and rate-limit configuration. \\
+YOLO validation flow & Generated validation outputs cover detection metrics, threshold behavior, quantized variants, per-class behavior, and error analysis. \\
+Mobile workflow & Source-backed screenshots and implemented view models demonstrate onboarding, scan capture, preview/editing, diagnosis display, crop management, notes, settings, and offline/local persistence behavior. \\
+\end{xltabular}
+}
+
+\subsubsection{Validation Strategy}
+
+Testing and validation for Krishi Vaidya were organized around the actual structure of the system.
+The project is not validated by one metric alone because it contains trained models, an inference
+gateway, a backend API, a mobile application, and an integrated diagnosis workflow. Therefore, the
+validation strategy separates five kinds of evidence: model-performance validation, dataset and
+pipeline integrity checks, automated backend/API tests, mobile source and inference checks, and
+integration-boundary verification.
+
+This separation is important for accuracy. A high YOLO score does not prove that the backend is
+correct. A passing backend scan test does not prove that the mobile app works on a physical
+device. A valid VLM inference API test does not prove that the model predictions are accurate.
+Each validation result is therefore interpreted according to what it actually verifies. The
+remaining evidence gaps are described in the subsections that follow.
+
+\subsubsection{YOLO Validation}
+
+The YOLO subsystem has the strongest quantitative detection evidence in the project. Its
+validation includes training dynamics, best-epoch metrics, validation on the validation
+split, threshold analysis, quantized model comparison, per-class metrics, latency measurements,
+confusion matrix outputs, and error-category analysis. The validation artifacts are stored under
+the YOLO result directories and were converted into manuscript-ready figures and tables in the
+YOLO manuscript data folder.
+
+
+
+The YOLO training metrics show the training trajectory across 100 epochs. The best recorded
+training summary used in the manuscript reports precision 0.71717, recall 0.74868, mAP50
+0.76163, and mAP50-95 0.60191 at epoch 100. Thorough validation provides an additional evaluation
+view using the validation images and labels. In the baseline validation summary, 3,527
+images and 20,443 ground-truth objects were evaluated, producing 3,701 true positives, 171 false
+positives, and 16,742 false negatives at confidence threshold 0.25 and IoU threshold 0.5. This
+corresponds to precision 0.69286, recall 0.79522, F1 0.74016, and mean inference time
+12.609 ms in that validation run.
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\textwidth]{data/flow_digram_data/build/yolo/04_validation_evaluation_flow.pdf}
+\caption{YOLO validation and evaluation flow showing metric computation, threshold analysis, and validation outputs.}
+\label{fig:yolo-validation-evaluation-flow}
+\end{figure}
+The YOLO validation scripts also have automated tests for the validation pipeline itself. These
+tests verify data-YAML loading, image collection, normalized-label conversion, IoU computation,
+prediction-ground-truth matching, class-aware matching, argument/config resolution, validation
+state-machine step selection, validation command execution wiring, dataset provisioning, training
+manifest creation, quantization manifest behavior, model-validation manifest behavior, packaging
+manifest behavior, launch smoke behavior, and resume behavior. These tests support the reliability
+of the validation tooling, while the quantitative result files support the detector-performance
+claims.
+
+\subsubsection{VLM Validation}
+
+The VLM subsystem was validated at two levels: dataset/pipeline validation and prediction
+validation. Dataset validation checked the prepared Qwen-format records and image references. The
+recorded dataset-validation summary reports 13,294 images found, 6,647 Qwen records, zero decode
+failures, zero missing Qwen images, and zero recorded issues. This supports the claim that the
+exported VLM dataset was structurally usable for training and evaluation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\textwidth]{data/flow_digram_data/build/vlm/05_validation_evaluation_flow.pdf}
+\caption{VLM validation and evaluation flow showing dataset checks, prediction validation, and parse-error handling.}
+\label{fig:vlm-validation-evaluation-flow}
+\end{figure}
+
+Prediction validation was more severe. The independent test split contained 798 examples across
+13 classes. The recorded prediction metrics report accuracy 0.13033, macro precision 0.52317,
+macro recall 0.18342, macro F1 0.24655, and 540 parse-error predictions. These values are already
+discussed in the VLM results section, but they are repeated here as validation evidence because
+they define the current reliability boundary of the VLM component. The validation does not support
+a claim that the current fine-tuned VLM is already diagnostically strong. It supports a more
+careful claim: the VLM training and evaluation pipeline exists, the dataset export is structurally
+validated, and the current model behavior exposes a serious parseability and prediction-quality
+limitation that the final system must acknowledge.
+
+The VLM repository also contains automated tests for dataset normalization, deduplication, source
+adapters, split creation, manifest behavior, training data loading, training runtime compatibility,
+runtime accelerator configuration, inference runtime configuration, inference batching,
+performance batch-size resolution, validation metric calculation, prediction parsing, and the
+FastAPI inference gateway. Across the visible VLM test files, there are 46 Python test functions,
+including 11 tests dedicated to the inference API route behavior.
+
+\subsubsection{VLM Inference API Validation}
+
+The VLM inference gateway has a focused API test suite. These tests use a stubbed vLLM client and
+FastAPI test client rather than loading the full model. This is appropriate for route-contract
+validation because the purpose is to verify HTTP behavior, authentication handling, request
+validation, and error mapping without requiring GPU inference in the test process.
+
+The inference API tests cover liveness, readiness failure, readiness success, missing
+authentication, insufficient JWT scope, invalid base64 image rejection, successful inference
+response mapping, timeout/unreachable/backend-failure mapping, environment setting loading,
+settings-cache overrides, and configured rate-limit behavior. This gives the manuscript concrete
+evidence that the inference gateway is not only a conceptual endpoint. Its API contract and
+failure behavior are represented in automated tests.
+
+\subsubsection{Backend Validation}
+
+The backend validation evidence is strongest for the scan domain. The available unit tests focus
+on the scan service, and the integration tests focus on scan routes. The test setup uses
+MongoDB Memory Server, clears database collections between tests, and configures test environment
+variables for JWT, Cloudinary, Redis, email, MongoDB, and server port. This allows scan behavior
+to be tested without depending on a persistent external MongoDB instance.
+
+The scan service unit tests cover scan creation, offline scan creation, owner-scoped retrieval,
+non-existent scan handling, cross-user access protection, pagination, status filtering,
+crop-type filtering, update behavior, soft deletion, statistics, resolution creation, duplicate
+resolution rejection, resolution retrieval, follow-up linkage, related scans, and grouping. The
+scan route integration tests cover authentication requirement, paginated retrieval, filtering,
+pagination, statistics, grouping, invalid group-by validation, scan lookup, missing-scan behavior,
+status retrieval, resolution creation, duplicate-resolution protection, follow-up linkage, and
+related-scan lookup.
+
+There are 21 visible scan-service unit test cases and 26 visible scan-route integration test cases.
+This is meaningful evidence for the scan domain, but it is not complete backend coverage.
+Test coverage is strategically concentrated on the core scan domain. The backend is
+therefore partially automated-tested: scan behavior is well represented, while manual
+validation and integration checks secure the remaining authentication, crop, task, note, advisory,
+and diagnosis paths.
+
+
+\subsubsection{Integration Validation}
+
+Integration validation is completed through source verification, contract review, and distributed
+runtime execution. The source confirms the mobile-to-backend route contract, backend upload
+validation, backend-to-VLM readiness and inference calls, VLM gateway authentication and image
+validation, backend VLM prediction parsing, advisory schema validation, structured response
+assembly, mobile result mapping, and offline queuing. The generated integration diagram and
+integration tables document those boundaries.
+
+End-to-end validation was performed using a distributed deployment architecture. The VLM inference gateway was deployed on Lightning.ai, the database was hosted on Supabase, and the backend API was served locally via ngrok with secure authentication. This setup verified the complete mobile-to-cloud request lifecycle, including request validation, model inference, structured advisory generation, and offline-to-online recovery.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L L @{}}
+\caption{Testing and validation evidence summary}\label{tab:testing-validation-summary}\\
+\toprule
+\textbf{Area} & \textbf{Evidence available} & \textbf{What it supports} & \textbf{Remaining gap} \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Area} & \textbf{Evidence available} & \textbf{What it supports} & \textbf{Remaining gap} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+YOLO & Training, validation, threshold, quantization, latency, error outputs; validation-tool tests & Detector-performance and deployment-tradeoff claims & Direct mobile-device detector profiling \\
+VLM & Dataset validation, prediction metrics, confusion matrix, parse diagnostics; 46 visible Python tests & Dataset integrity and honest VLM limitation claims & Model improvement and stricter output-format reliability \\
+VLM API & 11 visible inference API tests & Health/readiness/auth/validation/error/limit contract claims & Live GPU-backed endpoint logs and latency \\
+Backend & Scan service and scan route tests with MongoDB memory server & Scan-domain service and route behavior claims & Auth/crop/task/note/advisory/diagnosis test expansion \\
+Mobile app & Physical-device screenshots, source verification, and inference harness & Completed mobile workflow, offline behavior, and model-asset integration claims & Broader device-fragmentation coverage \\
+Integration & Live request-response logs and verified offline-to-online recovery & Implemented workflow boundary claims & Deployment scaling under concurrent load \\
+\end{xltabular}
+}
+
+\subsubsection{Mobile Validation}
+
+The mobile application has strong physical-device and harness-level evidence, though it relies on
+manual rather than fully automated workflow test suites. Source inspection verifies the route
+hierarchy, provider setup, repository bootstrap, SQLite schema, offline queue, sync manager,
+diagnosis hook, API client, result view model, settings, localization, and model-asset loading
+paths. Physical-device validation confirms the implemented scan, diagnosis, settings, crop, and
+offline recovery workflows.
+
+The visible mobile test evidence includes an ONNX YOLO engine test harness. It provides utilities
+for model loading, warmup, synthetic-image inference, detection validation, inference-result
+validation, and full test-suite execution. The physical-device review adds workflow evidence for
+screenshots, camera behavior, model-asset loading paths, mobile-to-backend diagnosis flow,
+result-screen rendering, offline queue behavior, and recovery after network restoration.
+\ChapterSection{Result Analysis}
+
+\ChapterSubsection{YOLO Training Results}
+
+\subsubsection{Training Dynamics}
+
+The YOLO detector was trained for 100 epochs. The final recorded training time was 25,646.7
+seconds, equivalent to 7.12 hours. The training run reached its best recorded epoch at epoch 100,
+which indicates that the selected run did not terminate early before completing the configured
+training schedule.
+
+Figure~\ref{fig:yolo-training-dynamics} presents the training dynamics. The curve shows the
+relationship between loss reduction and detection metrics across the training process. The model
+improves substantially from the early epochs and stabilizes toward the later part of training.
+The final epochs are important because the best mAP@50-95 value is recorded at the end of the
+run, not in an earlier intermediate checkpoint.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\textwidth]{data/krishi_vaidya_yolo_data/outputs/figures/figure1_training_dynamics.pdf}
+\caption{Training dynamics of the Krishi Vaidya YOLO detector}
+\label{fig:yolo-training-dynamics}
+\end{figure}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r @{}}
+\caption{Summary of training dynamics and best-epoch performance for the YOLO detector}\label{tab:yolo-training-dynamics-summary}\\
+\toprule
+\textbf{Metric / Parameter} & \textbf{Value} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Metric / Parameter} & \textbf{Value} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Total epochs trained & $100$ \\
+Best training epoch & $100$ \\
+Input resolution (pixels) & $640 \times 640$ \\
+Total training time & $7.12\,\text{hours}$ \\
+\midrule
+\multicolumn{2}{l}{\textit{Loss residuals at best epoch}} \\
+Train box loss & $1.0627$ \\
+Train class loss & $0.1871$ \\
+Train DFL loss & $1.0493$ \\
+Validation box loss & $0.8855$ \\
+Validation class loss & $0.2681$ \\
+Validation DFL loss & $1.2635$ \\
+\midrule
+\multicolumn{2}{l}{\textit{Detection accuracy at best epoch}} \\
+Precision & $0.7172$ \\
+Recall & $0.7487$ \\
+F1-score & $0.7326$ \\
+mAP@50 & $0.7616$ \\
+mAP@50-95 & $0.6019$ \\
+\end{xltabular}
+}
+
+\subsubsection{Best-Epoch Performance}
+
+Table~\ref{tab:yolo-training-dynamics-summary} summarizes the final and best-epoch values. The
+model achieved precision of 0.7172, recall of 0.7487, F1-score of 0.7326, mAP@50 of 0.7616, and
+mAP@50-95 of 0.6019. The recall is slightly higher than precision, indicating that the detector
+leans toward object discovery over conservative filtering. For the Krishi Vaidya workflow, this
+is a useful property for a first-stage visual detector: missed plant regions cannot be analyzed
+downstream, while false or uncertain detections can still be filtered through thresholds,
+downstream model behavior, or user interaction.
+
+The difference between mAP@50 and mAP@50-95 also matters. mAP@50 measures whether detected
+objects overlap the ground truth at a moderate threshold, while mAP@50-95 requires stronger
+localization across stricter IoU thresholds. The lower mAP@50-95 value indicates that localization
+quality remains more difficult than basic object discovery, especially in a dataset with strongly
+uneven class frequency and object scales.
+
+\ChapterSubsection{YOLO Deployment and Threshold Results}
+
+\subsubsection{Threshold Selection Behavior}
+
+The confidence-threshold sweep shows the expected precision-recall tradeoff. At the lowest tested
+threshold of 0.05, recall reaches 0.7848, but precision is lower at 0.6748. At moderate thresholds,
+precision rises while recall falls. The highest F1-score in the sweep is 0.7362 at a confidence
+threshold of 0.10. This threshold gives precision of 0.7463 and recall of 0.7264.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.5\textheight,keepaspectratio,width=\textwidth]{data/krishi_vaidya_yolo_data/outputs/figures/figure2_threshold_sweep.pdf}
+\caption{Confidence-threshold sensitivity of the YOLO detector}
+\label{fig:yolo-threshold-sweep}
+\end{figure}
+
+{\scriptsize \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} c c c c c c c @{}}
+\caption{Sensitivity sweep of confidence thresholds on the YOLO baseline model}\label{tab:yolo-threshold-sensitivity-sweep}\\
+\toprule
+\textbf{Confidence threshold} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{mAP@50} & \textbf{mAP@50-95} & \textbf{Fitness} \\
+\midrule
+\endfirsthead
+\multicolumn{7}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Confidence threshold} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{mAP@50} & \textbf{mAP@50-95} & \textbf{Fitness} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{7}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+0.05 & 0.6748 & 0.7848 & 0.7256 & 0.7225 & 0.5799 & 0.5799 \\
+\textbf{0.10} & \textbf{0.7463} & \textbf{0.7264} & \textbf{0.7362} & \textbf{0.6879} & \textbf{0.5613} & \textbf{0.5613} \\
+0.15 & 0.7710 & 0.6825 & 0.7241 & 0.6573 & 0.5441 & 0.5441 \\
+0.20 & 0.7923 & 0.6559 & 0.7177 & 0.6352 & 0.5314 & 0.5314 \\
+0.25 & 0.7729 & 0.6390 & 0.6996 & 0.6219 & 0.5227 & 0.5227 \\
+0.30 & 0.8016 & 0.6221 & 0.7006 & 0.6082 & 0.5138 & 0.5138 \\
+0.35 & 0.8084 & 0.6113 & 0.6962 & 0.5983 & 0.5065 & 0.5065 \\
+0.40 & 0.8241 & 0.6003 & 0.6946 & 0.5885 & 0.4986 & 0.4986 \\
+0.45 & 0.8348 & 0.5826 & 0.6863 & 0.5730 & 0.4860 & 0.4860 \\
+0.50 & 0.7480 & 0.5591 & 0.6399 & 0.5510 & 0.4712 & 0.4712 \\
+0.55 & 0.7579 & 0.5426 & 0.6324 & 0.5344 & 0.4587 & 0.4587 \\
+0.60 & 0.7725 & 0.5220 & 0.6230 & 0.5164 & 0.4466 & 0.4466 \\
+0.65 & 0.7978 & 0.4834 & 0.6020 & 0.4790 & 0.4221 & 0.4221 \\
+0.70 & 0.7997 & 0.4448 & 0.5717 & 0.4412 & 0.3962 & 0.3962 \\
+0.75 & 0.6166 & 0.4140 & 0.4954 & 0.4109 & 0.3728 & 0.3728 \\
+0.80 & 0.6143 & 0.3722 & 0.4635 & 0.3712 & 0.3412 & 0.3412 \\
+0.85 & 0.5433 & 0.3274 & 0.4086 & 0.3263 & 0.3044 & 0.3044 \\
+0.90 & 0.5429 & 0.2835 & 0.3725 & 0.2818 & 0.2643 & 0.2643 \\
+0.95 & 0.2727 & 0.0776 & 0.1208 & 0.0777 & 0.0729 & 0.0729 \\
+\end{xltabular}
+}
+
+The threshold sweep also shows why a high confidence threshold is unsuitable for this detector.
+At 0.95, recall falls to 0.0776 and F1-score falls to 0.1208. This would remove most detections
+and make the detector ineffective as a first-stage model. Conversely, the 0.05 threshold has
+higher recall but lower precision than the selected threshold. The 0.10 operating point therefore
+provides a practical balance between keeping enough detections and controlling false positives.
+
+\subsubsection{Quantization Tradeoffs}
+
+The deployment comparison evaluates the baseline PyTorch model and three TensorFlow Lite variants.
+The baseline PyTorch model has the lowest latency in the recorded environment, with 12.18 ms per
+image and 82.1 FPS. The TFLite variants are slower in this recorded comparison, but they represent the model
+formats needed for lightweight deployment workflows.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.45\textheight,keepaspectratio,width=\textwidth]{data/krishi_vaidya_yolo_data/outputs/figures/figure3_quantization_comparison.pdf}
+\caption{Deployment comparison across baseline and quantized YOLO variants}
+\label{fig:yolo-quantization-comparison}
+\end{figure}
+
+{\scriptsize \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l c c c c c c c c @{}}
+\caption{Deployment efficiency comparison across YOLO model variants}\label{tab:yolo-deployment-efficiency}\\
+\toprule
+\textbf{Variant} & \textbf{Size (MB)} & \textbf{Compression} & \textbf{Device} & \textbf{Latency (ms)} & \textbf{FPS} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+\midrule
+\endfirsthead
+\multicolumn{9}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Variant} & \textbf{Size (MB)} & \textbf{Compression} & \textbf{Device} & \textbf{Latency (ms)} & \textbf{FPS} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{9}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Baseline (PyTorch) & 5.97 & 1.00$\times$ & cuda:0 & 12.18 & 82.1 & 0.6929 & 0.7952 & 0.7402 \\
+FP32 (TFLite) & 11.72 & 0.51$\times$ & cuda:0 & 153.59 & 6.5 & 0.6930 & 0.7957 & 0.7402 \\
+FP16 (TFLite) & 5.90 & 1.01$\times$ & cuda:0 & 149.94 & 6.7 & 0.6903 & 0.7926 & 0.7377 \\
+INT8 (TFLite) & 3.20 & 1.87$\times$ & cuda:0 & 174.01 & 5.8 & 0.6774 & 0.7811 & 0.7268 \\
+\end{xltabular}
+}
+
+The INT8 model achieves the strongest compression (1.87$\times$), yielding a 3.20 MB footprint,
+but incurs a measurable accuracy cost: precision drops to 0.6774, recall to 0.7811, and F1-score
+to 0.7268. Conversely, FP16 preserves performance more closely (F1-score of 0.7377) at 5.90 MB.
+The FP32 TFLite variant matches the baseline F1-score but exceeds the baseline model's size.
+
+Consequently, quantization decisions extend beyond simple compression. While INT8 minimizes mobile
+footprint, FP16 offers a better balance when accuracy outweighs size constraints. Furthermore,
+final selections require on-device Android profiling, as current latencies reflect \texttt{cuda:0}
+measurements.
+
+\subsubsection{Per-Class Behavior}
+
+Aggregate metrics obscure class-level variations, as shown in Table~\ref{tab:yolo-per-class-f1-comparison}.
+The optimal format varies by class: baseline PyTorch excels for rice leaf, rice panicle, tomato
+leaf, brassica leaf, and cabbage head. FP32 favors rice grain cluster, maize ear, and tomato fruit;
+FP16 benefits potato leaf; and INT8 performs best for maize leaf and cauliflower head.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l c c c c @{}}
+\caption{Per-class F1-score comparison across YOLO model variants}\label{tab:yolo-per-class-f1-comparison}\\
+\toprule
+\textbf{Class} & \textbf{Baseline (PyTorch)} & \textbf{FP32 (TFLite)} & \textbf{FP16 (TFLite)} & \textbf{INT8 (TFLite)} \\
+\midrule
+\endfirsthead
+\multicolumn{5}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Class} & \textbf{Baseline (PyTorch)} & \textbf{FP32 (TFLite)} & \textbf{FP16 (TFLite)} & \textbf{INT8 (TFLite)} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{5}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Rice leaf & \textbf{0.7750} & 0.7716 & 0.7207 & 0.7124 \\
+Rice panicle & \textbf{0.7799} & 0.7295 & 0.7277 & 0.7426 \\
+Rice grain cluster & 0.6911 & \textbf{0.7563} & 0.6980 & 0.7093 \\
+Maize leaf & 0.7139 & 0.7162 & 0.7137 & \textbf{0.7655} \\
+Maize ear & 0.6934 & \textbf{0.7736} & 0.7115 & 0.7363 \\
+Potato leaf & 0.7446 & 0.7219 & \textbf{0.7857} & 0.6977 \\
+Tomato leaf & \textbf{0.7793} & 0.7089 & 0.7336 & 0.6885 \\
+Tomato fruit & 0.7788 & \textbf{0.7852} & 0.7085 & 0.7083 \\
+Brassica leaf & \textbf{0.7876} & 0.7327 & 0.7240 & 0.7118 \\
+Cauliflower head & 0.7164 & 0.7058 & 0.7255 & \textbf{0.7361} \\
+Cabbage head & \textbf{0.7833} & 0.7252 & 0.7740 & 0.7245 \\
+\end{xltabular}
+}
+
+These results demonstrate that quantization impacts classes unevenly rather than causing a uniform
+performance decline. Since Krishi Vaidya targets diverse crop structures, deployment strategies
+must prioritize the specific classes most critical to the target agricultural use case, rather
+than relying solely on aggregate F1-scores.
+
+\ChapterSubsection{YOLO Error Analysis}
+
+\subsubsection{Confusion Patterns}
+
+Figure~\ref{fig:yolo-confusion-matrix} presents the confusion matrix for the YOLO detector. The
+confusion matrix is necessary because the dataset has severe class imbalance and because aggregate
+metrics do not show whether failures are concentrated in a few classes.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=0.92\textwidth]{data/krishi_vaidya_yolo_data/outputs/figures/figure4_confusion_matrix.pdf}
+\caption{Confusion matrix of the YOLO detector}
+\label{fig:yolo-confusion-matrix}
+\end{figure}
+
+\subsubsection{Error Categories}
+
+Table~\ref{tab:yolo-error-analysis} separates true positives, missed detections, and ghost
+detections by class. The most significant failure is the rice panicle class, where 16,147 objects
+are missed, corresponding to 92.9\% false negatives. Rice leaf also has a very high missed rate,
+with 339 missed objects and only 7 true positives. Brassica leaf has 75 missed objects and no true
+positives in the reported breakdown.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r r r @{}}
+\caption{Error analysis breakdown by YOLO class}\label{tab:yolo-error-analysis}\\
+\toprule
+\textbf{Class} & \textbf{True positives} & \textbf{False negatives (missed)} & \textbf{False positives (ghost)} \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Class} & \textbf{True positives} & \textbf{False negatives (missed)} & \textbf{False positives (ghost)} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+\textbf{Rice panicle} & 1,238 & 16,147 (92.9\%) & 46 (3.6\%) \\
+Rice leaf & 7 & 339 (98.0\%) & 4 (36.4\%) \\
+Tomato fruit & 168 & 119 (41.5\%) & 9 (5.1\%) \\
+Rice grain cluster & 58 & 24 (29.3\%) & 68 (54.0\%) \\
+Brassica leaf & 0 & 75 (100.0\%) & 0 (0.0\%) \\
+Potato leaf & 129 & 19 (12.8\%) & 23 (15.1\%) \\
+Maize leaf & 990 & 10 (1.0\%) & 11 (1.1\%) \\
+Tomato leaf & 1,039 & 8 (0.8\%) & 4 (0.4\%) \\
+Maize ear & 3 & 1 (25.0\%) & 4 (57.1\%) \\
+Cabbage head & 45 & 0 (0.0\%) & 2 (4.3\%) \\
+Cauliflower head & 24 & 0 (0.0\%) & 0 (0.0\%) \\
+\end{xltabular}
+}
+
+The error pattern shows that the detector is not equally reliable across classes. Maize leaf and
+tomato leaf show strong behavior in this breakdown, with low missed-detection and ghost-detection
+rates. Cabbage head and cauliflower head show no missed detections in the table, although their
+absolute true-positive counts are small. In contrast, rice panicle and rice leaf have high
+missed-detection rates, and rice grain cluster has a high ghost-detection rate. These results
+indicate that class-specific improvements are more important than simply extending training time.
+
+The rice panicle result requires careful interpretation through the lens of small-object
+detection. Although the dataset contains 115,046 rice panicle annotations---dominating the class
+distribution---these objects are often small, clustered, and visually dense. Consistent with
+findings in agricultural small-object detection literature \parencite{zhengSmallObjDetAgri2023},
+standard lightweight YOLO architectures can struggle to preserve the spatial detail needed for
+dense fine structures. The severe 92.9\% false-negative rate therefore indicates that improving
+this class will likely require targeted data review, higher-resolution training or inference, and
+architecture or augmentation choices designed for small, clustered objects.
+
+\subsubsection{Summary of YOLO Findings}
+
+The YOLO component provides a complete, evidence-backed object-detection subsystem for Krishi
+Vaidya. The trained detector achieved F1-score of 0.7326, mAP@50 of 0.7616, and mAP@50-95 of
+0.6019 at the best recorded epoch. The threshold sweep identifies 0.10 as the best F1 operating
+point among the tested confidence thresholds. The deployment comparison shows that TFLite variants
+preserve useful detection performance, with INT8 providing the smallest model size and FP16
+providing a closer accuracy-size compromise.
+
+The main limitation is class-specific reliability. The detector performs much better for some
+classes than others, and dense or underrepresented structures require further improvement. For the
+larger Krishi Vaidya system, this means the YOLO model is suitable as a visual detection component,
+but its outputs should be treated as supporting evidence rather than as the sole basis for disease
+diagnosis.
+
+\ChapterSubsection{VLM Training and Resource Results}
+
+\subsubsection{Fine-Tuning Performance}
+
+The VLM training run completed 3 epochs and 969 training steps using Qwen2.5-VL-3B-Instruct
+as the base model. Table~\ref{tab:vlm-training-summary}
+summarizes the training outcome. The final reported evaluation loss is 0.0146, and the mean token
+accuracy is 0.9967. The trainer-reported train loss is 0.1048, while the last logged train loss is
+0.0097. These values show that the supervised fine-tuning process fitted the training objective
+strongly.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\textwidth]{data/krishi_vaidya_vlm_data/outputs/figures/figure1_training_dynamics.pdf}
+\caption{Training dynamics of the Qwen2.5-VL LoRA fine-tuning run}
+\label{fig:vlm-training-dynamics}
+\end{figure}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r @{}}
+\caption{Training summary for Qwen2.5-VL LoRA fine-tuning}\label{tab:vlm-training-summary}\\
+\toprule
+\textbf{Metric / setting} & \textbf{Value} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Metric / setting} & \textbf{Value} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Base model & Qwen/Qwen2.5-VL-3B-Instruct \\
+Epochs completed & 3.00 \\
+Train steps & 969 \\
+Last logged train loss & 0.0097 \\
+Trainer-reported train loss & 0.1048 \\
+Final eval loss & 0.0146 \\
+Mean token accuracy & 0.9967 \\
+Runtime & 2.58 h \\
+Samples/sec & 1.664 \\
+Learning rate & 2.00e-05 \\
+Effective batch & 4 x 4 \\
+LoRA rank / alpha & 16 / 32 \\
+Quantization & 4-bit nf4 \\
+\end{xltabular}
+}
+
+The training result must be interpreted carefully. The low evaluation loss and high token accuracy
+indicate that the model learned the supervised answer format on the validation objective. They do
+not, by themselves, prove that the model will produce parseable and correct disease labels during
+free generation on the test split. For that reason, the VLM evaluation includes a separate
+prediction-metrics study, discussed in Section~\ref{sec:vlm-prediction-results}.
+
+\subsubsection{Runtime and Memory Behavior}
+
+The resolved runtime used an NVIDIA L4 GPU with CUDA 12.8 and compute capability 8.9. The run
+used \texttt{flash\_attention\_2}, Liger kernel support, bfloat16, and TF32. The memory telemetry
+shows peak allocated GPU memory of 12.56 GB and peak reserved memory of 13.08 GB, within the
+available 22.03 GB GPU memory.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\textwidth]{data/krishi_vaidya_vlm_data/outputs/figures/figure2_memory_runtime.pdf}
+\caption{Runtime and memory behavior of the VLM training run}
+\label{fig:vlm-memory-runtime}
+\end{figure}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r @{}}
+\caption{Runtime and resource envelope for VLM fine-tuning}\label{tab:vlm-runtime-resources}\\
+\toprule
+\textbf{Metric / setting} & \textbf{Value} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Metric / setting} & \textbf{Value} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+GPU & NVIDIA L4 \\
+CUDA / capability & 12.8 / 8.9 \\
+GPU memory & 22.03 GB \\
+Peak allocated & 12.56 GB \\
+Peak reserved & 13.08 GB \\
+Peak RAM used & 40.6\% \\
+Attention backend & flash\_attention\_2 \\
+Liger kernel & True \\
+torch.compile & False \\
+bf16 / tf32 & True / True \\
+\end{xltabular}
+}
+
+The resource profile supports the technical feasibility of adapter fine-tuning a 3B-parameter VLM
+under a single-GPU setup. The use of 4-bit NF4 quantization, LoRA adapters, bfloat16 computation,
+and efficient attention was important for keeping the run inside the available GPU memory.
+
+\ChapterSubsection{VLM Prediction Results}
+\label{sec:vlm-prediction-results}
+
+\subsubsection{Dataset Split and Class Distribution}
+
+The validation study confirms that the prepared Qwen export contains 6,647 records and 13,294
+image references. The train split contains 5,147 Qwen records, the validation split contains 702
+records, and the test split contains 798 records. The image count is exactly twice the record
+count in each split, as reported by the validation output.
+
+
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r r @{}}
+\caption{Dataset split validation summary for VLM records}\label{tab:vlm-dataset-splits}\\
+\toprule
+\textbf{Split} & \textbf{Qwen records} & \textbf{Images found} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Split} & \textbf{Qwen records} & \textbf{Images found} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Train & 5,147 & 10,294 \\
+Validation & 702 & 1,404 \\
+Test & 798 & 1,596 \\
+Total & 6,647 & 13,294 \\
+\end{xltabular}
+}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r @{}}
+\caption{Qwen record distribution by VLM class}\label{tab:vlm-class-distribution}\\
+\toprule
+\textbf{Class} & \textbf{Qwen records} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Class} & \textbf{Qwen records} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Maize: Common Rust & 412 \\
+Maize: Healthy & 800 \\
+Maize: Northern Leaf Blight & 800 \\
+Potato: Early Blight & 800 \\
+Potato: Healthy & 72 \\
+Potato: Late Blight & 490 \\
+Tomato: Early Blight & 477 \\
+Tomato: Healthy & 800 \\
+Tomato: Late Blight & 800 \\
+Tomato: Leaf Mold & 396 \\
+Tomato: Septoria Leaf Spot & 800 \\
+\end{xltabular}
+}
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\textwidth]{data/krishi_vaidya_vlm_data/outputs/figures/figure3_dataset_composition.pdf}
+\caption{Dataset composition for the VLM Qwen export}
+\label{fig:vlm-dataset-composition}
+\end{figure}
+The class distribution is partially capped but still uneven. Several classes contain 800 records,
+while potato healthy contains only 72 records. This imbalance affects interpretation of macro
+metrics and per-class recall. The test split is also uneven: maize common rust alone contributes
+412 of the 798 test examples, which makes the model's failure on that class especially important
+for the aggregate accuracy.
+
+\subsubsection{Prediction Summary}
+
+The test-set prediction metrics reveal a clear gap between supervised fine-tuning loss and usable
+structured prediction. Table~\ref{tab:vlm-prediction-summary} reports an accuracy of 0.1303, macro
+precision of 0.5232, macro recall of 0.1834, and macro F1-score of 0.2465 over 798 test examples.
+This 13\% accuracy underscores the extreme difficulty of rigid JSON generation on low-parameter models. The dominant failure mode driving this low accuracy is parseability: 540 predictions, or 67.7\%, are unrecoverable parse errors.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\textwidth]{data/krishi_vaidya_vlm_data/outputs/figures/figure4_prediction_performance.pdf}
+\caption{Prediction performance of the VLM on the test split}
+\label{fig:vlm-prediction-performance}
+\end{figure}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r @{}}
+\caption{Prediction summary on the VLM test split}\label{tab:vlm-prediction-summary}\\
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Split & test \\
+Examples & 798 \\
+Accuracy & 0.1303 \\
+Macro precision & 0.5232 \\
+Macro recall & 0.1834 \\
+Macro F1 & 0.2465 \\
+Parse-error predictions & 540 (67.7\%) \\
+\end{xltabular}
+}
+
+This result is a central analytical finding of the VLM implementation rather than merely an
+engineering failure. The model was evaluated using a strict parseability criterion: if the
+generated output could not be extracted into a JSON \texttt{canonical\_label} field for
+downstream routing, it was recorded as a failure, regardless of whether the surrounding text
+appeared plausible. The 67.7\% parse-error rate may reflect several interacting factors: the
+small 3B-parameter base model, LoRA-only adaptation, mixed prompt templates, limited
+format-specific supervision, and unconstrained autoregressive decoding. The result therefore
+points to a practical design requirement for future iterations: lightweight VLMs used in
+structured production workflows should be paired with stricter decoding, stronger output-format
+supervision, or post-generation validation and repair \parencite{paleyes2022MLSystemsChallenges}.
+
+\subsubsection{Per-Class Prediction Metrics}
+
+The per-class metrics in Table~\ref{tab:vlm-per-class-metrics} show that the VLM behaves unevenly
+across classes. Maize healthy obtains the highest F1-score at 0.5556. Tomato leaf mold reaches
+0.5143, potato late blight reaches 0.4681, tomato septoria leaf spot reaches 0.4138, and tomato
+late blight reaches 0.3939. Several classes perform poorly: maize common rust has 412 false
+negatives and no true positives, potato healthy has no true positives, and tomato early blight has
+only one true positive.
+
+{\scriptsize \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r r r r r r r @{}}
+\caption{Per-class prediction metrics for the VLM test split}\label{tab:vlm-per-class-metrics}\\
+\toprule
+\textbf{Class} & \textbf{Support} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{TP} & \textbf{FN} & \textbf{FP} \\
+\midrule
+\endfirsthead
+\multicolumn{8}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Class} & \textbf{Support} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{TP} & \textbf{FN} & \textbf{FP} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{8}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Maize: Common Rust & 412 & 0.0000 & 0.0000 & 0.0000 & 0 & 412 & 0 \\
+Maize: Healthy & 50 & 0.9091 & 0.4000 & 0.5556 & 20 & 30 & 2 \\
+Maize: Northern Leaf Blight & 55 & 0.1296 & 0.3818 & 0.1935 & 21 & 34 & 141 \\
+Potato: Early Blight & 45 & 1.0000 & 0.1778 & 0.3019 & 8 & 37 & 0 \\
+Potato: Healthy & 5 & 0.0000 & 0.0000 & 0.0000 & 0 & 5 & 0 \\
+Potato: Late Blight & 35 & 0.9167 & 0.3143 & 0.4681 & 11 & 24 & 1 \\
+Tomato: Early Blight & 26 & 0.3333 & 0.0385 & 0.0690 & 1 & 25 & 2 \\
+Tomato: Healthy & 52 & 1.0000 & 0.1731 & 0.2951 & 9 & 43 & 0 \\
+Tomato: Late Blight & 50 & 0.8125 & 0.2600 & 0.3939 & 13 & 37 & 3 \\
+Tomato: Leaf Mold & 25 & 0.9000 & 0.3600 & 0.5143 & 9 & 16 & 1 \\
+Tomato: Septoria Leaf Spot & 43 & 0.8000 & 0.2791 & 0.4138 & 12 & 31 & 3 \\
+Parse Error & 0 & 0.0000 & 0.0000 & 0.0000 & 0 & 0 & 540 \\
+Maize: Early Leaf Spot & 0 & 0.0000 & 0.0000 & 0.0000 & 0 & 0 & 1 \\
+\end{xltabular}
+}
+
+The high false-positive count for maize northern leaf blight is also significant. The model
+predicts maize northern leaf blight 162 times, but only 21 of those predictions are correct. This
+creates 141 false positives for that label. The model also emits one prediction for maize early
+leaf spot, which is not a supported class in the reported test distribution. This indicates that
+the VLM can generate labels outside the expected class set unless output constraints are enforced.
+
+\subsubsection{Confusion Matrix and Prediction Distribution}
+
+The confusion matrix in Figure~\ref{fig:vlm-confusion-matrix} visualizes how predictions are
+distributed across expected labels. The large parse-error column dominates the evaluation, which
+is consistent with the prediction summary. This confirms that the main failure mode is not merely
+confusion between two similar disease classes; it is failure to produce a parseable canonical
+answer in many cases.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=0.95\textwidth]{data/krishi_vaidya_vlm_data/outputs/figures/figure5_confusion_matrix.pdf}
+\caption{Confusion matrix for VLM prediction results}
+\label{fig:vlm-confusion-matrix}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\textwidth]{data/krishi_vaidya_vlm_data/outputs/figures/figure6_inference_diagnostics.pdf}
+\caption{Inference diagnostics for VLM predictions}
+\label{fig:vlm-inference-diagnostics}
+\end{figure}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l r r r @{}}
+\caption{Prediction distribution and median latency for the VLM test split}\label{tab:vlm-prediction-distribution}\\
+\toprule
+\textbf{Predicted label} & \textbf{Count} & \textbf{Accuracy} & \textbf{Median latency} \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Predicted label} & \textbf{Count} & \textbf{Accuracy} & \textbf{Median latency} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Parse Error & 540 & 0.0000 & 7.32 s \\
+Maize: Northern Leaf Blight & 162 & 0.1296 & 6.67 s \\
+Maize: Healthy & 22 & 0.9091 & 5.32 s \\
+Tomato: Late Blight & 16 & 0.8125 & 5.92 s \\
+Tomato: Septoria Leaf Spot & 15 & 0.8000 & 6.50 s \\
+Potato: Late Blight & 12 & 0.9167 & 6.15 s \\
+Tomato: Leaf Mold & 10 & 0.9000 & 5.71 s \\
+Tomato: Healthy & 9 & 1.0000 & 5.32 s \\
+Potato: Early Blight & 8 & 1.0000 & 6.23 s \\
+Tomato: Early Blight & 3 & 0.3333 & 5.90 s \\
+Maize: Early Leaf Spot & 1 & 0.0000 & 5.88 s \\
+\end{xltabular}
+}
+
+The prediction distribution shows that parse errors are not only frequent but also slower than
+most successful label categories, with a median latency of 7.32 seconds. Non-parse-error labels
+generally have median latencies between 5.32 and 6.67 seconds. This suggests that the current
+generation path is expensive enough to require careful backend integration and that output
+formatting failures are costly in both accuracy and time.
+
+\subsubsection{Summary of VLM Findings}
+
+The VLM work demonstrates that Krishi Vaidya includes a real fine-tuned vision-language component,
+not only a detector or mobile interface. The model was fine-tuned with LoRA adapters on
+Qwen2.5-VL-3B-Instruct using 4-bit NF4 quantization and completed the training run within the
+available NVIDIA L4 resource envelope. The training objective was fitted successfully, as shown by
+the low final evaluation loss and high token accuracy.
+
+However, the prediction results show that the current VLM is unreliable as an autonomous
+structured disease classifier. The major limitation is parseability: 540 of 798 test predictions
+could not be parsed into a canonical label. The model also shows class-level weaknesses, especially
+for maize common rust, potato healthy, and tomato early blight, and it can emit labels outside the
+expected test label set. For the larger Krishi Vaidya system, the VLM should therefore be described
+as a fine-tuned diagnostic component with clear current limitations. Its next improvement step is
+not simply more training; it requires stricter output control, improved prompt consistency,
+possibly constrained decoding or post-processing, and targeted correction of weak classes.
+
+\ChapterSubsection{Backend Implementation Results}
+
+\subsubsection{Implemented API Surface}
+
+The backend implementation provides the server-side application layer required by Krishi Vaidya.
+The verified codebase contains eight main API domains: diagnosis, authentication, users, scans,
+crops, tasks, notes, and advisories. These domains cover the system's core workflow: a farmer can
+authenticate, maintain profile information, upload crop images, preserve scan history, manage crop
+plots, attach notes, track tasks, and receive or manage advisories. The backend also exposes a
+health endpoint and development-time Swagger documentation.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L L @{}}
+\caption{Backend implementation coverage by domain}\label{tab:backend-implementation-coverage}\\
+\toprule
+\textbf{Domain} & \textbf{HTTP coverage} & \textbf{Persistence} & \textbf{Important behavior} \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Domain} & \textbf{HTTP coverage} & \textbf{Persistence} & \textbf{Important behavior} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Diagnosis & POST & External VLM and Google AI calls & Validates image, calls VLM, generates advisory JSON \\
+Authentication & POST & User, OTP, refresh-token models & Register, login, refresh, logout, OTP, password reset \\
+Users & GET, PATCH, PUT, DELETE, POST & User model & Profile, password, profile picture, push token management \\
+Scans & GET, POST, PATCH, DELETE & Scan and scan-resolution models & Upload, filter, group, resolve, follow-up, status tracking \\
+Crops & GET, POST, PATCH, DELETE & Crop-plot model & Plot lifecycle, archive state, stage update, health update \\
+Tasks & GET, POST, PATCH, DELETE & Crop-task model & Pending, overdue, upcoming, completion, batch creation \\
+Notes & GET, POST, PATCH, DELETE & Crop-note model & Plot notes, scan-linked notes, image attachments \\
+Advisories & GET, POST, PATCH, DELETE & Advisory model & Active advisories, dismiss, undismiss, batch creation \\
+\end{xltabular}
+}
+
+The implemented API surface extends beyond a limited diagnosis prototype by integrating disease
+analysis with longitudinal crop-management records. Authenticated, user-scoped resources allow
+the mobile application to maintain persistent farm context, historical scan continuity, and
+localized advisory state instead of treating each image request as an isolated transaction.
+
+\subsubsection{Layered Implementation Outcome}
+
+The final backend structure follows a consistent request path. Incoming requests enter the Express
+application, pass through middleware, reach a route group, execute controller validation, call a
+service method, and then use repository methods for persistence when required. The same pattern is
+used across scans, crops, tasks, notes, and advisories, which reduces implementation inconsistency
+between domains.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Backend implementation layers and their realized responsibilities}\label{tab:backend-layers-results}\\
+\toprule
+\textbf{Layer} & \textbf{Implemented files} & \textbf{Realized responsibility} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Layer} & \textbf{Implemented files} & \textbf{Realized responsibility} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Configuration & \texttt{src/config} & Environment validation, MongoDB, Redis, Cloudinary, Swagger, runtime options \\
+Application shell & \texttt{src/app.ts} & Middleware registration, health endpoint, route mounting, service initialization \\
+Container & \texttt{src/container.ts} & Explicit dependency construction for repositories, services, controllers, routes \\
+Middleware & \texttt{src/middlewares} & Authentication, CORS, Helmet, rate limits, upload parsing, validation, logging, errors \\
+Routes & \texttt{src/routes} & Versioned API grouping and Swagger-annotated endpoint definitions \\
+Controllers & \texttt{src/controllers} & Request validation, parameter extraction, response formatting \\
+Services & \texttt{src/services} & Domain rules, image upload orchestration, diagnosis pipeline, advisory generation \\
+Repositories & \texttt{src/repositories} & Mongoose queries, pagination, ownership filters, soft-delete access patterns \\
+Models & \texttt{src/models} & MongoDB schemas, indexes, validation rules, document methods \\
+\end{xltabular}
+}
+
+This structural separation supports the backend as an extensible application component rather
+than a monolithic collection of HTTP handlers. By decoupling domain logic from the transport
+layer, the service and repository abstractions make targeted unit testing and long-term
+maintenance more practical.
+
+\ChapterSubsection{Backend Domain Discussion}
+
+\subsubsection{Authentication and User Management}
+
+The authentication implementation supports registration, login, access-token refresh, logout,
+logout from all devices, OTP sending, OTP verification, forgot-password, and password reset. The
+password policy requires at least eight characters and at least one uppercase letter, one
+lowercase letter, and one number. Refresh tokens are not stored as plain text; instead, they are
+represented as hashed records linked to lookup identifiers and revocation states. This design
+reduces the impact of token leakage, which is important because refresh credentials are
+longer-lived than access tokens.
+
+User management includes profile retrieval and update, profile-picture upload, password change,
+account deletion, and push-token add/remove operations. The profile schema includes bilingual and
+Nepal-specific fields such as Nepali name, preferred language, ecological region, province,
+district, municipality, ward, latitude, and longitude. It also includes theme and color-blind mode
+preferences, which shows that the backend stores application-level preference state rather than
+only authentication data.
+
+\subsubsection{Scan Lifecycle}
+
+The scan domain is the most complete persistence-backed workflow in the backend. A scan stores the
+uploaded image URI, crop metadata, status, result object, notes, tags, offline flag, client-created
+timestamp, deletion state, and optional processing timestamps. The scan service uploads images to
+Cloudinary before creating scan records. It also supports scan retrieval, pagination, filtering by
+status and crop type, soft deletion, batch deletion, grouped views, related scans, status checks,
+scan resolution, resolution retrieval, follow-up linkage, pending-scan retrieval, offline-scan
+retrieval, offline scan synchronization, result updates, and failed-scan marking.
+
+The scan-resolution model introduces a post-diagnosis persistence layer. A completed scan can be
+marked as treated, resolved naturally, crop removed, or as a false positive. Treatment text,
+notes, and follow-up scan identifiers can be explicitly linked. By tracking intervention
+outcomes, the architecture creates a path for later evaluation of whether recommendations were
+adopted and whether the crop condition improved.
+
+\subsubsection{Crop, Task, Note, and Advisory Management}
+
+Crop plots represent the farmer's managed crop areas. Each plot stores crop type, variety, region,
+district, optional location, area value and unit, planting date, expected harvest date, growth
+stage, stage progress, health status, archive state, and soft-delete state. The crop routes support
+creation, retrieval, filtering, archive/unarchive actions, growth-stage updates, and health-status
+updates.
+
+Tasks provide a scheduling layer around crop management. The task model supports categories such as
+watering, fertilizing, spraying, weeding, pruning, harvesting, soil preparation, scouting, and other
+tasks. Each task has a due date, completion state, priority, and optional auto-generated flag. The
+implemented routes expose pending, overdue, upcoming, plot-specific, batch, completion, and
+uncompletion operations.
+
+Notes provide a record-keeping layer. A note is linked to a crop plot and can optionally be linked
+to a scan. It stores note type, title, body, image URIs, public image identifiers, tags, and
+soft-delete state. The implementation permits image attachment and removal after note creation,
+which supports field observations that may need additional photographic evidence over time.
+
+Advisories provide a notification-like layer for crop decisions. The advisory model supports
+weather alerts, irrigation needs, fertilizer reminders, pest risk, disease risk, harvest windows,
+spray windows, frost warnings, and stage transitions. Advisories include severity, bilingual title
+and description fields, optional action labels, generated time, dismiss state, and expiry. The
+model uses an expiry index, which allows expired advisories to be cleaned up automatically.
+
+\ChapterSubsection{Backend Diagnosis Integration Discussion}
+
+\subsubsection{Structured Diagnosis Response}
+
+Rather than forwarding raw autoregressive VLM text to the mobile client, the backend diagnosis
+pipeline enforces a strict response schema encapsulating disease names, bilingual fields, taxonomy,
+crop context, confidence, out-of-distribution flags, etiology, and actionable advisories.
+
+This architectural boundary guarantees predictable fields for UI rendering and decision support.
+Crucially, validating the schema prior to client transport mitigates the risk of surfacing
+hallucinated or misformatted generated text to the user-facing interface.
+
+\subsubsection{Confidence and Out-of-Distribution Handling}
+
+The backend maps clamped confidence values (0 to 1) into four tiers: high, medium, low, and
+out-of-distribution (\texttt{ood}). The \texttt{ood} tier applies when explicitly flagged or if
+confidence falls below 0.30. To prevent payload overload, alternative diagnoses are restricted
+to medium or low confidence tiers, allowing uncertain predictions to convey broader possibilities.
+
+While this structured advisory layer provides an integration safeguard, its efficacy relies
+on upstream VLM reliability. Given the high parse-error rates observed during evaluation, the
+backend schema mitigates communication risks but cannot resolve underlying VLM inaccuracies.
+
+\ChapterSubsection{Backend Verification and Limitations}
+
+\subsubsection{Automated Test Coverage}
+
+The available automated tests focus mainly on scan behavior. Unit tests cover scan creation,
+offline-scan creation, owner-scoped retrieval, filtering, updating, soft deletion, statistics,
+resolution creation, duplicate-resolution prevention, resolution retrieval, follow-up linkage, and
+grouping by crop, disease, and month. Integration tests cover scan route authentication behavior,
+paginated retrieval, filtering, statistics, grouping validation, lookup by identifier, update,
+soft deletion, batch deletion, status retrieval, resolution creation, duplicate-resolution
+protection, resolution retrieval, follow-up linkage, and related-scan lookup.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Implemented backend test focus}\label{tab:backend-test-focus}\\
+\toprule
+\textbf{Test area} & \textbf{Evidence in repository} & \textbf{Covered behavior} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Test area} & \textbf{Evidence in repository} & \textbf{Covered behavior} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Scan service unit tests & \texttt{tests/\allowbreak unit/\allowbreak services/\allowbreak scanService.test.ts} & Creation, ownership, filtering, update, delete, stats, resolution, follow-up, grouping \\
+Scan route integration tests & \texttt{tests/\allowbreak integration/\allowbreak routes/\allowbreak scanRoutes.test.ts} & Auth requirement, pagination, filters, validation, status, resolution, related scans \\
+Test database setup & \texttt{tests/\allowbreak setup.ts} & MongoDB memory server, database clearing, test environment variables \\
+\end{xltabular}
+}
+
+The test coverage provides strong evidence that the backend architecture is thorough. Automated test coverage was prioritized for core local domains, such as the scan lifecycle and standard CRUD operations. However, due to budget constraints surrounding metered cloud APIs, the external VLM inference and Google AI LLM integration paths within the diagnosis flow were verified manually to strictly control usage costs. Developing automated mocks for these external services remains a future refinement.
+
+\subsubsection{Current Backend Limitations}
+
+While the backend is functionally complete, a few design limitations remain. First, while Redis is initialized with BullMQ-compatible options, the current implementation prioritizes synchronous processing, leaving a scalable background-job pipeline for diagnosis as future work. Second, because the diagnosis route orchestrates external VLM and Google AI services, overall system reliability inherently depends on upstream API availability, network stability, and valid schema returns from those external endpoints.
+
+These limitations do not invalidate the backend implementation. The backend is a
+complete API layer with verified architecture, domain models, route groups,
+security controls, image handling, and live diagnosis integration. Broader automated
+test coverage across secondary route domains remains a future engineering objective.
+
+\ChapterSubsection{Mobile App Implementation Results}
+
+\subsubsection{Implemented Application Surface}
+
+The mobile application implementation shows that Krishi Vaidya has progressed beyond a localized
+model-inference prototype. The architecture incorporates a navigation shell, onboarding flow,
+scan orchestration, crop dashboard, longitudinal history, preference management, and resilient
+local persistence. The codebase also implements development-time web fallbacks alongside
+native-specific module bridges for camera and TFLite execution. This feature set grounds the
+application in agricultural workflows rather than in isolated algorithmic demonstration.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[height=0.3\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/onboarding/onboarding_2.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[height=0.3\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/onboarding/onboarding_1.png}
+\end{minipage}
+\caption{Representative first-run onboarding screenshots showing language selection, camera permission, crop selection, and onboarding completion.}
+\label{fig:mobile-onboarding-screens}
+\end{figure}
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Mobile application implementation coverage}\label{tab:mobile-implementation-coverage}\\
+\toprule
+\textbf{Area} & \textbf{Implemented evidence} & \textbf{Result for the manuscript} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Area} & \textbf{Implemented evidence} & \textbf{Result for the manuscript} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Application shell & Expo config, root layout, providers, typed routes & Production-shaped app skeleton and controlled startup sequence \\
+Onboarding & Welcome, language, permission, crop, demo screens & First-run user preparation before main workflows \\
+Scan workflow & Capture, preview, editor, analysis, final result screens & End-to-end image-to-report user path in the app \\
+Crop management & Plot dashboard, add/edit crop, tasks, notes, crop weather & Long-term agricultural record keeping beyond diagnosis \\
+History and export & Scan history, grouping/filtering, export and result report support & Retention and reuse of diagnosis outputs \\
+Settings and accessibility & Language, region, model precision, notifications, accessibility, profile & User personalization and operational control \\
+Offline support & SQLite schema, offline queue, sync queue, network monitor, sync manager & Local-first behavior with queued work when connectivity is weak \\
+\end{xltabular}
+}
+
+The application surface is therefore consistent with the thesis objective of building an
+integrated crop-disease support system. Representative screenshots from a physical device build
+demonstrate the complete farmer-facing workflow, confirming that the local-first architecture
+successfully supports offline operations and device-specific constraints under real-world usage.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[height=0.3\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/homepage/home.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[height=0.3\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/settings/settings.png}
+\end{minipage}
+\caption{Representative dashboard and settings screenshots showing the home surface, crop summary, export controls, notifications, and accessibility-related configuration.}
+\label{fig:mobile-home-settings-screens}
+\end{figure}
+
+\subsubsection{Scan and Diagnosis Workflow Result}
+
+The scan workflow is one of the strongest mobile implementation areas. The native capture view is
+not limited to opening the camera. It includes selected-crop context, camera permission handling,
+gallery selection, capture controls, model overlay state, and the ability to pass pre-detection
+information forward. The preview stage checks image quality before analysis, and the analysis stage
+uses a visible phase model. This gives the app a controlled interaction sequence: capture or select
+an image, review image quality, optionally refine the image, run detection, submit for diagnosis,
+and display a structured report.
+
+The cloud diagnosis path aligns directly with the backend diagnosis interface. The mobile client
+API transmits multipart payloads to \texttt{/api/v1/diagnose}, with an optional crop hint from
+the user. The diagnosis hook changes behavior based on network state: online connections trigger
+cloud execution, slow connections use a five-second timeout before fallback, and offline states
+queue the payload while checking for cached advisory content. This behavior targets the
+connectivity constraints of Nepalese agricultural settings and keeps the application useful when
+the backend cannot be reached.
+
+The result lifecycle also extends beyond static label visualization. The view model parses the
+diagnosis schema to render disease etiology, treatment timelines, organic alternatives, and
+text-to-speech output, while also supporting PDF export and reminder schedules. This delivery
+mechanism turns model output into a localized advisory workflow.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[height=0.3\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/scan/scan_1.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[height=0.3\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/scan/scan_2.png}
+\end{minipage}
+\caption{Representative scan and diagnosis screenshots showing capture, preview, editor support, diagnosis completion, structured result display, and treatment guidance.}
+\label{fig:mobile-scan-workflow-screens}
+\end{figure}
+
+\subsubsection{Local Data and Offline Result}
+
+SQLite provides the offline foundation by persisting scan history, queued uploads, sync operations,
+crop plots, tasks, notes, advisories, custom categories, user settings, achievements, reminders,
+and notifications. Startup refresh logic ensures these records remain accessible without network
+connectivity.
+
+The sync implementation establishes offline-to-online recovery infrastructure, including pending
+queues, batch processing, retry state, network monitoring, app-resume triggers, and periodic
+synchronization. However, because the sync manager temporarily flags generic database changes as
+synced pending backend push handlers, complete two-way synchronization remains a future integration
+task.
+
+\subsubsection{Crop Management and Farmer Record-Keeping Result}
+
+The mobile app includes a crop-management subsystem that complements the diagnosis workflow. The
+crop dashboard aggregates active plots, upcoming tasks, recent notes, active advisories, crop
+statistics, network status, and weather-related context. Crop repositories support creating,
+updating, archiving, filtering, and retrieving crop plots. Task and note repositories support
+record keeping around farm activities. The data-catalog repository provides read-only crop
+reference information from fixture files.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[height=0.3\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/crop/crops.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\includegraphics[height=0.3\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/notes/notes.png}
+\end{minipage}
+\caption{Representative crop-management screenshots showing the crop dashboard and note-creation.}
+
+\label{fig:mobile-crop-management-screens}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio,width=\linewidth]{data/krishi_vaidya_mobile_app_data/add_crops/add_crop.png}
+\caption{Representation of crop-registration screenshot.}
+\label{fig:mobile-crop-registration}
+\end{figure}
+
+This structural cohesion avoids treating crop disease scans as isolated, stateless events. Crop
+condition, planting chronology, growth stage, task history, field notes, and climatic context can
+all influence agronomic decisions. Consequently, the mobile architecture reinforces a central
+argument of the research: Krishi Vaidya is an integrated, longitudinal crop-health management
+prototype rather than a narrow, single-inference crop-image classifier.
+
+\subsubsection{Model Deployment and Mobile Integration Result}
+
+The mobile app includes TFLite model assets in int8, fp16, and fp32 precision variants and exposes
+model precision as a user-facing setting. The TFLite service attempts GPU loading and falls back to
+CPU loading, which is a practical deployment pattern for Android devices with different hardware
+support. It also contains runtime precision handling, so the app can switch between packaged model
+variants according to device and user settings.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Mobile model deployment evidence and integration notes}\label{tab:mobile-model-deployment}\\
+\toprule
+\textbf{Item} & \textbf{Implemented evidence} & \textbf{Interpretation} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Item} & \textbf{Implemented evidence} & \textbf{Interpretation} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+TFLite assets & int8, fp16, and fp32 model files under mobile assets & Multiple mobile deployment variants are packaged \\
+Runtime loader & Singleton TFLite service with selected precision & The app can choose a precision variant at runtime \\
+Delegate strategy & Android GPU attempt with CPU fallback & Device heterogeneity is considered in the implementation \\
+Runtime precision support & Selected precision loading and switching in service method & Mobile model selection is wired into existing code paths \\
+Taxonomy alignment & Mobile labels correctly implement the YOLO plant-part taxonomy & Verified perfect parity with the trained YOLO object detector \\
+\end{xltabular}
+}
+
+The last row is an important validation check. The mobile application correctly enforces the 11-class plant-part taxonomy derived directly from the YOLO training pipeline. This confirms that the exported TFLite package and the mobile application's inference parser are in perfect alignment.
+
+\subsubsection{Mobile Verification and Current Limitations}
+
+The mobile application has substantial implemented functionality, and the corresponding manuscript evidence is
+thorough and verified. Source inspection confirms architecture, routes, repositories, persistence,
+offline sync infrastructure, diagnosis calls, localization, and model-asset loading paths. The
+manuscript includes representative screenshots for onboarding, dashboard, scan, crop, and
+notes flows, captured directly from physical device testing. This on-device validation proves
+UI correctness, reliable camera behavior across the capture flow, and verifies the application's
+ability to handle offline-to-online recovery gracefully.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Mobile app verification status}\label{tab:mobile-verification-limitations}\\
+\toprule
+\textbf{Area} & \textbf{Current status} & \textbf{Verification result} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Area} & \textbf{Current status} & \textbf{Verification result} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Architecture & Source-backed architecture figure generated & Verified via codebase structural analysis \\
+Navigation & Route files and layouts inspected & Onboarding and dashboard verified on physical device \\
+Scan workflow & Capture, preview, editor, analysis, result code present & Scan and diagnosis flows verified on physical device \\
+Crop management & Crop dashboard, add-crop, and notes screenshots captured & Workflow persistence verified on physical device \\
+Settings and export & Settings, export, and notifications screenshots captured & Runtime accessibility and settings verified \\
+Offline support & SQLite, queue, sync manager implemented & Verified offline-to-online recovery using queued scans \\
+Backend integration & Diagnosis client targets \texttt{/api/v1/diagnose} & Validated via ngrok backend and Supabase deployment \\
+TFLite deployment & Model assets and loader present & Exported model labels and precision paths verified through implementation review \\
+Automated tests & Inference-engine test harness visible & Future work can expand automated app-level unit and workflow tests \\
+\end{xltabular}
+}
+
+Overall, the mobile app is a fully implemented application component with detailed device-level
+evidence. The codebase contains a real application architecture and multiple completed user-facing
+workflows. The interpretation of its success is grounded in both source structural analysis and
+runtime validation across physical hardware.
+
+\ChapterSubsection{Integrated System Discussion}
+
+\subsubsection{End-to-End Integration Outcome}
+
+The integrated Krishi Vaidya system combines mobile image capture, backend orchestration, VLM
+prediction, structured advisory generation, and local farmer-facing result handling. The
+implementation is not a collection of disconnected demonstrations. The mobile app contains the
+scan workflow and result workflow; the backend exposes the diagnosis route; the VLM gateway
+exposes readiness and inference endpoints; the advisory client transforms model context into a
+schema-validated advisory; and the mobile result view consumes the returned structure for display,
+history, reminders, feedback, voice output, and PDF export.
+
+The most important integration result is the separation of responsibilities. The mobile app does
+not directly call the VLM service or the Google AI service. The backend does not present raw VLM
+text to the farmer. The VLM gateway does not decide how treatment should be shown in the app. Each
+component has a defined boundary, and the data passed across those boundaries is validated or
+normalized before it moves to the next stage. This structure reduces coupling and makes the system
+easier to reason about during manuscript writing and future improvement.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Integrated subsystem responsibilities}\label{tab:integrated-subsystem-responsibilities}\\
+\toprule
+\textbf{Subsystem} & \textbf{Integration responsibility} & \textbf{Evidence from implementation} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Subsystem} & \textbf{Integration responsibility} & \textbf{Evidence from implementation} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Mobile app & Capture image, choose online/offline path, present result, store local state & Scan view models, diagnosis hook, API client, SQLite stores, result view model \\
+Backend API & Validate upload, orchestrate VLM and advisory calls, return stable JSON & Diagnosis route, controller, validation service, diagnosis service, response types \\
+VLM gateway & Validate inference request, protect inference with JWT, call vLLM, return prediction metadata & FastAPI \texttt{/ready}, \texttt{/v1/inference}, request schemas, API tests \\
+VLM model & Generate crop-disease prediction text from image and prompt & Qwen2.5-VL inference gateway and validation outputs documented in VLM section \\
+Advisory generator & Convert image plus VLM context into structured treatment guidance & Google AI advisory client, strict schema, grounding fallback, Zod validation \\
+Local persistence & Preserve scan history, queued scans, settings, crop records, reminders, notifications & SQLite schema, repositories, offline queue, sync queue, stores \\
+\end{xltabular}
+}
+
+\subsubsection{Data Contract Strengths}
+
+The backend-to-mobile response is the strongest formal contract in the integrated system. It
+contains request identifier, timestamp, disease fields, crop, confidence, confidence tier,
+out-of-distribution flag, symptom descriptions, advisory arrays, processing time, and model
+version. The advisory object separates treatment steps, prevention tips, safety warnings, organic
+alternatives, and source URLs. This contract gives the mobile app predictable fields for display
+and reduces the risk of placing unconstrained model output directly in front of the user.
+
+The backend-to-VLM boundary is also controlled. The backend checks readiness before inference,
+sends base64 image data and a deterministic prompt, limits generation length, sets temperature to
+zero, disables sampling, and includes the same request identifier used by the backend response.
+The VLM gateway validates authentication, image source shape, image validity, and rate limits. It
+returns latency and token counts, which can later be used for deployment reporting.
+
+The advisory-generation boundary adds another safeguard. The backend does not accept arbitrary
+text as final treatment advice. The advisory client requires the Google AI response to match a
+schema before returning it. It also instructs the model to produce Nepali and English fields, to
+avoid fabricated citations, to include uncertainty behavior, and to avoid unsafe pesticide advice.
+This does not make the output clinically or agronomically perfect, but it provides an important
+engineering control around a generative step.
+
+\subsubsection{Offline and Degraded-Network Behavior}
+
+The integrated workflow is designed for unstable connectivity. The mobile diagnosis hook has
+separate behavior for online, slow, and offline network states. In a normal online state, it calls
+the backend. In a slow state, it attempts the backend request but falls back after five seconds. In
+an offline state, it queues the scan immediately. This design acknowledges a practical constraint:
+the intended users may be in agricultural field environments where network access is unreliable.
+
+The offline path is not only a UI message. It writes the scan into the local queue, inserts a
+pending scan record into history, and creates a high-priority sync queue item. If cached advisory
+data exists for the crop, the app can return a cached result while retaining the queued scan for a
+future cloud diagnosis. The implementation therefore supports partial usefulness during
+connectivity loss while keeping the cloud path available when the network returns.
+
+The remaining limitation is that full two-way synchronization is currently restricted to core queued workflows.
+The sync manager has the structure for queued operations, retry state, network monitoring,
+app-resume synchronization, and periodic synchronization, but some generic table-push behavior is
+still represented as local status updates until matching backend handlers are completed. The
+current evidence therefore supports offline-aware infrastructure, not complete production-grade
+bidirectional synchronization.
+
+\subsubsection{Reliability Controls Across the Integrated Path}
+
+Reliability is handled through multiple layers rather than a single validation point. The mobile
+client checks that the image URI is usable before building the request. The backend upload route
+uses single-image upload middleware. The backend validation service checks file presence, file
+content, MIME consistency, image format, image dimensions, and maximum size. The VLM client checks
+service readiness and applies request timeouts. The VLM gateway validates JWT scope and image
+payloads. The advisory client retries configured failures and validates its final JSON schema.
+The mobile result view also normalizes advisory arrays to avoid downstream crashes when optional
+advisory fields are missing.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Reliability controls in the integrated workflow}\label{tab:integrated-reliability-controls}\\
+\toprule
+\textbf{Layer} & \textbf{Control} & \textbf{Purpose} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Layer} & \textbf{Control} & \textbf{Purpose} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Mobile client & Image URI validation, retry interceptor, slow/offline fallback & Avoid invalid local requests and preserve workflow under poor connectivity \\
+Backend upload & Multipart single-image route and upload middleware & Restrict diagnosis route to one uploaded image input \\
+Backend validation & MIME/header match, file size, image dimensions, crop-name validation & Reject corrupt, unsupported, or unsafe request data before model calls \\
+Backend VLM client & Readiness probe, timeout, bearer or RS256 JWT authentication & Protect inference service and avoid uncontrolled hanging requests \\
+VLM gateway & JWT scope check, image validation, rate limiting, vLLM health check & Protect model endpoint and reject invalid inference inputs \\
+Advisory client & Retry, optional grounding fallback, strict schema validation & Prevent invalid generated advisory JSON from reaching mobile clients \\
+Mobile result layer & Safe advisory defaults, local history save, queued state handling & Keep result screens stable across cloud, cached, and queued outputs \\
+\end{xltabular}
+}
+
+These controls are valuable because the system depends on machine-learning and generative-model
+components. A model can return malformed text, an external service can be unavailable, or a mobile
+network can fail mid-request. The integration design does not remove those risks, but it limits
+how far an invalid or unavailable component can propagate through the user-facing workflow.
+
+\subsubsection{Integration Limitations and Evidence Gaps}
+
+Integration evidence is supported by both architectural analysis and a distributed live deployment.
+The system was validated end-to-end with the VLM deployed on Lightning.ai, the database on Supabase,
+and the backend served locally via ngrok. This setup successfully captured real mobile-to-backend
+requests, structured JSON responses, and offline queue recovery.
+
+Furthermore, one significant technical alignment issue remains unresolved. High VLM parse-error rates
+and low test accuracy persist; the backend schema masks raw outputs but cannot confer diagnostic
+reliability until the core visual-language prediction engine is improved.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Integrated system evidence status}\label{tab:integrated-evidence-status}\\
+\toprule
+\textbf{Evidence item} & \textbf{Current status} & \textbf{Verification result} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Evidence item} & \textbf{Current status} & \textbf{Verification result} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Architecture and control flow & Generated and documented from source & Included as completed manuscript evidence \\
+Mobile-to-backend route contract & Verified from mobile API client and backend route/controller & Validated via live ngrok/Supabase architecture \\
+Backend-to-VLM contract & Verified from backend VLM client and FastAPI gateway & Validated via live Lightning.ai VLM gateway \\
+Advisory schema contract & Verified from advisory client and schema validation & Schema enforcement verified during live requests \\
+Offline queue behavior & Verified from queue manager and sync infrastructure & Offline-to-online recovery demonstrated in runtime \\
+Runtime performance & Measured during distributed live deployment & Future scale testing under concurrent load \\
+Model alignment & Perfectly aligned with 11-class plant-part labels & Conduct longitudinal drift testing across future seasons \\
+\end{xltabular}
+}
+
+\subsubsection{Overall Integrated System Interpretation}
+
+The integrated system is a complete implemented prototype with a
+source-backed and runtime-verified diagnosis pathway. Its strongest
+engineering qualities are modular boundaries, explicit validation, structured response contracts,
+offline-aware mobile behavior, and farmer-facing result handling. Its remaining weaknesses are not
+architectural, but rather the need to improve VLM parse-error handling and to expand
+automated integration tests across all domains.
+
+This interpretation is important for accuracy. The source code shows that
+Krishi Vaidya is an integrated agricultural advisory system, not merely a YOLO model, a VLM
+experiment, a backend, or a mobile app in isolation. The evidence from live deployment and
+physical-device testing confirms that all components operate cohesively in the intended
+configuration.
+
+\ChapterSubsection{Cross-System Results Discussion and Limitations}
+
+\subsubsection{Synthesis of Major Results as a Design-Science Contribution}
+
+The principal outcome of Krishi Vaidya is not merely a software artifact, but a design-science
+contribution to the architecture of agricultural advisory systems. The integrated
+multi-component system yields evidence across the model, backend, mobile, and integration
+layers. The YOLO subsystem provides the strongest quantitative modeling result, including
+threshold analysis and quantized deployment profiling. The VLM subsystem provides a complete
+fine-tuning pipeline while identifying structured parseability as a critical reliability
+bottleneck. The backend subsystem implements an orchestration boundary that validates uploads,
+bridges ML microservices, and generates schema-enforced advisories. The mobile application
+implements a local-first \parencite{kleppmannLocalFirst2019} farmer-facing interface with
+offline-aware diagnostic queuing, longitudinal crop management, and localized result rendering.
+
+The strongest overarching contribution of this research is therefore architectural. By
+constructing a crop-health support pipeline from field image capture to a schema-validated,
+bilingual advisory report, Krishi Vaidya makes visible the ``hidden technical debt''
+\parencite{sculleyMLTechDebt2015} between a trained classifier and a deployed application. While
+much of the existing literature stops at reporting classification accuracy
+\parencite{liu2021plantDiseaseReview, wangAgriLLaVA2024}, Krishi Vaidya documents the additional
+engineering required to make model output practically usable: defensive backend validation,
+structured response assembly, resilient local-first mobile persistence, and farmer-facing
+linguistic translation.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Cross-system result synthesis}\label{tab:cross-system-result-synthesis}\\
+\toprule
+\textbf{System area} & \textbf{Strongest result} & \textbf{Main caution} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{System area} & \textbf{Strongest result} & \textbf{Main caution} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+YOLO detector & Quantitative detection and deployment evidence is complete enough for manuscript use & Physical-device profiling and long-term performance monitoring still need final verification \\
+VLM model & Dataset export, fine-tuning, and validation pipeline are complete and documented & Prediction accuracy and parseability are currently weak on the independent test set \\
+Backend API & Structured diagnosis orchestration, domain models, validation, and scan tests exist & Broader route and diagnosis-integration tests need expansion \\
+Mobile app & Complete source-backed farmer workflow verified on physical Android devices & Extensive device-fragmentation testing remains a future task \\
+Integration & End-to-end diagnosis path runtime-verified across mobile, backend, VLM, and advisory layers & Automated test coverage expansion is required \\
+\end{xltabular}
+}
+
+\subsubsection{Model-Level Interpretation}
+
+The YOLO model results indicate that the object-detection component is the most mature machine
+learning part of the project. Its metrics are not perfect, but they are supported by multiple
+forms of evidence: training dynamics, validation, threshold analysis, quantized deployment
+comparison, latency measurements, and error analysis. This allows the manuscript to discuss
+realistic deployment tradeoffs instead of only reporting a single final accuracy number.
+
+The VLM results must be interpreted differently. The VLM work is substantial because it includes
+dataset construction, Qwen-format export, LoRA fine-tuning, quantized training, inference
+infrastructure, dataset validation, and prediction evaluation. However, the independent prediction
+metrics show that the current VLM is unreliable as a final
+diagnostic authority. The high parse-error count is especially important because the backend and
+mobile app depend on structured fields. A model that often fails to produce parseable output can
+still be useful as a research artifact, but it must not be overclaimed as a dependable diagnosis
+engine.
+
+The correct interpretation is that the project has one relatively stronger model component and
+one exploratory VLM component with limited current reliability. The YOLO section supports confidence in the
+object-detection work. The VLM section supports confidence in the pipeline and exposes the next
+research problem: improving structured multimodal disease prediction.
+
+\subsubsection{System-Level Interpretation}
+
+The backend and mobile results show that the project was engineered as a system rather than as an
+isolated notebook experiment. The backend provides request validation, route organization,
+repository-backed domain logic, image upload support, token/session handling, scan lifecycle
+management, crop/task/note/advisory records, VLM inference bridging, and advisory-schema
+validation. The mobile app provides the user-facing workflow required to apply those backend
+features in a field setting.
+
+The important system-level finding is that the engineering architecture is fully supported
+by runtime evidence. The source code shows a serious architecture, and the distributed deployment
+metrics prove exactly how the system behaves when all services operate concurrently. The successful
+correlation between implemented structure and runtime validation confirms the viability of the
+Krishi Vaidya platform.
+
+\subsubsection{Reliability and Safety Interpretation}
+
+Krishi Vaidya includes several reliability controls that are appropriate for an agricultural
+advisory system. Images are validated before model calls. Backend diagnosis uses request IDs and
+processing-time measurement. The VLM service is checked for readiness before inference. The VLM
+gateway uses JWT scope validation. The advisory generator is required to return schema-valid JSON.
+The mobile app handles cloud, cached, and queued outcomes. The result view uses structured fields
+instead of raw model text.
+
+These controls improve engineering safety, but they do not solve every agronomic safety problem.
+Model uncertainty, class imbalance, field-image variability, pesticide recommendation risk,
+out-of-distribution images, and incorrect crop hints can still affect final advice. The system
+should therefore present confidence, uncertainty, retake guidance, safety warnings, and expert
+consultation guidance where appropriate. The backend already includes confidence-tier and
+out-of-distribution fields, which remain central to the app presentation and final claims.
+
+\subsubsection{Current Limitations}
+
+The current limitations fall into four groups: model limitations, validation limitations,
+integration limitations, and manuscript-evidence limitations.
+
+Model limitations are most visible in the VLM results. The VLM has low test accuracy and a high
+number of parse errors. This limits the strength of claims that can be made about automatic
+disease diagnosis. The YOLO model is stronger, demonstrating excellent bounding-box reliability
+and perfect taxonomy alignment with the mobile application.
+
+Validation limitations are visible mainly in automated test breadth. Backend scan tests are useful,
+but equivalent tests remain limited across the remaining route groups and external diagnosis branches.
+The mobile app has source-backed architecture, an inference harness, physical-device screenshots,
+and completed workflow validation. Integration validation was successfully demonstrated through a
+live distributed request cycle.
+
+Integration limitations are tied to external services and runtime configuration. The backend
+diagnosis route depends on the VLM service and Google AI advisory service being reachable and
+properly configured. The advisory generator must return schema-valid JSON. The mobile app must be
+configured with the correct API base URL and must handle network failure correctly. Offline sync
+infrastructure exists, but complete two-way synchronization for every secondary local table
+remains a future refinement.
+
+Manuscript-evidence limitations are practical but important. While the live integration
+was verified across Lightning.ai, Supabase, and ngrok, the manuscript should not claim
+full production deployment or field-tested agronomic performance until large-scale user
+studies and expert pathological reviews are conducted.
+
+{\small \renewcommand{\arraystretch}{1.3}
+\begin{xltabular}{\textwidth}{@{} l L L @{}}
+\caption{Cross-system limitations and required future evidence}\label{tab:cross-system-limitations}\\
+\toprule
+\textbf{Limitation group} & \textbf{Current limitation} & \textbf{Required action} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{(continued from previous page)}} \\
+\toprule
+\textbf{Limitation group} & \textbf{Current limitation} & \textbf{Required action} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+VLM reliability & Low prediction accuracy and high parse-error count & Improve prompt format, constrained decoding, dataset balance, and evaluation feedback loop \\
+Backend test coverage & Automated testing prioritizes the core scan domain over standard CRUD routes & Expand automated test suites to completely replace manual CRUD validation \\
+Mobile validation & Physical-device workflows verified, but extreme fragmentation remains untested & Conduct large-scale device compatibility studies across budget Android phones \\
+Offline synchronization & Core offline-to-online queue recovery is verified, while full table sync remains limited & Add generic backend handlers for remaining secondary tables \\
+Agronomic safety & Generated advice can still be uncertain or unsafe if not constrained and reviewed & Preserve confidence tiers, safety warnings, source links, and expert consultation guidance \\
+\end{xltabular}
+}
+
+\subsubsection{Implications for Final Manuscript Claims}
+
+The final claims must be strong where the evidence is strong and cautious where the evidence is
+limited. The project can claim a modular Krishi Vaidya system with YOLO, VLM, backend, mobile,
+and integration components. It can claim that YOLO and VLM datasets and outputs have been
+analyzed and documented using available figures and tables. It can also claim that the backend
+and mobile application contain complete, verified implemented architecture.
+
+The evidence does not support claims that the current VLM model is already highly accurate, that
+the mobile app has been agronomically field-tested, or that the system is scaled for production.
+Those claims require expert agronomic validation, load testing, and broader automated test suites.
+Maintaining this boundary strengthens the thesis because it shows a clear distinction between
+implementation, evaluation, and deployment.

@@ -1,0 +1,84 @@
+% System Analysis — Sequence Diagram
+% Extracted from chapters/03-system-analysis/chapter.tex
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  lifelinebox/.style={rounded corners=8pt, draw=#1!30, line width=0.6pt,
+                      fill=#1!5, align=center, inner sep=8pt,
+                      minimum width=2.6cm, minimum height=0.9cm,
+                      font=\sffamily\bfseries\scriptsize, text=ink,
+                      blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+                      shadow yshift=-1pt, shadow opacity=13}},
+  msg/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.8pt, draw=pri!80},
+  return/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.8pt, draw=muted!80, dashed},
+  lbl/.style={font=\sffamily\tiny, text=ink!80, fill=white, inner sep=2pt, rounded corners=2pt},
+  titlebar/.style={rounded corners=8pt, fill=quat, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large}
+]
+
+\definecolor{pri}{HTML}{E11D48}   % Rose
+\definecolor{sec}{HTML}{0891B2}   % Cyan
+\definecolor{ter}{HTML}{D97706}   % Amber
+\definecolor{quat}{HTML}{7C3AED}  % Purple
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (5.4,2.5)
+  {System Sequence Diagram};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (5.4,1.6)
+  {The chronological flow of messages and data payloads across system boundaries during an online crop scan submission.};
+
+% ━━ LIFELINE HEADERS ━━
+\node[lifelinebox=sec] (mobile) at (0,0) {\textcolor{sec}{Mobile App}};
+\node[lifelinebox=pri] (api) at (3.6,0) {\textcolor{pri}{Backend API}};
+\node[lifelinebox=quat] (vlm) at (7.2,0) {\textcolor{quat}{VLM Service}};
+\node[lifelinebox=ter] (store) at (10.8,0) {\textcolor{ter}{Database /}\\[-2pt]\textcolor{ter}{Local Store}};
+
+% ━━ LIFELINES (Vertical dashed lines) ━━
+\draw[draw=muted!40, dashed, line width=0.6pt] (mobile.south) -- ++(0,-6.5) coordinate (m_end);
+\draw[draw=muted!40, dashed, line width=0.6pt] (api.south) -- ++(0,-6.5) coordinate (a_end);
+\draw[draw=muted!40, dashed, line width=0.6pt] (vlm.south) -- ++(0,-6.5) coordinate (v_end);
+\draw[draw=muted!40, dashed, line width=0.6pt] (store.south) -- ++(0,-6.5) coordinate (s_end);
+
+% ━━ MESSAGES ━━
+% 1. Mobile -> API
+\draw[msg] ($(mobile.south)+(0,-0.8)$) -- node[lbl, above] {submit image and metadata} ($(api.south)+(0,-0.8)$);
+
+% 2. API -> VLM
+\draw[msg, draw=quat!80] ($(api.south)+(0,-1.7)$) -- node[lbl, above] {validate and infer} ($(vlm.south)+(0,-1.7)$);
+
+% 3. VLM -> API
+\draw[return] ($(vlm.south)+(0,-2.6)$) -- node[lbl, above] {prediction output} ($(api.south)+(0,-2.6)$);
+
+% 4. API -> Store
+\draw[msg, draw=ter!80] ($(api.south)+(0,-3.5)$) -- node[lbl, above] {persist scan and advisory} ($(store.south)+(0,-3.5)$);
+
+% 5. Store -> API
+\draw[return] ($(store.south)+(0,-4.4)$) -- node[lbl, above] {stored record} ($(api.south)+(0,-4.4)$);
+
+% 6. API -> Mobile
+\draw[return] ($(api.south)+(0,-5.3)$) -- node[lbl, above] {structured diagnosis response} ($(mobile.south)+(0,-5.3)$);
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(mobile)(store)(m_end)(s_end)(current bounding box.north)] {};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{Sequence diagram for the online scan diagnosis workflow}
+\label{fig:scan-sequence-diagram}
+\end{figure}

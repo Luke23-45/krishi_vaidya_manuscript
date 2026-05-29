@@ -1,5 +1,5 @@
-backend
-mobile_app
-vlm_model
-yoloml
-dev
+build/
+docs/
+dev/
+progress/
+__pycache__

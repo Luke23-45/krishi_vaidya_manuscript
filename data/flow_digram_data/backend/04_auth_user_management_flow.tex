@@ -1,0 +1,177 @@
+﻿% Backend — Authentication & User Management Flow
+% Source: manuscript/flow_diagram/backend/04_auth_user_management_flow.md
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  flow/.style={-{Latex[length=2.8mm,width=2mm]}, line width=0.7pt,
+               draw=pri!70, rounded corners=3pt},
+  flowret/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=muted!45, densely dashed},
+  errflow/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=alert!50, densely dashed},
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=left, inner sep=9pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
+                   fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
+                   fill=white, inner xsep=3pt, inner ysep=1.5pt,
+                   rounded corners=2pt},
+  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  procnode/.style={card, align=center, inner sep=7pt,
+                   minimum width=3.2cm, minimum height=1cm,
+                   fill=#1!5, draw=#1!25},
+  statenode/.style={card, align=left, inner sep=8pt,
+                    text width=3.8cm, minimum height=2cm,
+                    fill=#1!5, draw=#1!22},
+  arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
+                 fill=white, inner sep=1.5pt, rounded corners=1pt},
+  note/.style={rounded corners=7pt, draw=ink!10, fill=ink!2,
+               inner sep=8pt, align=left, font=\sffamily\tiny,
+               text=ink!78, text width=14.2cm}
+]
+
+\definecolor{pri}{HTML}{2563EB}
+\definecolor{sec}{HTML}{059669}
+\definecolor{ter}{HTML}{D97706}
+\definecolor{quat}{HTML}{7C3AED}
+\definecolor{alert}{HTML}{DC2626}
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (0,0.3)
+  {Authentication \& User Management Flow};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (0,-1.0)
+  {Registration, login, JWT token lifecycle,
+   refresh rotation, OTP password recovery,
+   and route authorization via auth middleware.};
+
+% ━━ ROW 1: IDENTITY ESTABLISHMENT ━━
+\node[statenode=sec] (reg) at (-5.8,-2.8) {
+  \textbf{\textcolor{sec}{Registration}}\\[2pt]
+    \textcolor{ink!72}{Validate identity fields\\}
+  \textcolor{ink!72}{Hash password (bcrypt)\\}
+  \textcolor{ink!72}{Create User document\\}
+  \textcolor{ink!72}{Optional OTP email}};
+\node[statenode=pri] (login) at (0,-2.8) {
+  \textbf{\textcolor{pri}{Login}}\\[2pt]
+    \textcolor{ink!72}{Verify email + password\\}
+  \textcolor{ink!72}{Issue access token (JWT)\\}
+  \textcolor{ink!72}{Store refresh token\\}
+  \textcolor{ink!72}{Return user profile}};
+\node[statenode=quat] (prot) at (5.8,-2.8) {
+  \textbf{\textcolor{quat}{Protected Request}}\\[2pt]
+    \textcolor{ink!72}{Extract Bearer token\\}
+  \textcolor{ink!72}{Decode \& verify JWT\\}
+  \textcolor{ink!72}{Attach \texttt{req.user}}\\
+  \textcolor{ink!72}{Proceed to controller}};
+\draw[flow] (reg) -- (login)
+  node[arrlbl, pos=0.5, above, yshift=5pt] {credentials};
+\draw[flow] (login) -- (prot)
+  node[arrlbl, pos=0.5, above, yshift=5pt] {JWT issued};
+
+% ━━ ROW 2: TOKEN LIFECYCLE ━━
+\node[statenode=ter] (lifecycle) at (-5.8,-6.6) {
+  \textbf{\textcolor{ter}{Token Lifecycle}}\\[2pt]
+    \textcolor{ink!72}{Short-lived access token\\}
+  \textcolor{ink!72}{Refresh token rotation\\}
+  \textcolor{ink!72}{Logout single session\\}
+  \textcolor{ink!72}{Logout all sessions\\}
+  \textcolor{ink!72}{Invalidate on password change}};
+\node[statenode=pri] (recovery) at (0,-6.6) {
+  \textbf{\textcolor{pri}{Password Recovery}}\\[2pt]
+    \textcolor{ink!72}{Send OTP to email\\}
+  \textcolor{ink!72}{Verify OTP code\\}
+  \textcolor{ink!72}{Reset password\\}
+  \textcolor{ink!72}{Invalidate stale tokens\\}
+  \textcolor{ink!72}{Rate-limited attempts}};
+\node[statenode=alert] (outcome) at (5.8,-6.6) {
+  \textbf{\textcolor{alert}{Auth Outcome}}\\[2pt]
+    \textcolor{ink!72}{\textcolor{sec}{200} authorized controller call\\}
+  \textcolor{ink!72}{\textcolor{alert}{401} missing/expired token\\}
+  \textcolor{ink!72}{\textcolor{alert}{403} invalid ownership\\}
+  \textcolor{ink!72}{\textcolor{ter}{429} rate limit exceeded\\}
+  \textcolor{ink!72}{Global error handler}};
+\draw[flow] (login.south) -- (recovery.north)
+  node[arrlbl, midway, right, xshift=4pt] {forgot password};
+\draw[flow] (login.south west) -- (lifecycle.north east)
+  node[arrlbl, pos=0.42, left, xshift=-3pt, yshift=3pt] {token ops};
+\draw[flow] (prot.south) -- (outcome.north)
+  node[arrlbl, midway, right, xshift=5pt] {middleware result};
+
+\draw[flow] (lifecycle) -- (recovery)
+  node[arrlbl, pos=0.5, above, yshift=5pt] {token reset};
+\draw[flow] (recovery) -- (outcome)
+  node[arrlbl, pos=0.5, above, yshift=5pt] {re-auth};
+
+% ━━ ROW 3: MIDDLEWARE DECISION ━━
+\node[procnode=pri, minimum width=6cm, minimum height=1.2cm]
+  (mw) at (0,-9.4) {
+  \textbf{authMiddleware}\\[-1pt]
+  {\tiny Decode JWT \textrightarrow{} verify expiry
+   \textrightarrow{} lookup user
+   \textrightarrow{} attach \texttt{req.user}
+   \textrightarrow{} \texttt{next()}}};
+
+\node[procnode=sec, minimum width=3cm] (ok) at (-4,-11.0) {
+  \textbf{Authorized}\\[-1pt]{\tiny controller proceeds}};
+\node[procnode=alert, minimum width=3cm] (deny) at (4,-11.0) {
+  \textbf{Denied}\\[-1pt]{\tiny 401\,/\,403 JSON error}};
+
+\draw[flow] (outcome.south) -- ++(0,-0.35) -| (mw.north);
+\draw[flow] (mw.south west) -- (ok.north)
+  node[arrlbl, pos=0.4, left] {valid};
+\draw[errflow] (mw.south east) -- (deny.north)
+  node[arrlbl, pos=0.4, right, text=alert!60] {invalid};
+
+% ━━ NOTE ━━
+\node[note] at (0,-12.6) {
+  \textbf{Security}\;\textcolor{muted}{\textemdash}\;
+  Session state is explicit: refresh tokens can be
+  individually revoked without invalidating the
+  stateless access-token verification path.
+  The OTP recovery flow is rate-limited and
+  time-bounded to prevent brute-force attacks.
+  All sensitive operations log an audit trail.};
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(reg)(prot)(lifecycle)(outcome)(mw)(ok)(deny)] {};
+
+  \node[groupbox=sec, fit=(reg)(login)(prot),
+        inner xsep=8pt, inner ysep=8pt] (gId) {};
+  \node[grouplbl=sec, anchor=north west]
+        at ([xshift=2pt]gId.north west) {Identity Establishment};
+
+  \node[groupbox=ter, fit=(lifecycle)(recovery)(outcome),
+        inner xsep=8pt, inner ysep=8pt] (gLC) {};
+  \node[grouplbl=ter, anchor=north west]
+        at ([xshift=2pt]gLC.north west) {Token \& Recovery Lifecycle};
+
+  \node[groupbox=pri, fit=(mw)(ok)(deny),
+        inner xsep=8pt, inner ysep=8pt] (gMW) {};
+  \node[grouplbl=pri, anchor=north west]
+        at ([xshift=2pt]gMW.north west) {Middleware Decision};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{Authentication and User Management Flow}
+\label{fig:backend-04-auth-user-management-flow}
+\end{figure}

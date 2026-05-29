@@ -1,0 +1,183 @@
+\chapter{INTRODUCTION}
+
+\ChapterSection{Introduction}
+
+A rice farmer in the Terai plains photographs a cluster of brown lesions spreading across her
+crop's leaves. She needs to know whether the damage is bacterial leaf blight, brown spot, or
+blast---and she needs to know within hours, not days, because the wrong treatment applied too
+late can mean the difference between a manageable loss and a ruined harvest. In Nepal, where
+agriculture accounts for approximately one-quarter of national GDP and directly sustains the
+majority of rural households \parencite{moaldAgricultureStats2080,nsoAgricultureCensus2021},
+this scenario repeats across millions of smallholdings every growing season.
+
+The gap between the farmer's need for timely diagnosis and the availability of expert
+pathological assessment defines the core problem. Traditional diagnosis depends on extension
+workers, agro-vet consultants, or laboratory confirmation---channels that are valuable but
+geographically sparse, seasonally overloaded, and often unreachable at the moment a farmer
+first observes symptoms in the field. The FAO estimates that plant pests and diseases can
+destroy up to 40 percent of global crop production annually, with actual loss depending on crop,
+location, season, and management practice \parencite{faoPlantHealthLosses}. Nepal's
+topographic diversity, settlement patterns, and variable connectivity amplify this challenge
+for smallholder farmers who may possess a smartphone and a crop image but lack immediate access
+to a trained plant-health expert \parencite{khatriNepalDigitalAgri2023}.
+
+Computer vision offers a partial technological response. Object detection can identify relevant
+plant structures within complex field images, while vision-language models can generate
+structured diagnostic interpretations from visual input. Mobile technology provides the
+interface: the smartphone is the most realistic access point for field-level users in Nepal's
+agricultural context \parencite{faoNepalDigitalAgriculture}. Yet connecting these capabilities
+into a coherent, farmer-usable workflow requires engineering far beyond model training. A
+practical diagnosis-support system must handle image capture, model inference, structured output
+parsing, backend validation, advisory generation, local record keeping, offline resilience, and
+uncertainty communication---each presenting its own design and implementation challenges.
+
+Krishi Vaidya is an integrated final-year B.Sc.\ CSIT project that addresses this end-to-end
+workflow. It composes four major subsystems: a YOLO-based plant-part detector, a Qwen-based
+vision-language model for disease interpretation, an Express/Mongoose backend API for
+orchestration and persistence, and a React Native/Expo mobile application for farmer-facing
+interaction. The project is positioned within Nepal's digital agriculture direction as a
+student-built prototype for crop-health support---not as a certified diagnostic authority, but
+as an investigation of how trained model components can be integrated with application software
+to serve a practical agricultural need.
+
+\ChapterSection{Problem Statement}
+
+Farmers require timely, understandable, and accessible support for crop disease diagnosis, but
+expert assessment is seldom available at the field level when symptoms are first observed.
+Existing digital approaches typically address isolated aspects of this problem: image
+classification without advisory output, model training without deployment evaluation, or mobile
+interfaces without offline resilience. A gap persists between what individual model components
+can achieve in isolation and what a farmer-facing advisory system requires as an integrated
+workflow.
+
+The research problem addressed by this project is:
+
+\begin{quote}
+Can an integrated system combining object detection, vision-language interpretation, backend
+orchestration, and an offline-aware mobile application be designed, implemented, and evaluated
+to support image-based crop-health diagnosis and structured advisory output for the Nepalese
+agricultural context?
+\end{quote}
+
+This question decomposes into three constituent challenges:
+
+\ChapterSubsection{Visual detection challenge}
+
+Crop images contain multiple plant structures, and disease-related reasoning often depends on
+which part of the plant is visible. A system that ignores plant-part localization treats
+complex field images as undifferentiated classification inputs. Krishi Vaidya addresses this
+by training a YOLOv8 nano detector on a curated multi-crop plant-part dataset with eleven
+agricultural object classes, then evaluating detection performance across thresholds and
+quantized deployment variants.
+
+\ChapterSubsection{Disease interpretation challenge}
+
+Disease diagnosis requires more than detecting plant objects. The system must interpret visual
+evidence and produce structured information---disease name, confidence, severity, treatment
+guidance---that downstream application components can parse, validate, and display. Krishi
+Vaidya addresses this through a LoRA-adapted VLM pipeline trained on structured image-text
+records, with evaluation focused not only on classification accuracy but also on whether
+generated outputs can be reliably parsed into canonical labels.
+
+\ChapterSubsection{Mobile access and advisory workflow challenge}
+
+Even accurate models are incomplete if farmers cannot access them through a practical interface.
+The mobile application must support image capture, diagnosis submission, offline record keeping,
+synchronization, crop management, and understandable result presentation. The backend must
+protect the API, validate requests, orchestrate inference, store records, and return consistent
+structured responses. Krishi Vaidya addresses this by implementing both the mobile and backend
+layers as full application components rather than limiting the project to model training alone.
+
+\ChapterSection{Objectives}
+
+\ChapterSubsection{General objective}
+
+To design, implement, and evaluate an integrated crop-health diagnosis-support system that uses
+object detection, vision-language modelling, backend services, and a mobile application to
+assist farmers with image-based disease interpretation and structured advisory output.
+
+\ChapterSubsection{Specific objectives}
+
+\begin{enumerate}[label=\arabic*.]
+\item To investigate the viability of lightweight object detection for agricultural plant-part
+localization by curating a multi-source dataset, training a YOLOv8 nano detector, and
+evaluating detection performance across confidence thresholds and quantized deployment variants.
+\item To evaluate LoRA-based fine-tuning of a vision-language model for structured disease
+interpretation by preparing a Qwen-format dataset, training with quantized adapters, and
+assessing both classification accuracy and output parseability.
+\item To implement a layered backend API that orchestrates authentication, crop records, scan
+handling, diagnosis inference, advisory generation, and validation within a documented
+architectural pattern.
+\item To implement an offline-aware mobile application that supports farmer-facing scan workflow,
+bilingual output, local persistence, synchronization infrastructure, and crop-management
+record keeping.
+\item To integrate the subsystems into a documented diagnosis workflow and evaluate the
+integrated path through runtime-verified contracts, generated architecture diagrams, and
+completed distributed deployment evidence.
+\end{enumerate}
+
+\ChapterSection{Scope and Limitation}
+
+The scope of this project encompasses the design, implementation, and manuscript documentation
+of the Krishi Vaidya prototype across its four subsystems.
+
+The \textbf{model scope} includes YOLO object detection for plant-part localization across
+eleven agricultural classes and VLM-based disease interpretation for a subset of crop-disease
+categories derived from the PlantVillage corpus. The \textbf{backend scope} includes the
+implemented Express/Mongoose service architecture, scan and diagnosis workflow, advisory
+response handling, authentication, security middleware, validation, and available test coverage.
+The \textbf{mobile scope} includes the React Native/Expo application with scan workflow, local
+SQLite persistence, offline-aware behavior, synchronization infrastructure, crop and task
+records, bilingual interface, and on-device TFLite model assets.
+
+The following boundary conditions apply:
+
+\begin{enumerate}[label=\arabic*.]
+\item The project does not claim to produce a certified, agronomically validated, or
+government-approved diagnosis system. It is a research and engineering prototype suitable
+for demonstrating integrated software and model development.
+\item The YOLO dataset, though large and curated, exhibits significant class imbalance; some
+classes have orders of magnitude fewer annotations than others.
+\item The VLM pipeline is implemented and measurable, but current prediction metrics reveal
+substantial parseability limitations that must be acknowledged as a central finding.
+\item Due to time and budget constraints, automated backend test coverage prioritizes the core scan domain, while external API integrations and standard CRUD endpoints rely on extensive manual validation.
+\item The mobile application's integration architecture, including its offline-to-online recovery mechanisms, has been thoroughly validated through physical-device testing and distributed runtime measurements.
+\item The advisory output has not been validated by certified agricultural experts and must
+not substitute for expert consultation.
+\end{enumerate}
+
+These limitations define the current state of the prototype and the specific directions for
+future work, both of which are discussed in Chapter 6.
+
+\ChapterSection{Development Methodology}
+
+Krishi Vaidya follows an iterative software-development methodology organized around analysis,
+design, implementation, and testing. The analysis phase identified the farmer-facing diagnosis
+workflow, the model requirements for plant-part detection and disease interpretation, the backend
+requirements for validation and orchestration, and the mobile requirements for offline-aware use.
+The design phase translated those requirements into four cooperating subsystems: a YOLO detector,
+a Qwen-based VLM service, an Express/Mongoose backend, and a React Native/Expo mobile application.
+
+Implementation proceeded component by component. The YOLO pipeline was developed around dataset
+curation, training, validation, threshold analysis, and quantized export. The VLM pipeline was
+developed around PlantVillage-derived disease data, Qwen-format supervised fine-tuning export,
+LoRA training, inference serving, and parseability evaluation. The backend was implemented as a
+layered API with controllers, services, repositories, validation middleware, authentication, image
+upload support, diagnosis orchestration, and advisory generation. The mobile application was
+implemented around onboarding, crop records, scan capture, image editing, diagnosis display,
+local SQLite persistence, cached advisory output, and synchronization infrastructure.
+
+Testing and validation were performed at the component and system-boundary levels using the
+artifacts available in the project workspace: YOLO validation outputs, VLM metric scripts and API
+tests, backend Jest unit and integration tests, mobile inference tests, source-backed screenshots,
+and documented integration contracts. The methodology is therefore evidence-first: claims in the
+report are tied to project code, generated outputs, screenshots, or measured model results.
+
+\ChapterSection{Report Organization}
+
+Chapter 2 reviews the background study and literature related to digital agriculture, plant
+disease detection, object detection, vision-language models, offline-first mobile architecture,
+and ML system design. Chapter 3 presents system analysis, including requirements, feasibility,
+and object-oriented analysis. Chapter 4 presents system design and algorithm details. Chapter 5
+presents implementation, testing, and result analysis. Chapter 6 concludes the report and
+provides future recommendations.

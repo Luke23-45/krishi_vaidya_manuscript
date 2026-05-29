@@ -1,0 +1,177 @@
+﻿% Backend — Data Models & Persistence Flow
+% Source: manuscript/flow_diagram/backend/03_data_models_persistence_flow.md
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  flow/.style={-{Latex[length=2.8mm,width=2mm]}, line width=0.7pt,
+               draw=pri!70, rounded corners=3pt},
+  flowbi/.style={{Latex[length=2.2mm,width=1.5mm]}-{Latex[length=2.2mm,width=1.5mm]},
+                 line width=0.5pt, draw=muted!50, densely dashed},
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=left, inner sep=9pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
+                   fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
+                   fill=white, inner xsep=3pt, inner ysep=1.5pt,
+                   rounded corners=2pt},
+  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  entity/.style={card, align=center, inner sep=6pt,
+                 minimum width=2.15cm, minimum height=0.95cm,
+                 fill=#1!6, draw=#1!28,
+                 font=\sffamily\scriptsize},
+  procnode/.style={card, align=center, inner sep=7pt,
+                   minimum width=2.7cm, minimum height=0.95cm,
+                   fill=#1!5, draw=#1!25},
+  wideproc/.style={card, text width=12.6cm, align=center,
+                   fill=#1!4, draw=#1!20, inner sep=8pt},
+  arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
+                 fill=white, inner sep=1.5pt, rounded corners=1pt},
+  note/.style={rounded corners=7pt, draw=ink!10, fill=ink!2,
+               inner sep=8pt, align=left, font=\sffamily\tiny,
+               text=ink!78, text width=14.2cm}
+]
+
+\definecolor{pri}{HTML}{2563EB}
+\definecolor{sec}{HTML}{059669}
+\definecolor{ter}{HTML}{D97706}
+\definecolor{quat}{HTML}{7C3AED}
+\definecolor{alert}{HTML}{DC2626}
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (0,0.3)
+  {Data Models \& Persistence Flow};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (0,-0.55)
+  {MongoDB schemas, generic repository abstraction,
+   dependency-injected services, and the write\,/\,read
+   data paths that keep domain state consistent.};
+
+% ━━ LAYER 1: MONGODB SCHEMAS (entity boxes) ━━
+\node[entity=pri]  (eUser)  at (-6.0,-1.9) {\textbf{User}\\[-1pt]{\tiny profile, hash}};
+\node[entity=pri]  (eCrop)  at (-3.6,-1.9) {\textbf{Crop}\\[-1pt]{\tiny plot, variety}};
+\node[entity=sec]  (eScan)  at (-1.2,-1.9) {\textbf{Scan}\\[-1pt]{\tiny image, result}};
+\node[entity=sec]  (eTask)  at ( 1.2,-1.9) {\textbf{Task}\\[-1pt]{\tiny field work}};
+\node[entity=ter]  (eNote)  at ( 3.6,-1.9) {\textbf{Note}\\[-1pt]{\tiny observation}};
+\node[entity=ter]  (eAdv)   at ( 6.0,-1.9) {\textbf{Advisory}\\[-1pt]{\tiny guidance}};
+\node[entity=quat] (eOTP)   at (-2.4,-3.3) {\textbf{OTP}\\[-1pt]{\tiny recovery}};
+\node[entity=quat] (eRefr)  at ( 2.4,-3.3) {\textbf{RefreshToken}\\[-1pt]{\tiny session}};
+
+% ━━ LAYER 2: REPOSITORY LAYER ━━
+\node[wideproc=pri] (repo) at (0,-5.0) {
+  \textbf{\textcolor{pri}{Repository Layer}}
+  \quad\textcolor{muted}{\textemdash}\quad
+  {\footnotesize \texttt{BaseRepository\textless T\textgreater}
+   provides typed CRUD helpers; concrete repos
+   (\texttt{UserRepo}, \texttt{CropRepo}, \texttt{ScanRepo},
+   \texttt{TaskRepo}, \texttt{NoteRepo}, \texttt{AdvisoryRepo})
+   add domain-specific queries}};
+
+% schemas → repository
+\draw[flow] (eUser.south) -- ++(0,-0.3) -| ([xshift=-30pt]repo.north);
+\draw[flow] (eAdv.south) -- ++(0,-0.3) -| ([xshift=30pt]repo.north);
+\draw[flow] (eOTP.south) -- ++(0,-0.4) -| ([xshift=-8pt]repo.north);
+\draw[flow] (eRefr.south) -- ++(0,-0.4) -| ([xshift=8pt]repo.north);
+
+% ━━ LAYER 3: DI CONTAINER ━━
+\node[procnode=quat, minimum width=5cm, minimum height=1.1cm]
+  (di) at (0,-6.8) {
+  \textbf{DI Container}\\[-1pt]
+  {\tiny register repos \textrightarrow{} services \textrightarrow{} controllers}\\[-1pt]
+  {\tiny single construction point at bootstrap}};
+
+\draw[flow] (repo) -- (di);
+
+% ━━ LAYER 4: SERVICE LAYER ━━
+\node[procnode=sec, minimum width=2.5cm] (sAuth) at (-5.2,-8.8)
+  {\textbf{AuthService}\\[-1pt]{\tiny tokens, OTP}};
+\node[procnode=sec, minimum width=2.5cm] (sUser) at (-1.7,-8.8)
+  {\textbf{UserService}\\[-1pt]{\tiny profile ops}};
+\node[procnode=sec, minimum width=2.5cm] (sCrop) at ( 1.7,-8.8)
+  {\textbf{CropService}\\[-1pt]{\tiny plot CRUD}};
+\node[procnode=sec, minimum width=2.5cm] (sScan) at ( 5.2,-8.8)
+  {\textbf{ScanService}\\[-1pt]{\tiny diagnosis}};
+
+\draw[flow] (di.south) -- ++(0,-0.3) -| (sAuth.north);
+\draw[flow] (di.south) -- ++(0,-0.3) -| (sUser.north);
+\draw[flow] (di.south) -- ++(0,-0.3) -| (sCrop.north);
+\draw[flow] (di.south) -- ++(0,-0.3) -| (sScan.north);
+
+% ━━ LAYER 5: WRITE / READ PATHS ━━
+\node[procnode=ter, minimum width=3.8cm] (wpath) at (-3.5,-10.8) {
+  \textbf{Write Path}\\[-1pt]
+  {\tiny validate DTO \textrightarrow{} service rule}\\[-1pt]
+  {\tiny \textrightarrow{} repo mutation \textrightarrow{} model save}};
+
+\node[procnode=pri, minimum width=3.8cm] (rpath) at (3.5,-10.8) {
+  \textbf{Read Path}\\[-1pt]
+  {\tiny route params \textrightarrow{} repo query}\\[-1pt]
+  {\tiny \textrightarrow{} ownership check \textrightarrow{} serialize}};
+
+\draw[flow] (sUser.south) -- ++(0,-0.35) -| (wpath.north);
+\draw[flow] (sCrop.south) -- ++(0,-0.35) -| (rpath.north);
+
+% ━━ LAYER 6: MONGODB ━━
+\node[procnode=pri, minimum width=4.5cm, minimum height=1.1cm]
+  (mongo) at (0,-12.6) {
+  \textbf{MongoDB Atlas}\\[-1pt]
+  {\tiny \texttt{MONGO\_URI} \textemdash{} connection lifecycle,
+   indexes, production datastore}};
+
+\draw[flow] (wpath.south) -- ++(0,-0.3) -| ([xshift=-10pt]mongo.north);
+\draw[flow] (rpath.south) -- ++(0,-0.3) -| ([xshift=10pt]mongo.north);
+
+% ━━ NOTE ━━
+\node[note] at (0,-14.2) {
+  \textbf{Architecture}\;\textcolor{muted}{\textemdash}\;
+  Controllers stay thin; services own business rules;
+  repositories isolate persistence mechanics behind
+  \texttt{BaseRepository\textless T\textgreater}.
+  The DI container wires everything at bootstrap so
+  each layer depends only on abstractions, not concrete
+  implementations. JWT user context from \texttt{req.user}
+  propagates through the service layer for ownership checks.};
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(eUser)(eAdv)(eOTP)(eRefr)(repo)(di)
+            (sAuth)(sScan)(wpath)(rpath)(mongo)] {};
+
+  \node[groupbox=pri,
+        fit=(eUser)(eCrop)(eScan)(eTask)(eNote)(eAdv)(eOTP)(eRefr),
+        inner xsep=9pt, inner ysep=8pt] (gSch) {};
+  \node[grouplbl=pri, anchor=north west]
+        at ([xshift=2pt]gSch.north west) {MongoDB Schemas};
+
+  \node[groupbox=sec, fit=(sAuth)(sUser)(sCrop)(sScan),
+        inner xsep=8pt, inner ysep=8pt] (gSvc) {};
+  \node[grouplbl=sec, anchor=north west]
+        at ([xshift=2pt]gSvc.north west) {Service Layer};
+
+  \node[groupbox=ter, fit=(wpath)(rpath),
+        inner xsep=8pt, inner ysep=8pt] (gPath) {};
+  \node[grouplbl=ter, anchor=north west]
+        at ([xshift=2pt]gPath.north west) {Data Paths};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{Data Models and Persistence Flow}
+\label{fig:backend-03-data-models-persistence-flow}
+\end{figure}

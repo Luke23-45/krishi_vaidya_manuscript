@@ -1,0 +1,190 @@
+﻿% Backend — Diagnosis Pipeline Flow
+% Source: manuscript/flow_diagram/backend/02_diagnosis_pipeline_flow.md
+% Preamble requirements:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur}
+\begin{figure}[H]
+\centering
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  % ── arrows ──
+  flow/.style={-{Latex[length=2.8mm,width=2mm]}, line width=0.7pt,
+               draw=pri!70, rounded corners=3pt},
+  flowret/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=muted!45, densely dashed},
+  errflow/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.5pt,
+                  draw=alert!50, densely dashed},
+  % ── containers ──
+  card/.style={rounded corners=10pt, draw=ink!10, line width=0.55pt,
+               fill=white, align=left, inner sep=9pt,
+               font=\sffamily\scriptsize, text=ink,
+               blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
+               shadow yshift=-1pt, shadow opacity=13}},
+  groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
+                   fill=#1!3},
+  grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
+                   fill=white, inner xsep=3pt, inner ysep=1.5pt,
+                   rounded corners=2pt},
+  % ── title ──
+  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
+                   inner xsep=14pt, inner ysep=7pt,
+                   font=\sffamily\bfseries\large},
+  % ── nodes ──
+  banner/.style={card, text width=13.2cm, inner sep=10pt},
+  procnode/.style={card, align=center, inner sep=7pt,
+                   minimum width=2.7cm, minimum height=0.95cm,
+                   fill=#1!5, draw=#1!25},
+  wideproc/.style={card, text width=13.0cm, align=center,
+                   fill=#1!4, draw=#1!20, inner sep=8pt},
+  provcard/.style={card, text width=4.8cm, minimum height=2.7cm},
+  arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
+                 fill=white, inner sep=1.5pt, rounded corners=1pt},
+  note/.style={rounded corners=7pt, draw=ink!10, fill=ink!2,
+               inner sep=8pt, align=left, font=\sffamily\tiny,
+               text=ink!78, text width=14.2cm}
+]
+
+% ── COLOURS ──
+\definecolor{pri}{HTML}{2563EB}
+\definecolor{sec}{HTML}{059669}
+\definecolor{ter}{HTML}{D97706}
+\definecolor{quat}{HTML}{7C3AED}
+\definecolor{alert}{HTML}{DC2626}
+\definecolor{bg}{HTML}{F8FAFC}
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{muted}{HTML}{64748B}
+
+% ━━ TITLE ━━
+\node[titlebar, minimum width=15.2cm] at (0,0.3)
+  {Diagnosis Pipeline Flow};
+\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
+      align=center] at (0,-0.55)
+  {Image diagnosis orchestration across validation,
+   dual inference providers (VLM primary\,/\,Gemini fallback),
+   result normalization, persistence, and response delivery.};
+
+% ━━ LAYER 1: ENTRY ━━
+\node[procnode=pri, minimum width=5cm, minimum height=1.1cm]
+  (entry) at (0,-2.1)
+  {\textbf{POST /diagnose}\\[-1pt]
+   {\tiny image (base64\,/\,URL)\;+\;crop context\;+\;user}};
+
+% ━━ LAYER 2: INPUT VALIDATION ━━
+\node[wideproc=ter] (valid) at (0,-3.95) {
+  \textbf{\textcolor{ter}{Input Validation}}
+  \quad\textcolor{muted}{\textemdash}\quad
+  {\footnotesize MIME\,/\,base64 check
+   \textrightarrow{} crop normalization\\[-1pt]
+   prompt assembly \textrightarrow{} rate limit guard}};
+
+\draw[flow] (entry) -- (valid);
+
+% ━━ LAYER 3: DIAGNOSIS ORCHESTRATOR ━━
+\node[procnode=pri, minimum width=5.5cm, minimum height=1.2cm]
+  (orch) at (0,-5.95) {
+  \textbf{Diagnosis Orchestrator}\\[-1pt]
+  {\tiny DiagnosisService\;\textemdash\;select provider, compose payload, timeout guard}};
+
+\draw[flow] (valid) -- (orch);
+
+% ━━ LAYER 4: PROVIDER Y-FORK ━━
+% VLM provider (primary, left)
+\node[provcard, fill=sec!5, draw=sec!22] (vlm) at (-4.5,-8.55) {
+  \textbf{\textcolor{sec}{VLM Provider}}
+  \hfill{\tiny\textcolor{sec!65}{primary}}\\[3pt]
+    \textcolor{ink!72}{FastAPI gateway (port 8000)\\}
+  \textcolor{ink!72}{Qwen2.5-VL-3B + LoRA adapter\\}
+  \textcolor{ink!72}{vLLM server (port 8080)\\}
+  \textcolor{ink!72}{Structured JSON result:\\}
+  \textcolor{ink!72}{\hspace*{0.8em}disease, severity, confidence,\\}
+  \textcolor{ink!72}{\hspace*{0.8em}treatment, prevention}};
+% Gemini provider (fallback, right)
+\node[provcard, fill=ter!5, draw=ter!22] (gem) at (4.5,-8.55) {
+  \textbf{\textcolor{ter}{Gemini Provider}}
+  \hfill{\tiny\textcolor{ter!65}{fallback}}\\[3pt]
+    \textcolor{ink!72}{Gemini Vision API\\}
+  \textcolor{ink!72}{Vision prompt with context\\}
+  \textcolor{ink!72}{Tool\,/\,knowledge grounding\\}
+  \textcolor{ink!72}{Parse text response to JSON:\\}
+  \textcolor{ink!72}{\hspace*{0.8em}disease, severity, confidence,\\}
+  \textcolor{ink!72}{\hspace*{0.8em}treatment, prevention}};
+% fork arrows
+\draw[flow] (orch.south west) -- (vlm.north)
+  node[arrlbl, pos=0.35, left] {primary};
+\draw[flow] (orch.south east) -- (gem.north)
+  node[arrlbl, pos=0.35, right] {fallback};
+
+% ━━ LAYER 5: RESULT NORMALIZATION (merge) ━━
+\node[wideproc=quat] (norm) at (0,-11.35) {
+  \textbf{\textcolor{quat}{Result Normalization}}
+  \quad\textcolor{muted}{\textemdash}\quad
+  {\footnotesize disease label
+   \textrightarrow{} severity level
+   \textrightarrow{} causes \& symptoms
+   \textrightarrow{} remedies
+   \textrightarrow{} confidence tier}};
+
+% merge arrows
+\draw[flow] (vlm.south)  -- ++(0,-0.35) -| ([xshift=-15pt]norm.north);
+\draw[flow] (gem.south)  -- ++(0,-0.35) -| ([xshift=15pt]norm.north);
+
+% ━━ LAYER 6: OUTPUTS ━━
+\node[procnode=quat, minimum width=3.2cm] (persist) at (-3.5,-13.05) {
+  \textbf{Persistence}\\[-1pt]
+  {\tiny create Scan record}\\[-1pt]
+  {\tiny link user \& crop}};
+
+\node[procnode=sec, minimum width=3.4cm] (resp) at (3.5,-13.05) {
+  \textbf{Client Response}\\[-1pt]
+  {\tiny DiagnosisResponse}\\[-1pt]
+  {\tiny scan ID + recommendations}};
+
+\draw[flow] (norm.south) -- ++(0,-0.35) -| (persist.north);
+\draw[flow] (norm.south) -- ++(0,-0.35) -| (resp.north);
+\draw[flow] (persist) -- (resp) node[arrlbl, midway, above] {scan ID};
+
+% error fallback
+\node[procnode=alert, minimum width=2.6cm] (errf) at (7.3,-13.05) {
+  \textbf{Error Fallback}\\[-1pt]
+  {\tiny safe client message}};
+\draw[errflow] (resp.east) -- (errf.west)
+  node[arrlbl, midway, above, text=alert!60] {on failure};
+
+% ━━ NOTE ━━
+\node[note] at (0,-15.0) {
+  \textbf{Critical path}\;\textcolor{muted}{\textemdash}\;
+  The backend hides provider differences behind a single
+  \texttt{DiagnosisService} interface so the mobile client
+  receives one stable diagnosis contract regardless of
+  which inference engine produced the result.
+  VLM is the primary provider; Gemini is activated
+  as a fallback when the VLM gateway is unreachable
+  or returns an error.};
+
+% ━━ BACKGROUND ━━
+\begin{scope}[on background layer]
+  \node[rounded corners=14pt, fill=bg!45, draw=ink!4,
+        line width=0.35pt, inner sep=14pt,
+        fit=(entry)(valid)(orch)(vlm)(gem)(norm)(persist)(resp)(errf)] {};
+
+  % provider fork group
+  \node[groupbox=pri, fit=(orch)(vlm)(gem),
+        inner xsep=10pt, inner ysep=9pt] (gProv) {};
+  \node[grouplbl=pri, anchor=north west]
+        at ([xshift=2pt]gProv.north west) {Provider Selection};
+
+  % output group
+  \node[groupbox=quat, fit=(persist)(resp),
+        inner xsep=8pt, inner ysep=8pt] (gOut) {};
+  \node[grouplbl=quat, anchor=north west]
+        at ([xshift=2pt]gOut.north west) {Output};
+\end{scope}
+
+\end{tikzpicture}%
+}
+\caption{Backend Diagnosis Pipeline Flow}
+\label{fig:backend-02-diagnosis-pipeline-flow}
+\end{figure}

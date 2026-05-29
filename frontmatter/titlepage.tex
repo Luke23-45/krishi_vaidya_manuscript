@@ -1,0 +1,44 @@
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+  {\bfseries\fontsize{16}{18}\selectfont\MakeUppercase{\UniversityName}\par}
+  \vspace{0.3cm}
+  {\bfseries\fontsize{14}{16}\selectfont\MakeUppercase{\InstituteName}\par}
+  \vspace{0.3cm}
+  {\bfseries\fontsize{14}{16}\selectfont\MakeUppercase{\CampusName\ CAMPUS}\par}
+  \vspace{0.3cm}
+  {\fontsize{12}{14}\selectfont\MakeUppercase{\DepartmentFullName}\par}
+
+  \vfill
+
+  \IfFileExists{\LogoPath}{%
+    \includegraphics[width=2.0in,height=1.72in,keepaspectratio]{\LogoPath}
+  }{%
+    \fbox{\parbox[c][4.4cm][c]{5.1cm}{\centering University Logo}}%
+  }
+
+  \vspace{1.0cm}
+
+  {\bfseries\fontsize{16}{18}\selectfont\MakeUppercase{\ReportTitle}\par}
+
+  \vspace{0.8cm}
+
+  {\fontsize{12}{14}\selectfont In partial fulfillment of the requirements for the degree of\par}
+  \vspace{0.2cm}
+  {\bfseries\fontsize{12}{14}\selectfont \ProgramFullName\par}
+
+  \vfill
+
+  {\fontsize{12}{14}\selectfont Submitted By:\par}
+  \vspace{0.3cm}
+  {\bfseries\fontsize{14}{16}\selectfont\MakeUppercase{\ReportAuthor}\par}
+  \vspace{0.2cm}
+  {\fontsize{12}{14}\selectfont Symbol No. \SymbolNumber\par}
+  \vspace{0.2cm}
+  {\fontsize{12}{14}\selectfont T.U. Registration No. \RegistrationNumber\par}
+
+  \vspace{1.0cm}
+
+  {\bfseries\fontsize{14}{16}\selectfont\MakeUppercase{\SubmissionMonthYear}\par}
+\end{center}
+\end{titlepage}
