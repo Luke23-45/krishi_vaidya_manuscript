@@ -26,9 +26,6 @@
   grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
                    fill=white, inner xsep=3pt, inner ysep=1.5pt,
                    rounded corners=2pt},
-  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
-                   inner xsep=14pt, inner ysep=7pt,
-                   font=\sffamily\bfseries\large},
   layerband/.style={card, text width=10.9cm, align=center,
                     minimum height=1.1cm, fill=#1!4, draw=#1!20,
                     font=\sffamily\bfseries\footnotesize, text=#1!90},
@@ -51,14 +48,6 @@
 \definecolor{ink}{HTML}{0F172A}
 \definecolor{muted}{HTML}{64748B}
 
-% ━━ TITLE ━━
-\node[titlebar, minimum width=15.2cm] at (0,0.3)
-  {System Architecture Overview};
-\node[font=\sffamily\footnotesize, text=muted, text width=14.8cm,
-      align=center] at (0,-1.0)
-  {The internal request stack from routes through data access,
-   together with the external services and operational wiring
-   around the backend API.};
 
 % ━━ CENTRAL LAYER STACK ━━
 \node[layerband=pri]  (l1) at (0,-2.5)

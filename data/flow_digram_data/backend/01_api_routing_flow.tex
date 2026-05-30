@@ -29,9 +29,6 @@
                    fill=white, inner xsep=3pt, inner ysep=1.5pt,
                    rounded corners=2pt},
   % ── title ──────────────────────────────────────────────
-  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
-                   inner xsep=14pt, inner ysep=7pt,
-                   font=\sffamily\bfseries\large},
   % ── specialised nodes ──────────────────────────────────
   banner/.style={card, text width=13.2cm, inner sep=10pt},
   mwpill/.style={rounded corners=5pt, fill=#1!10, draw=#1!30,
@@ -62,14 +59,6 @@
 \definecolor{muted}{HTML}{64748B}
 
 % ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-%  TITLE
-% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-\node[titlebar, minimum width=15.2cm] at (0,0.3)
-  {API Routing \& Middleware Flow};
-\node[font=\sffamily\footnotesize, text=muted, text width=14.8cm,
-      align=center] at (0,-0.55)
-  {Express.js bootstrap and ordered middleware registration\\
-   with public vs protected route dispatch plus the layered request path.};
 
 % ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 %  LAYER 1 — SERVER BOOTSTRAP

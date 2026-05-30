@@ -20,9 +20,6 @@
                 fill=#1!4, draw=#1!30},
   arrlbl/.style={font=\sffamily\tiny\itshape, text=muted,
                  fill=white, inner sep=1.5pt, rounded corners=1pt},
-  titlebar/.style={rounded corners=8pt, fill=sec, text=white,
-                   inner xsep=14pt, inner ysep=7pt,
-                   font=\sffamily\bfseries\large},
   groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt,
                    fill=#1!3},
   grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
@@ -38,12 +35,6 @@
 \definecolor{ink}{HTML}{0F172A}
 \definecolor{muted}{HTML}{64748B}
 
-% ━━ TITLE ━━
-\node[titlebar, minimum width=15.2cm] at (4.5,5.8)
-  {System Object Model Diagram};
-\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
-      align=center] at (4.5,4.9)
-  {The core domain entities representing Krishi Vaidya's data models across mobile local stores and backend databases.};
 
 % ━━ CLASSES ━━
 \node[class=sec] (user) at (0,2.8) {\textcolor{sec}{\textbf{User}}\\[2pt]

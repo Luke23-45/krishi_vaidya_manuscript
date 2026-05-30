@@ -3,7 +3,7 @@
 \addcontentsline{toc}{chapter}{Shodhsar (Abstract in Nepali)}
 {\nepalifont
 \begin{center}
-{\fontsize{18}{22}\selectfont शोधसार}
+{\fontsize{16}{18}\selectfont शोधसार}
 \end{center}
 
 \vspace{1.5\baselineskip}
@@ -24,9 +24,10 @@
 कायम राख्न सफल भएको छ। {\normalfont Qwen2.5-VL-3B-Instruct} मा {\normalfont LoRA}
 एडाप्टर र {\normalfont 4-bit} क्वान्टाइज्ड ट्रेनिङको प्रयोग गरी तयार पारिएको
 {\normalfont VLM} उपप्रणालीले {\normalfont 13 GB} {\normalfont GPU} मेमोरी भित्रै
-फाइन-ट्युनिङ पूरा गर्दछ। यद्यपि, स्वतन्त्र परीक्षण सेटमा यसले {\normalfont 67.7}
-प्रतिशत पार्स-त्रुटि दर देखाएको छ, जसले स्ट्रक्चर्ड आउटपुटको विश्वसनीयता अझै पनि
-मुख्य चुनौती रहेको पुष्टि गर्दछ। {\normalfont Express/Mongoose} ब्याकएन्डले अपलोड
+तीन-इपोकको सीमित फाइन-ट्युनिङ पूरा गर्दछ। कम अन्तिम मूल्याङ्कन लस र उच्च टोकन
+शुद्धताले यस दिशालाई आशाजनक देखाउँछ। स्वतन्त्र परीक्षण सेटमा देखिएको
+{\normalfont 67.7} प्रतिशत पार्स-त्रुटि दरले भने स्ट्रक्चर्ड आउटपुटको विश्वसनीयता
+अझै पनि मुख्य चुनौती रहेको पुष्टि गर्दछ। {\normalfont Express/Mongoose} ब्याकएन्डले अपलोड
 गरिएका तस्वीरहरूको प्रमाणीकरण गर्दछ, {\normalfont VLM} इन्फरेन्स व्यवस्थापन गर्दछ,
 र सुरक्षित {\normalfont API} मार्फत निर्धरण तथा सल्लाह उपलब्ध गराउँछ।
 {\normalfont React Native} र {\normalfont Expo} मा निर्मित मोबाइल अनुप्रयोगले
@@ -36,11 +37,12 @@
 यसको एकीकृत निर्धरण प्रक्रियाले मोबाइलबाट तस्वीर खिच्नेदेखि ब्याकएन्ड प्रशोधन हुँदै
 किसानसम्म नतिजा पुर्याउने कार्यलाई जोड्दछ। समग्रमा यसले {\normalfont YOLO} मोडेल,
 {\normalfont VLM} तालिम पाइपलाइन, ब्याकएन्ड र मोबाइल आर्किटेक्चरको सफल कार्यान्वयन
-प्रस्तुत गर्दछ। मुख्य सीमितताहरूको कुरा गर्दा; हाल {\normalfont VLM} को नतिजामा
-देखिएको विश्वसनीयताको कमी, पूर्ण {\normalfont (end-to-end)} प्रत्यक्ष परीक्षणको अभाव
-र प्रणालीलाई वास्तविक रूपमा प्रयोगमा ल्याउनुअघि कृषि विशेषज्ञबाट प्रमाणीकरण
-अनिवार्य हुनुपर्छ।
+प्रस्तुत गर्दछ। वितरण गरिएको {\normalfont (end-to-end)} एकीकरण र मोबाइल कार्यप्रवाह
+प्रत्यक्ष रूपमा परीक्षण गरिएको छ। मुख्य सीमितताहरूको कुरा गर्दा; सीमित तीन-इपोक
+{\normalfont VLM} प्रशिक्षणका कारण हालको स्वतन्त्र परीक्षण नतिजा, व्यापक स्वचालित
+परीक्षणको आवश्यकता, उत्पादन स्तरको विस्तार, र प्रणालीलाई वास्तविक रूपमा प्रयोगमा
+ल्याउनुअघि कृषि विशेषज्ञबाट प्रमाणीकरण अनिवार्य हुनुपर्छ।
 }
 
 \vspace{2\baselineskip}
-\noindent\textit{\fontsize{10}{12}\selectfont Keywords:} {\fontsize{10}{12}\selectfont Krishi Vaidya, crop disease diagnosis, YOLO, vision-language model, mobile agriculture, backend API}
+\noindent\textit{Keywords:} Krishi Vaidya, crop disease diagnosis, YOLO, vision-language model, mobile agriculture, backend API

@@ -18,10 +18,7 @@
                       shadow yshift=-1pt, shadow opacity=13}},
   msg/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.8pt, draw=pri!80},
   return/.style={-{Latex[length=2.2mm,width=1.5mm]}, line width=0.8pt, draw=muted!80, dashed},
-  lbl/.style={font=\sffamily\tiny, text=ink!80, fill=white, inner sep=2pt, rounded corners=2pt},
-  titlebar/.style={rounded corners=8pt, fill=quat, text=white,
-                   inner xsep=14pt, inner ysep=7pt,
-                   font=\sffamily\bfseries\large}
+  lbl/.style={font=\sffamily\tiny, text=ink!80, fill=white, inner sep=2pt, rounded corners=2pt}
 ]
 
 \definecolor{pri}{HTML}{E11D48}   % Rose
@@ -32,12 +29,6 @@
 \definecolor{ink}{HTML}{0F172A}
 \definecolor{muted}{HTML}{64748B}
 
-% ━━ TITLE ━━
-\node[titlebar, minimum width=15.2cm] at (5.4,2.5)
-  {System Sequence Diagram};
-\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
-      align=center] at (5.4,1.6)
-  {The chronological flow of messages and data payloads across system boundaries during an online crop scan submission.};
 
 % ━━ LIFELINE HEADERS ━━
 \node[lifelinebox=sec] (mobile) at (0,0) {\textcolor{sec}{Mobile App}};

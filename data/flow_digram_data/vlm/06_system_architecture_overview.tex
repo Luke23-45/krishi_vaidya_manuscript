@@ -26,9 +26,6 @@
   grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
                    fill=white, inner xsep=3pt, inner ysep=1.5pt,
                    rounded corners=2pt},
-  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
-                   inner xsep=14pt, inner ysep=7pt,
-                   font=\sffamily\bfseries\large},
   modulenode/.style={card, align=center, inner sep=6pt,
                      minimum width=4.5cm, minimum height=1cm,
                      fill=#1!4, draw=#1!25},
@@ -49,13 +46,6 @@
 \definecolor{ink}{HTML}{0F172A}
 \definecolor{muted}{HTML}{64748B}
 
-% ━━ TITLE ━━
-\node[titlebar, minimum width=15.2cm] at (0,0.3)
-  {VLM System Architecture Overview};
-\node[font=\sffamily\footnotesize, text=muted, text width=14.8cm,
-      align=center] at (0,-1.0)
-  {The modular VLM architecture separates offline data and training workflows\\
-   from the online gateway and inference-serving stack.};
 
 % ━━ LEFT SIDE: ML LIFECYCLE ━━
 \node[modulenode=pri] (data) at (-3.7,-3.25) {

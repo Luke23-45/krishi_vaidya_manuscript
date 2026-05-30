@@ -24,9 +24,6 @@
   grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
                    fill=white, inner xsep=3pt, inner ysep=1.5pt,
                    rounded corners=2pt},
-  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
-                   inner xsep=14pt, inner ysep=7pt,
-                   font=\sffamily\bfseries\large},
   procnode/.style={card, align=center, inner sep=7pt,
                    minimum width=4cm, minimum height=1cm,
                    fill=#1!4, draw=#1!25},
@@ -47,13 +44,6 @@
 \definecolor{ink}{HTML}{0F172A}
 \definecolor{muted}{HTML}{64748B}
 
-% ━━ TITLE ━━
-\node[titlebar, minimum width=15.2cm] at (0,0.3)
-  {VLM Validation \& Evaluation Flow};
-\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
-      align=center] at (0,-1.0)
-  {Fork-join evaluation pipeline: Running automated test sets against the model
-   using structured generation and evaluating results objectively.};
 
 % ━━ ROW 1: INPUT ━━
 \node[procnode=pri] (testset) at (0,-2.2) {

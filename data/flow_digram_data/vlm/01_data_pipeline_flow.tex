@@ -24,9 +24,6 @@
   grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70,
                    fill=white, inner xsep=3pt, inner ysep=1.5pt,
                    rounded corners=2pt},
-  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
-                   inner xsep=14pt, inner ysep=7pt,
-                   font=\sffamily\bfseries\large},
   stagenode/.style={card, align=center, inner sep=6pt,
                     minimum width=2.4cm, minimum height=1cm,
                     fill=#1!4, draw=#1!25},
@@ -48,13 +45,6 @@
 \definecolor{ink}{HTML}{0F172A}
 \definecolor{muted}{HTML}{64748B}
 
-% ━━ TITLE ━━
-\node[titlebar, minimum width=15.2cm] at (0,0.3)
-  {VLM Data Pipeline Flow (11 Stages)};
-\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
-      align=center] at (0,-1.0)
-  {The serpentine sequence of ingestion, text cleaning, visual curation,
-   and formatting into Qwen-style conversational arrays.};
 
 % ━━ ROW 1: INGESTION (Right to Left to start serpentine, or Left to Right) ━━
 % Let's do Left to Right for Row 1

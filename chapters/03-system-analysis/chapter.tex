@@ -2,18 +2,14 @@
 
 \ChapterSection{System Analysis}
 
-Krishi Vaidya is analyzed as a software system whose purpose is to support image-based crop
-disease diagnosis and advisory delivery. The system is not limited to a trained model artifact.
-It includes four cooperating subsystems: a YOLO-based plant-part detector, a Qwen-based
-vision-language model service, an Express/Mongoose backend API, and a React Native/Expo mobile
-application. The analysis therefore treats model inference, backend orchestration, local mobile
-storage, offline behavior, and farmer-facing advisory presentation as parts of one workflow.
+The four subsystems introduced in Chapter 1---YOLO detector, VLM service, backend API, and
+mobile application---are analyzed here as parts of a single workflow that spans model inference,
+backend orchestration, local mobile storage, offline behavior, and farmer-facing advisory
+presentation.
 
 The primary users are farmers or field-level agricultural users who capture crop images and
 review advisory output. The backend and model services act as system actors that validate input,
-perform inference, generate structured responses, and store scan history. The project supervisor,
-internal examiner, and external examiner are not application users; they evaluate the project
-through the report, viva, demonstration, and source-backed evidence.
+perform inference, generate structured responses, and store scan history.
 
 \ChapterSubsection{Requirement Analysis}
 
@@ -45,7 +41,6 @@ FR-06 & The VLM inference service shall accept authorized image-diagnosis reques
 FR-07 & The backend shall assemble diagnosis, severity, confidence, treatment, prevention, and advisory fields into a structured response for the mobile app. \\
 FR-08 & The system shall store scan records, diagnosis state, advisory data, crop records, tasks, and notes using backend persistence and mobile local persistence where applicable. \\
 FR-09 & The mobile application shall support offline-aware behavior through local SQLite storage, scan queues, cached advisory output, and retry logic. \\
-FR-10 & The report shall include generated model results, backend and mobile implementation evidence, screenshots, major code snippets, and supervisor-visit log material in appendices. \\
 \end{xltabular}
 
 \subsubsection{Non-Functional Requirements}
@@ -90,50 +85,49 @@ Safety & The system shall avoid claiming certified agronomic diagnosis and shall
 \endfoot
 \bottomrule
 \endlastfoot
-Technical & The project is technically feasible because all major components are implemented in the workspace: YOLO training and validation code, VLM data/training/inference code, an Express/Mongoose backend, and a React Native/Expo mobile app. The remaining technical risk is not implementation absence but diagnostic reliability, especially VLM output parseability. \\
-Operational & The workflow is operationally suitable for a farmer-facing prototype because the mobile app supports scan capture, crop records, local persistence, settings, accessibility-related configuration, and offline-aware behavior. Physical-device validation confirms the implemented mobile workflow, while real field deployment still requires expert agronomic review. \\
-Economic & The prototype uses student-accessible software stacks and open-source frameworks. Costs are mainly compute for model training/inference, cloud image storage if enabled, and optional external advisory-generation services. No dedicated proprietary platform is required for the current implementation. \\
-Schedule & The project follows the CSIT project phases: proposal defense in the early semester, midterm progress defense around the tenth to eleventh week, and final report/demonstration before the final board examination. The current manuscript organizes completed implementation and evidence for final submission. \\
+Technical & All major components are implemented: YOLO training and validation code, VLM data/training/inference code, an Express/Mongoose backend, and a React Native/Expo mobile app. The main remaining risk is diagnostic reliability---particularly VLM output parseability. \\
+Operational & The mobile app supports scan capture, crop records, local persistence, settings, and offline-aware behavior. Physical-device testing confirms the workflow; real field deployment still requires expert agronomic review. \\
+Economic & The prototype uses student-accessible, open-source stacks. Costs are mainly compute for training/inference, optional cloud image storage, and optional external advisory-generation services. \\
+Schedule & The project follows CSIT project phases: proposal defense, midterm progress defense, and final report/demonstration before the board examination. The manuscript organizes completed implementation evidence for final submission. \\
 \end{xltabular}
 
 \ChapterSubsection{Object-Oriented Analysis}
 
-The object-oriented analysis models the application domain as interacting entities rather than
-as isolated scripts. The dominant domain objects are User, CropPlot, Scan, Diagnosis, Advisory,
-CropTask, CropNote, and local mobile repositories. The backend implementation stores these
+The dominant domain objects are User, CropPlot, Scan, Diagnosis, Advisory,
+CropTask, CropNote, and local mobile repositories. The backend stores these
 entities through Mongoose models and repositories, while the mobile application maintains local
 representations through TypeScript types, repositories, SQLite-backed datasources, and feature
 view models.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{data/flow_digram_data/build/system_analysis/01_use_case_diagram.pdf}
+\includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{data/flow_digram_data/build/system_analysis/01_use_case_diagram.pdf}
 \caption{Use case diagram for the Krishi Vaidya diagnosis-support workflow}
 \label{fig:system-use-case-diagram}
+\vspace{1.5cm}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{data/flow_digram_data/build/system_analysis/02_object_model_diagram.pdf}
+\includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{data/flow_digram_data/build/system_analysis/02_object_model_diagram.pdf}
 \caption{Object model showing the main Krishi Vaidya domain entities}
 \label{fig:system-object-model}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{data/flow_digram_data/build/system_analysis/03_sequence_diagram.pdf}
+\includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{data/flow_digram_data/build/system_analysis/03_sequence_diagram.pdf}
 \caption{Sequence diagram for the online scan diagnosis workflow}
 \label{fig:scan-sequence-diagram}
+\vspace{0.5cm}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{data/flow_digram_data/build/system_analysis/04_activity_diagram.pdf}
+\includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{data/flow_digram_data/build/system_analysis/04_activity_diagram.pdf}
 \caption{Activity diagram for scan submission under online and offline conditions}
 \label{fig:scan-activity-diagram}
 \end{figure}
 
-The analysis confirms that Krishi Vaidya is a multi-component, object-oriented software system
-with a real implemented domain model and testable boundaries. Chapter 4 refines this analysis
-into the concrete system design, data pipelines, module organization, and algorithm details used
-for implementation.
+Chapter 4 translates this analysis into concrete system design, data pipelines, module
+organization, and algorithm details used for implementation.

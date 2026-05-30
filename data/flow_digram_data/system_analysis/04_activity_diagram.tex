@@ -24,9 +24,6 @@
                    text=ink, blur shadow={shadow blur steps=5, shadow xshift=0.6pt,
                    shadow yshift=-1pt, shadow opacity=13}},
   arrlbl/.style={font=\sffamily\tiny\bfseries, text=ink!80, fill=bg!45, inner sep=2pt, rounded corners=2pt},
-  titlebar/.style={rounded corners=8pt, fill=pri, text=white,
-                   inner xsep=14pt, inner ysep=7pt,
-                   font=\sffamily\bfseries\large},
   groupbox/.style={rounded corners=11pt, draw=#1!22, line width=0.4pt, fill=#1!3},
   grouplbl/.style={font=\sffamily\bfseries\tiny, text=#1!70, fill=white, inner xsep=3pt, inner ysep=1.5pt, rounded corners=2pt}
 ]
@@ -39,12 +36,6 @@
 \definecolor{ink}{HTML}{0F172A}
 \definecolor{muted}{HTML}{64748B}
 
-% ━━ TITLE ━━
-\node[titlebar, minimum width=15.2cm] at (0,2.6)
-  {System Activity Diagram};
-\node[font=\sffamily\footnotesize, text=muted, text width=14cm,
-      align=center] at (0,1.7)
-  {The workflow for scan submission, depicting the decision logic branching between online diagnosis and offline queuing.};
 
 % ━━ NODES ━━
 \node[activitystep=pri] (capture) at (0,0) {\textcolor{pri}{Capture or select}\\[-2pt]\textcolor{pri}{crop image}};

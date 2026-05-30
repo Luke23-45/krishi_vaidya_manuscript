@@ -28,8 +28,8 @@
 
 \usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows.blur,shapes.geometric}
 
-\counterwithout{figure}{chapter}
-\counterwithout{table}{chapter}
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
 
 \newfontfamily\nepalifont[
   Path=assets/kalimati-regular/,
@@ -115,8 +115,8 @@
 \renewcommand{\@cftmakelottitle}{}
 \makeatother
 
-\renewcommand{\cftchapfont}{\bfseries\fontsize{14}{16}\selectfont}
-\renewcommand{\cftchappagefont}{\bfseries\fontsize{14}{16}\selectfont}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
 \renewcommand{\cftchappresnum}{}
 \renewcommand{\cftchapaftersnum}{. }
 \setlength{\cftchapnumwidth}{2.5em}
