@@ -1,52 +1,53 @@
 \clearpage
-\thispagestyle{plain}
+\thispagestyle{empty}
 \begin{center}
-  \bfseries\fontsize{16}{18}\selectfont
-  CERTIFICATE OF APPROVAL
+  \IfFileExists{\LogoPath}{%
+    \includegraphics[width=1.5in,height=1.5in,keepaspectratio]{\LogoPath}
+  }{%
+    \fbox{\parbox[c][1.5in][c]{1.5in}{\centering University Logo}}%
+  }
+  
+  \vspace{0.3cm}
+
+  {\bfseries\fontsize{16}{18}\selectfont \UniversityName\par}
+  {\bfseries\fontsize{16}{18}\selectfont \InstituteName\par}
+  {\bfseries\fontsize{16}{18}\selectfont \CampusName\ Campus, Pokhara- Kaski\par}
+  
+  \vspace{1.0cm}
+
+  {\bfseries\underline{\fontsize{16}{18}\selectfont Letter of Approval}\par}
 \end{center}
-\vspace{1.5\baselineskip}
-\PrelimEntry{Certificate of Approval}
 
-The undersigned certify that they have read and recommended to the \DepartmentFullName\ for acceptance, a project report entitled ``\textbf{\ReportTitle}'' submitted by \ReportAuthor\ (Symbol No. \SymbolNumber\ and T.U. Registration No. \RegistrationNumber) in partial fulfillment of the requirements for the degree of \ProgramFullName\ awarded by \UniversityName.
+\vspace{0.5cm}
+\PrelimEntry{Letter of Approval}
 
-\vspace{1\baselineskip}
+{\fontsize{11}{13}\selectfont This is to certify that this project by \textbf{\ReportAuthor} (\SymbolNumber) entitled ``\textbf{\ReportTitle}'' in partial fulfilment of the requirement for the degree of \ProgramName\ has been well studied. In our opinion it is satisfactory in scope and quality as a project for the required degree.\par}
+
+\vspace{1.5cm}
 \noindent
-\begin{minipage}[t]{0.47\textwidth}
-\DashedSignatureLine{5cm}\\
-\SupervisorName \\
-Supervisor\\
-Department: \SupervisorDepartment\\
-Campus/Institute: \SupervisorCampus\\
-University: \SupervisorUniversity
-\end{minipage}%
-\hfill
-\begin{minipage}[t]{0.47\textwidth}
-\DashedSignatureLine{5cm}\\
-\HeadOfDepartment \\
-\HeadOfDepartmentTitle\\
-\CampusName\ Campus\\
-\UniversityName
-\end{minipage}
-
-\vspace{3\baselineskip}
-\noindent
-\begin{minipage}[t]{0.47\textwidth}
-\DashedSignatureLine{5cm}\\
-External Examiner\\
-Department: \DepartmentFullName\\
-Campus/Institute: \CampusName\ Campus\\
-University: \UniversityName
-\end{minipage}%
-\hfill
-\begin{minipage}[t]{0.47\textwidth}
-\DashedSignatureLine{5cm}\\
-Internal Examiner\\
-Department: \DepartmentFullName\\
-Campus/Institute: \CampusName\ Campus\\
-University: \UniversityName
-\end{minipage}
-
-\vfill
-\begin{center}
-\textbf{[\SubmissionDate]}
-\end{center}
+{\fontsize{12}{14}\selectfont
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{|p{0.46\textwidth}|p{0.46\textwidth}|}
+\hline
+\rule{0pt}{2.8cm}.................................................. \newline 
+\HeadOfDepartment \newline 
+\HeadOfDepartmentTitle \newline 
+\CampusName\ Campus 
+& 
+\rule{0pt}{2.8cm}.................................................. \newline 
+\SupervisorName \newline 
+Supervisor \newline 
+\CampusName\ Campus 
+\\
+\hline
+\rule{0pt}{2.8cm}.................................................. \newline 
+External Examiner \newline 
+IOST, \UniversityName 
+& 
+\rule{0pt}{2.8cm}.................................................. \newline 
+Internal Examiner \newline 
+\CampusName\ Campus 
+\\
+\hline
+\end{tabular}
+}

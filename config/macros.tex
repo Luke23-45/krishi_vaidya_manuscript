@@ -1,16 +1,11 @@
 \newcommand{\PrelimHeading}[1]{%
   \clearpage
   \thispagestyle{plain}
-  \begin{center}
-    \bfseries\fontsize{16}{18}\selectfont\MakeUppercase{#1}
-  \end{center}
+  {\noindent\bfseries\fontsize{16}{18}\selectfont #1\par}
   \vspace{1.5\baselineskip}
 }
 
-\newcommand{\PrelimEntry}[1]{%
-  \phantomsection
-  \addcontentsline{toc}{chapter}{#1}
-}
+\newcommand{\PrelimEntry}[1]{}
 
 \newcommand{\ChapterSection}[1]{%
   \section{#1}
@@ -59,19 +54,19 @@
 }
 
 \newcommand{\CenteredTOC}{%
-  \PrelimHeading{TABLE OF CONTENTS}%
-  \PrelimEntry{TABLE OF CONTENTS}%
+  \PrelimHeading{Table of Contents}%
+  \PrelimEntry{Table of Contents}%
   \tableofcontents
 }
 
 \newcommand{\CenteredLOF}{%
-  \PrelimHeading{LIST OF FIGURES}%
+  \PrelimHeading{List of Figures}%
   \PrelimEntry{List of Figures}%
   \listoffigures
 }
 
 \newcommand{\CenteredLOT}{%
-  \PrelimHeading{LIST OF TABLES}%
+  \PrelimHeading{List of Tables}%
   \PrelimEntry{List of Tables}%
   \listoftables
 }
