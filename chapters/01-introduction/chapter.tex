@@ -34,7 +34,7 @@ The Krishi Vaidya mobile app must take images, allow submit diagnosis requests, 
 
 \ChapterSubsection{General objective}
 
-To design, implement and set up an experiment & evaluation of an integrated crop-health diagnosis and support system for Nepalese smallholder farmers. 
+To design, implement and set up an experiment \& evaluation of an integrated crop-health diagnosis and support system for Nepalese smallholder farmers. 
 The system has different components such as object detection, vision-language modelling,
 backend services, and a mobile application to support image-based disease interpretation and
 structured advisory output.
@@ -101,7 +101,7 @@ The requirements were grouped into four subsystems. For object detection, YOLOv8
 
 \ChapterSubsection{Implementation}
 
-Each subsystem was built and integrated step by step, starting with the YOLO models. The YOLO pipeline covers (dataset curation; 100 epoch-long (640px) training; confidence-threshold analysis; export to FP32, FP16 and INT8 TFLite). The VLM pipeline (PlantVillage-derived dataset; 3-epoch long supervised fine-tuning on an NVIDIA L4 GPU; deploying on a FastAPI inference gateway using JWT authentication). The backend implements 8 new API domains (Diagnosis, authentication, users, scans, crops, tasks, notes, advisories), with Cloudinary storage, Zod-validated configuration & an Explicit Dependency Container. The mobile app implements the capture scan workflow, offline crop plot management with bilingual advisories & SQLite offline queuing and synchronisation infrastructure.
+Each subsystem was built and integrated step by step, starting with the YOLO models. The YOLO pipeline covers (dataset curation; 100 epoch-long (640px) training; confidence-threshold analysis; export to FP32, FP16 and INT8 TFLite). The VLM pipeline (PlantVillage-derived dataset; 3-epoch long supervised fine-tuning on an NVIDIA L4 GPU; deploying on a FastAPI inference gateway using JWT authentication). The backend implements 8 new API domains (Diagnosis, authentication, users, scans, crops, tasks, notes, advisories), with Cloudinary storage, Zod-validated configuration \& an Explicit Dependency Container. The mobile app implements the capture scan workflow, offline crop plot management with bilingual advisories \& SQLite offline queuing and synchronisation infrastructure.
 
 \ChapterSubsection{Testing and Validation}
 

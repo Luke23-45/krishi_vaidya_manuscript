@@ -76,19 +76,15 @@ Testability & Test suites focused on the model utilities and VLM API behaviour, 
 \bottomrule
 \endlastfoot
 
-Technical & The centrepiece is ready; devs have built YOLO & VLM Pipelines, they are wrapped inside an Express / Mongoose Backend and run live via a React Native/ Expo mobile application. The main challenge remains reliability of diagnostics; unparseable outputs from the VLM could cause instability. \\
-
+Technical & The centrepiece is ready; devs have built YOLO and VLM Pipelines, they are wrapped inside an Express / Mongoose Backend and run live via a React Native/ Expo mobile application. The main challenge remains reliability of diagnostics; unparseable outputs from the VLM could cause instability. \\
 Operational & The phone interface has the ability to process live scans in the field, record a crop's full details and save details locally to ensure off-line working on local data. Workflow has been tested and tested on a hardware successfully. The real -world working still needs to be verified by agricultural specialists. \\
-
- Economic & It's built out of tech 100% accessible to student developers & free and open source. The majority of costs are funding the raw computer resources to run the model and to continue training. \\
-
+Economic & It's built out of tech 100\% accessible to student developers and free and open source. The majority of costs are funding the raw computer resources to run the model and to continue training. \\
 Schedule & Development refers to CSIT project targets and deadlines. It demands presentation of an initial proposal and progress after midterm, along with final demonstration before the board examination time. This manuscript forms the core implementation evidence of the final project submission.
-
 \end{xltabular}
 
 \ChapterSubsection{Object-Oriented Analysis}
 
-The architecture for the seven objects; User, CropPlot and Scan, & Diagnosis, Advisory, CropTask & CropNote revolves around three base objects and related ones. In backend the data is directly exposed with Mongoose models & repository objects by the means of these seven domain objects. Mobile clients work a little differently by having mobile repositories with the backed datasource based on SQLite. State remains to be local. With the Typescript objects mobile clients can have those local states for the feature viewmodels exposed on the mobile applications.
+The architecture for the seven objects; User, CropPlot and Scan, \& Diagnosis, Advisory, CropTask \& CropNote revolves around three base objects and related ones. In backend the data is directly exposed with Mongoose models \& repository objects by the means of these seven domain objects. Mobile clients work a little differently by having mobile repositories with the backed datasource based on SQLite. State remains to be local. With the Typescript objects mobile clients can have those local states for the feature viewmodels exposed on the mobile applications.
 
 \begin{figure}[htbp]
 \centering
