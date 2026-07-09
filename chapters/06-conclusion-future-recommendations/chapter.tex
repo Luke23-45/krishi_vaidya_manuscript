@@ -3,61 +3,57 @@
 
 \ChapterSection{Conclusion}
 
-Krishi Vaidya combines a YOLO detector, a LoRA-adapted VLM, an Express
+The project Krishi Vaidya uses different components, namely a YOLO detector, a LoRA-adapted VLM, an Express
 backend, and a React Native mobile app into a single crop-health diagnosis
-workflow for Nepalese farmers. The whole pipeline runs end to end. The VLM
-produces structured diagnoses and shows measurable learning, though its
-test-set accuracy remains modest after only three training epochs under
+workflow for Nepalese farmers. Krishi Vaidya runs end to end, and it was verifed thought the field test. The VLM
+outputs the structured diagnoses based on the provided image and shows measurable learning, though its
+test-set accuracy remains modest after three epochs during training under
 computational budget constraints.
 
-The YOLO detector reached F1 0.73 and mAP@50 0.76 across eleven plant-part
+The YOLO models had reached F1 0.73 and mAP@50 0.76 across eleven plant-part
 classes. Its INT8 quantised variant retains 98 percent of baseline mAP at
-1.87$\times$ compression, so on-device deployment is practical. Per-class
+1.87$\times$ compression, so based on this we could conclude that on-device deployment is practical. Per-class
 recall is lower for small or rare classes like rice panicle and brassica
-leaf, as expected given their low sample counts and small sizes in the
+leaf, as expected since their low sample counts and small sizes in the
 training images.
 
-The VLM fine-tuning ran for three epochs on Qwen2.5-VL-3B with LoRA
+The VLM fine-tuning was trained for three epochs on Qwen2.5-VL-3B with LoRA
 adapters and 4-bit quantisation. On the independent test set, 67.7 percent
 of predictions failed to parse into a valid label and overall classification
-accuracy reached 13.1 percent. These figures reflect a compute-constrained
+accuracy reached 13.1 percent. These statistics reflect a compute-constrained
 baseline: the final evaluation loss fell to 0.0146, mean token accuracy
 reached 99.67 percent, and macro precision among parseable predictions stood
-at 0.5232---all signs that the model learned the diagnostic task but had not
-converged on output-format compliance within the three-epoch budget.
-Constrained decoding, stricter prompt templates, and additional training
+at 0.5232. All of the aforementioned results reflect that the model learned the diagnostic task but had not
+converged on output within the three-epoch budget. Some steps such as
+constrained decoding, stricter prompt templates, and additional training
 epochs are the direct levers for closing this gap.
 
 The backend handles authentication, validation, inference calls, and response
-formatting. The mobile app covers the farmer-facing workflow: scan capture,
-diagnosis display, crop records, and offline operation. These components
-work. The primary path to stronger VLM results is additional compute
-and tighter output-format control---the architecture and data pipeline
-are in place.
+formatting. The mobile app covers the farmer-end workflow such as scan capture,
+diagnosis display, crop records, and offline operation. 
 
 \ChapterSubsection{Contributions}
 
 \begin{enumerate}[label=\arabic*.]
-\item \textbf{Plant-part detection.} YOLOv8 nano was trained on a multi-crop
-dataset, evaluated at F1 0.73 and mAP@50 0.76 with per-class analysis,
+\item \textbf{Plant-part detection.} YOLOv8 nano was trained on a dataset with multiple crops
+and evaluation results were F1 0.73 and mAP@50 0.76 with per-class analysis,
 threshold sweeps, and INT8 quantisation retaining 98 percent of baseline mAP.
 
-\item \textbf{Parseability as a VLM metric.} Output-format failures were
-evaluated alongside classification accuracy, showing that unparseable
+\item \textbf{Parseability as a VLM metric.} The output-format failures were
+evaluated together with classification accuracy, which shows that unparseable
 outputs not wrong labels are the main failure mode in structured VLM
 diagnosis.
 
-\item \textbf{End-to-end diagnosis workflow.} A working pipeline from mobile
+\item \textbf{End-to-end diagnosis workflow.} Krishi Vaidya was field-tested from mobile
 image capture through backend validation, VLM inference, and advisory
 generation to farmer-facing result display.
 
-\item \textbf{Offline-first mobile design.} SQLite persistence, offline scan
+\item \textbf{Offline-first mobile design.} The mobile app was designed around an offline-first approach. To achieve this, we have used SQLite persistence, offline scan
 queuing, cached advisory fallback, and sync logic built into the mobile app
 from initial design rather than added after the fact.
 
 \item \textbf{Constraint reporting.} Documentation of compute-constrained
-VLM performance alongside evidence of convergence headroom, limited automated
-test coverage, and absence of expert agronomic validation---defining the
+VLM performance together with evidence of convergence headroom and absence of expert agronomic validation---defining the
 boundary between what the current prototype achieves and what extended
 training can address.
 \end{enumerate}
