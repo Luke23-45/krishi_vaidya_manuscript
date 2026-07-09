@@ -1,33 +1,14 @@
-\chapter{BACKGROUND STUDY AND LITERATURE REVIEW}
 
+
+\chapter{BACKGROUND STUDY AND LITERATURE REVIEW}
 \ChapterSection{Background Study}
 
 \ChapterSubsection{Crop Disease Diagnosis as a Decision-Support Problem}
 
-For a smallholder farmer, diagnosing a crop disease is not an academic classification
-exercise---it is a decision that determines what treatment to apply, when, and whether the
-cost is justified. When a Nepalese farmer observes discoloration on a rice leaf or lesions
-spreading across tomato foliage, the practical question is not ``which class does this image
-belong to?'' but ``what should I do next, and how urgently?'' Purely model-centric research
-often overlooks this decision-support dimension
-\parencite{fabregatAgriDSSSurvey2023,desilvaICT4DAgriculture2023}.
+The Crop disease diagnosis in the field includes more than just the image classification. Farmers need immediate intervention strategies like specific chemicals that can be sprayed, dosage and how fast it should be sprayed, which the computer vision model cannot provide at their current state. Despite a lot of higher accuracy in the identification of plant pathogens in computer vision models, researchers rarely try to map these biological labels to practical agriculture practices \parencite{}. This gives rise to an application gap between the prediction done by algorithms and the decision support required from them. Nepal's agriculture accounts for a quarter of the national GDP, and most rural households depend on it\parencite{moaldAgricultureStats2080,nsoAgricultureCensus2021}.
+Smallholder farmers of Nepal operate under strict budget constraints. And if the farmer selects the wrong pesticide or delays a response to a fungal disease can lead to loss of income \parencite{pandeyCropLossNepal2022}. 
 
-In Nepal, where agriculture accounts for
-roughly one-quarter of GDP and employs most of the rural workforce
-\parencite{moaldAgricultureStats2080,nsoAgricultureCensus2021}, a wrong or late diagnosis can
-be devastating for smallholder households with thin economic margins
-\parencite{pandeyCropLossNepal2022}.
-
-Nepal's emerging digital-agriculture strategy provides some infrastructure, but significant
-barriers remain. The FAO's collaboration with the Government of Nepal highlights gaps in
-digital infrastructure, digital literacy, advisory-service coordination, and rural livelihood
-integration \parencite{faoNepalDigitalAgriculture}. Research on ICT adoption in Nepalese
-agriculture identifies persistent barriers: inconsistent rural connectivity, limited digital
-literacy among older farming populations, and poor coordination between technology providers
-and extension services \parencite{khatriNepalDigitalAgri2023}. A useful crop-health system
-must therefore be designed for offline resilience, linguistic accessibility, and integration
-with existing agricultural knowledge---not only for technical accuracy
-\parencite{silvestriSmallholderTechAdoption2021}.
+Since the farmer's losses can be minimised using digital software, the software would be deployed depending on local infrastructure. From ICT analysis and studies by FAO, even as the number of farmers with smartphones grows, network connectivity is segmented in rural areas. Another issue would be a complicated user interface and software that only consists of English text, which make the farmers give up using agricultural applications eventually (Sharma, Singh, Rana and Kumar, 2017). Though having higher model accuracy in the test environment does not solve anything if deployment is limited due to local infrastructure. It would have practical implications if the diagnosis could be performed offline and local instructions written in Nepali, as well treatments, could be provided directly as steps instead of only the name of the disease \parencite{silvestriSmallholderTechAdoption2021}.
 
 \ChapterSection{Literature Review}
 
@@ -35,44 +16,21 @@ with existing agricultural knowledge---not only for technical accuracy
 
 \subsubsection{Dataset evolution and the lab-to-field gap}
 
-The application of deep learning to plant disease detection gained momentum with the PlantVillage
-study, which demonstrated that convolutional neural networks could identify 26 diseases across
-14 crop species from a curated leaf-image dataset with accuracy exceeding 99 percent
-\parencite{mohanty2016plantvillage}. This result established a baseline but also introduced a
-methodological concern that subsequent work has repeatedly confirmed: models trained on
-laboratory-quality images with uniform backgrounds and controlled lighting do not reliably
-generalize to images captured by farmers in real fields
-\parencite{singhPlantDoc2020,thakurPlantDiseaseFieldGap2022}.
+Deep learning for plant pathology has increased with the PlantVillage study. Convolutional neural networks achieved over 99 percent accuracy in classifying 26 diseases with across 14 crop species \parencite{mohanty2016plantvillage}. Even though these results looked like a breakthrough. The images taken by the user can be varied based on the user device, environment, lighting and other factors, which would be different from the dataset that was used for the training; therefore, the model would likly the collapsed on these outlier data \parencite{singhPlantDoc2020,thakurPlantDiseaseFieldGap2022}.
 
-The PlantDoc dataset addressed this concern directly by collecting ``in-the-wild'' images of 27
-disease classes from internet sources, producing a benchmark where even state-of-the-art
-classifiers achieved only 60 to 75 percent accuracy under standard transfer-learning protocols
-\parencite{singhPlantDoc2020}. This lab-to-field accuracy gap---often exceeding 25 percentage
-points---has become a central theme in the field
-\parencite{thakurPlantDiseaseFieldGap2022,li2021plantDiseaseReviewCNN}.
+The researchers have collected ``in-the-wild'' disease images from different sources online, and are trying to prove that standard transfer-learning models struggle outside the experimental environment \parencite{singhPlantDoc2020}.  Best-in-class machine learning models reach only 60 to 75 percent. This huge performance drop, often exceeding 25 percentage points, now opens up agricultural machine learning research \parencite{thakurPlantDiseaseFieldGap2022,li2021plantDiseaseReviewCNN}.
 
-Reviews of this field show a clear architecture progression: from AlexNet and VGGNet through
-ResNet \parencite{heResNet2016} and
-DenseNet to EfficientNet, with transfer learning from ImageNet pre-training as the standard
-practice \parencite{saleem2019plantDiseaseML,liu2021plantDiseaseReview}. Performance varies
-substantially with dataset quality, class balance, augmentation strategy, and evaluation
-protocol. The most informative studies evaluate on field-collected or internet-sourced images
-rather than on the original PlantVillage test set, because the latter inflates reported accuracy
-relative to practical deployment conditions \parencite{thakurPlantDiseaseFieldGap2022}.
+The machine learning models evolved from AlexNet and VGGNet through ResNet \parencite{heResNet2016}, to current models such as EfficientNet architectures that rely heavily on ImageNet pre-training \parencite{saleem2019plantDiseaseML,liu2021plantDiseaseReview}. Despite this, choosing the best-performing model means very little, and the real performance depends on the quality of the dataset and how the classes are balanced, including the specific augmentation tricks used during training. And testing these models on the original PlantVillage dataset inflates accuracy therefore, the true evaluations require messy, field-collected data \parencite{thakurPlantDiseaseFieldGap2022}.
 
-Two findings from this literature matter for the present project. First, dataset curation is
-as consequential as model architecture for real-world performance. Second, a single
-classification score is insufficient for evaluating a field-deployed system---the gap between
-laboratory and field performance is often larger than the gap between competing architectures.
 
 \subsubsection{Existing mobile disease-detection systems}
 
-Several mobile applications have attempted to deliver deep-learning-based plant disease diagnosis
+Different mobile applications have tried to deliver deep-learning-based plant disease diagnosis
 to farmers. Plantix, developed by PEAT, uses a convolutional neural network to classify disease,
 nutrient deficiency, and pest damage from photographs, with treatment advice delivered in
 multiple languages \parencite{petrellaPlantix2023}. PlantVillage Nuru, developed by Penn State
 University in partnership with IITA and the FAO, provides on-device inference using TensorFlow
-Lite and was specifically designed for offline use---a critical feature for farmers in remote
+Lite and was specifically designed for offline use a critical feature for farmers in remote
 areas with unreliable connectivity \parencite{mrishoPlantVillageNuru2020}.
 
 Table~\ref{tab:existing-mobile-apps} compares published mobile plant-health applications along
@@ -103,7 +61,7 @@ Krishi Vaidya & YOLO + VLM + backend & Offline queue with cached advisory & Stru
 \end{table}
 
 Existing systems generally address one or two of these capabilities: on-device detection,
-structured advisory generation, offline resilience, and crop-management record keeping. None
+structured advisory generation, offline aware, and crop-management record keeping. None
 of the reviewed systems integrates all four within a single workflow that also includes
 VLM-based reasoning. Krishi Vaidya's contribution lies in this integration rather than in
 surpassing any individual component's accuracy---the research gap is architectural and
@@ -113,215 +71,80 @@ workflow-oriented, not primarily accuracy-oriented.
 
 \subsubsection{The YOLO detector family}
 
-Detection localizes \emph{where} plant structures appear within an image, not only \emph{what}
-they are. In agricultural contexts, disease symptoms and relevant structures often occupy small
-or partial regions of a complex field image, and a detector can localize leaves, panicles,
-fruits, ears, and other crop parts to provide spatial context for downstream diagnosis.
+Object detection can provide the results of \emph{where} a plant structure exists, not only \emph{what} it is. The images taken by the farmers often contain poor lighting, low quality, and many degradation factors. The disease symptoms usually hide in small or overlapping fragments of a larger image of the plant. A good model would look for the structural elements like panicles and fruits, including torn or partially obscured leaves. And isolating these regions prevents the downstream diagnostic models from getting lost in the background noise of the normal or healthy portion.
 
-The YOLO (You Only Look Once) family has become the dominant real-time detector in agricultural
-applications because it balances inference speed with competitive accuracy
-\parencite{jiangYOLOSurvey2022}. YOLOv8, released by Ultralytics, supports detection,
-segmentation, classification, and pose estimation across multiple model sizes, with streamlined
-training, validation, and export workflows \parencite{ultralyticsYolov8}. Recent studies
-applying YOLO variants to agricultural tasks report mAP@50 values ranging from 0.70 to 0.92
-depending on crop type, dataset size, and whether evaluation uses controlled or field images
-\parencite{tian2020AppleFruitYOLO,zhengSmallObjDetAgri2023}.
+The YOLO architecture includes the real-time agricultural space \parencite{jiangYOLOSurvey2022}. It can run faster, and it stays highly accurate. Ultralytics improved the performance further with YOLOv8, packing segmentation capabilities and pose estimation alongside standard detection, all wrapped in an extremely efficient training pipeline \parencite{ultralyticsYolov8}. Farm-based deployments of YOLO variants show mAP@50 scores in the range between 0.70 and 0.92 \parencite{tian2020AppleFruitYOLO,zhengSmallObjDetAgri2023}. This increased variance depends more on the specific crop profile and the volume of training data, alongside whether researchers relied on clean lab photos instead of messy field-plan disease pictures.
 
-Krishi Vaidya selects YOLOv8 nano (\texttt{yolov8n}) for the plant-part detection role. The
-``nano'' variant was chosen deliberately: with approximately 3.2 million parameters, it is
-the smallest YOLOv8 architecture and thus the most feasible for mobile deployment without
-requiring server-side inference. The detector's role in the system is structural rather than
-diagnostic---it identifies plant parts, not diseases. This separation is architecturally
-important because it prevents conflation of detection quality with diagnostic accuracy in
-the evaluation.
+For Krishi Vaidya, we have choosed the version YOLOv8 nano (\texttt{yolov8n}). We chose this specific version of yolo because it can run on low-end devices. This version has only 3.2 million parameters, and it can run comfortably inside constrained mobile memory without relying on the cloud. The model finds the crop parts. It does not diagnose diseases. 
 
 \subsubsection{Detection evaluation methodology}
 
-The PASCAL VOC challenge introduced the convention of evaluating detections at an
-intersection-over-union (IoU) threshold of 0.50 \parencite{everinghamPASCALVOC2010}. The
-COCO benchmark extended this to a more stringent protocol, averaging average precision across
-IoU thresholds from 0.50 to 0.95, which rewards precise localization rather than only correct
-object identification \parencite{linCOCO2014}. A comparative analysis of detection metrics
-further clarifies that precision, recall, F1-score, and mAP measure complementary aspects of
-detector behavior and should be reported together \parencite{padillaMetricsSurvey2021}.
+The PASCAL VOC challenge set the original baseline. It evaluates object detection at a flat 0.50 Intersection-over-Union (IoU) threshold \parencite{everinghamPASCALVOC2010}. Then COCO updated the rules with benchmark demands absolute pixel precision. It averages scores across a range of thresholds from 0.50 all the way to 0.95, penalising the models that successfully identify objects but draw sloppy bounding boxes around them \parencite{linCOCO2014}.
 
-Krishi Vaidya reports mAP@50, mAP@50-95, precision, recall, and F1-score because each captures
-a different failure mode. For a first-stage detector feeding a VLM pipeline, recall matters
-more than precision: missed plant regions cannot be analyzed downstream, while false detections
-can be filtered by later processing. The threshold analysis in Chapter 5 examines this
-tradeoff explicitly.
+It is important to understand that relying on a single metric hides fatal flaws, and also isolated numbers hide serious evaluation biases \parencite{padillaMetricsSurvey2021}. Krishi Vaidya tracks mAP alongside precision and recall, including the harmonic F1-score to uncover edge-case failures. 
+
+Our architecture requires high recall. The YOLO model works as a first-stage scout for the Vision-Language Model (VLM) pipeline. Missed leaves forever lost. And the downstream diagnostic steps cannot analyse a crop region the model has ignored. Conversely, false positives rarely matter. If YOLO accidentally flags a patch of dirt as a leaf, the VLM will reject it later. Chapter 5 breaks down this exact threshold tradeoff.
 
 \subsubsection{Small-object and dense-detection challenges}
 
-A persistent challenge in agricultural object detection is the detection of small, clustered,
-or partially occluded objects \parencite{zhengSmallObjDetAgri2023}. Rice panicles and grain
-clusters, two classes in the Krishi Vaidya dataset, are frequently small, densely packed, and
-visually similar to surrounding foliage. Prior work on small-object detection in agriculture
-identifies three compounding difficulties: limited feature representation at low spatial
-resolutions, annotation noise from ambiguous bounding-box boundaries, and extreme class
-imbalance when small-object classes are mixed with large-object classes in the same dataset.
+Small crop fragments often break object detectors, and models struggle severely when targets clump together \parencite{zhengSmallObjDetAgri2023}. Krishi Vaidya classes include rice panicles alongside tightly packed grain clusters. These structures disappear visually. They could hide perfectly into the surrounding green background.
 
-The Krishi Vaidya YOLO results (Chapter 5) confirm that these challenges are present in the
-current dataset. The detector achieves low recall for rice panicle and brassica leaf classes---a
-pattern consistent with the small-object detection literature rather than with a general model
-deficiency.
+The low spatial resolution could omit the vital structural details. Human annotators for the dataset often struggle to draw precise bounding boxes around messy, overlapping stems, which introduces noisy ground-truth labels directly into the training dataset.
+
+The YOLO results from our experiment show a similar conclusion. The model often misses rice panicles and brassica leaves. And this significant drop proves that the extreme case of small-object geometry rather than an inherent flaw in the training process.
 
 \subsubsection{Quantization and deployment}
 
-Deploying trained models to resource-constrained environments requires balancing accuracy
-against inference speed, memory footprint, and hardware compatibility. Post-training quantization
-compresses model weights from full-precision floating-point (FP32) to reduced formats such as
-FP16 or INT8, reducing model size at the cost of potential accuracy degradation
-\parencite{garg2022quantizationSurvey}. Ultralytics provides export paths for ONNX, TensorFlow
-Lite, and INT8 quantization \parencite{ultralyticsExport}, which Krishi Vaidya uses to prepare
-deployment variants.
 
-Selecting the smallest model is not sufficient. As the per-class analysis in Chapter 5 shows,
-quantization affects different classes unevenly: some classes improve slightly under INT8,
-while others lose performance. A deployment-oriented evaluation must therefore examine per-class
-behavior alongside aggregate metrics \parencite{paleyes2022MLSystemsChallenges}.
+Trying to run the neural network on a low-end smartphone comes up the comprmised in compromised performance. The accuracy should be sacrificed against inference speed. Post-training quantisation reduces the model parameters. It squeezes full-precision floating-point (FP32) weights down into smaller formats like FP16 or INT8, reducing the file size, exchanging it with drops in performance \parencite{garg2022quantizationSurvey}. Krishi Vaidya relies on native Ultralytics export pipelines to build deployment variants \parencite{ultralyticsExport}. 
 
+ Reducing the model down to INT8 improves detection for a few specific diseases while obliterating accuracy for other classes of diseases. Aggregate baseline scores mask these isolated collapses. Safer field deployment often requires tracking exactly how each category survives quantisation \parencite{paleyes2022MLSystemsChallenges}.
+ 
 \ChapterSubsection{Vision-Language Models for Structured Diagnosis}
 
 \subsubsection{From classification to structured reasoning}
 
-VLMs change what a diagnosis system can produce. Traditional approaches output a class label;
-VLMs can generate structured text---disease name, confidence, severity, symptoms, and advisory
-content---from a single image and prompt. A farmer needs an actionable response, not only a
-label, and this capability aligns directly with the decision-support framing introduced above.
+A modern VLM takes a leaf image and returns a fully analyzed report. Not only is the exact disease printed and a confidence percentage predicted, a full list of associated symptom descriptions and the immediate next steps for the treatment are too. LLaVA set out the precedent and instructions that form the training backbone of all VLMs \parencite. This has been redesigned past simple image captioning to understanding VQA and intricate information extraction \parencite. Agri-LLaVA was trained on fixed pests and diseases pair between over 200, across a 2-phase training protocol. \parencite. 
 
-The foundational architecture for visual instruction tuning was established by LLaVA, which
-demonstrated that a vision encoder could be connected to a language model and fine-tuned on
-visual instruction-following data \parencite{liuLLaVA2023}. Subsequent work has expanded this
-paradigm across multiple model families, with surveys documenting the rapid growth of VLMs
-for vision tasks including visual question answering, image captioning, and structured extraction
-\parencite{zhangVLMSurvey2024}.
-
-In the agricultural domain specifically, Agri-LLaVA introduced a knowledge-infused multimodal
-model covering more than 200 pest and disease types, using a two-phase training strategy
-of feature alignment followed by instruction tuning \parencite{wangAgriLLaVA2024}. The
-LLMI-CDP system similarly demonstrated that LoRA-adapted VLMs can achieve high identification
-accuracy for crop diseases when fine-tuned on domain-specific data with constrained output
-formats \parencite{yangLLMCropDisease2024}. These results are relevant to Krishi Vaidya's
-VLM design, which also uses LoRA adaptation on a pre-trained VLM (Qwen2.5-VL-3B-Instruct)
-for disease-oriented structured output.
+The LLMI-CDP architecture has achieved similar results. Developers of LLMI-CDP architecture followed existing VLMs using Low-Rank Adaptation (LoRA) and domain-specific output formats to improve diagnostic accuracy \parencite{yangLLMCropDisease2024}. Krishi Vaidya ran LoRA adaptation over a pre-trained Qwen2.5-VL-3B-Instruct backbone. The training teaches the raw model to generate predictable, structured crop assessments.
 
 \subsubsection{Parameter-efficient fine-tuning}
 
-Full fine-tuning of a multi-billion-parameter VLM requires computational resources beyond the
-reach of most student and research environments. LoRA addresses this by freezing the base model
-weights and training low-rank adapter matrices that are injected into selected attention and
-feed-forward layers \parencite{hu2021lora}. This reduces the number of trainable parameters by
-orders of magnitude while preserving the base model's learned representations.
+Updating a billion parameters of VLM requires compute that most student labs cannot afford. LoRA solves this hardware problem. It freezes the base weights and trains low-rank adapter matrices, injecting thes adapter matrices  straight into selected attention and feed-forward layers \parencite{hu2021lora}. The base model retains its complex learned representations without requiring a full parameter update. 
 
-QLoRA extends this approach by loading the frozen model weights in 4-bit quantized form,
-enabling fine-tuning of models that would otherwise exceed available GPU memory
-\parencite{dettmers2023qlora}. Krishi Vaidya combines both techniques: the Qwen2.5-VL base
-model is loaded in 4-bit NF4 quantization, and LoRA adapters are trained on the target modules.
-This configuration allowed fine-tuning on a single NVIDIA L4 GPU with 22 GB memory---a
-practical constraint that shapes the entire VLM methodology.
+QLoRA pushes memory efficiency even further as it loads the frozen weights in 4-bit quantised form to fit massive architectures into standard GPU limits \parencite{dettmers2023qlora}. Krishi Vaidya uses both techniques. The Qwen2.5-VL base model runs under 4-bit NF4 quantisation while LoRA adapters train on the target modules. We completed all fine-tuning on a single 22 GB NVIDIA L4 GPU. 
 
-LoRA and QLoRA made training feasible on a single GPU, but feasibility does not imply
-reliability. The gap between training loss and practical parseability---a central finding of
-this manuscript---is consistent with observations in the transfer-learning literature, where
-distribution shift between training supervision and free-generation inference remains a
-persistent challenge \parencite{zhuangTransferLearningSurvey2021}.
+With using these quantisation and adapter techniques made single-GPU training an actual possibility. Past transfer-learning research shows similar outcomes. Distribution shifts between strict training supervision and open inference environments remain a persistent hurdle \parencite{zhuangTransferLearningSurvey2021}.
 
 \subsubsection{Structured output and parseability}
 
-For a farmer-facing advisory system, model output must be machine-parseable. A natural-language
-response that contains useful information but cannot be reliably converted into structured
-application fields (disease name, confidence, treatment steps) is difficult to store, validate,
-or display consistently. Krishi Vaidya evaluates VLM outputs not only by classification
-accuracy but also by parseability: whether the generated text can be extracted into a canonical
-disease label for downstream use.
-
-This emphasis on parseability distinguishes the evaluation approach from prior work that
-reports only top-1 or top-5 classification accuracy. When a VLM produces free-form text,
-the space of possible outputs is vastly larger than a fixed label set, and a model may
-generate semantically correct but syntactically unparseable responses. The 67.7 percent
-parse-error rate observed in the Krishi Vaidya VLM evaluation (Chapter 5) highlights this
-challenge and motivates future work on constrained decoding and output-format supervision.
-
+Natural-language text fails if the backend cannot extract the correct disease
+name, confidence numbers, and specific instructions detailing
+treatment steps. Unstructured responses break downstream storage.
 \ChapterSubsection{Offline-First Mobile Architecture}
 
-Mobile apps built for agricultural fieldwork in developing countries face a basic infrastructure
-problem: connectivity is intermittent, and the application must remain useful without a network.
-The ``local-first'' software paradigm, articulated by \textcite{kleppmannLocalFirst2019},
-establishes seven design ideals---including ``network optional,'' ``no spinners,'' and ``your
-work is not hostage''---that prioritize local data ownership and offline functionality over
-cloud-dependent architectures.
+Agricultural mobile apps in developing regions face constant infrastructure failures. Field tools must function offline. \textcite{kleppmannLocalFirst2019} outlines the ``local-first'' software paradigm to solve this dependency. 
 
-In practice, offline-first mobile applications use an embedded local database (typically SQLite
-on mobile platforms) as the primary data store, with server synchronization occurring
-opportunistically in the background \parencite{mehdiOfflineFirstMobile2022}. This architecture
-inverts the conventional assumption that the server is the source of truth; instead, the device
-holds authoritative local state, and the server reconciles differences when connectivity permits.
+Engineers build such a system with using embedded databases. SQLite is used for the primary data storage.  Background processes handle synchronisation with the server if the mobile is connected to the internet \parencite{mehdiOfflineFirstMobile2022}. This setup reduces reliance on the cloud. 
 
-Krishi Vaidya adopts this pattern. The mobile application stores scan records, crop plots,
-tasks, notes, advisories, settings, and synchronization queue entries in SQLite. When the
-device is online, scans are submitted to the backend for VLM-based diagnosis; when offline,
-scans are queued locally and the application attempts to return cached advisory content. This
-design is aligned with the documented connectivity challenges facing Nepalese rural farmers
-\parencite{khatriNepalDigitalAgri2023,faoNepalDigitalAgriculture} and with the broader
-literature on mobile systems for resource-constrained environments
-\parencite{silvestriSmallholderTechAdoption2021}.
-
+Krishi Vaidya runs entirely on this approach. SQLite database on the mobile app holds the raw scan records alongside user settings, pending synchronisation queues with the server, and daily crop plots the farmer logged. Internet connections trigger a backend VLM diagnosis. If the user tries to scan the crop and there is no internet, then it will be saved into the offline queue and the request will be sent automatically upon internet connection. 
 \ChapterSubsection{Backend Architecture and ML System Design}
 
-In model-centric research, the backend is often treated as trivial plumbing. In practice, it
-transforms raw model output into validated, structured responses---and that transformation is
-substantial. The backend's responsibilities include request validation,
-authentication, model-service orchestration, output parsing, advisory generation, record
-persistence, and error handling.
+ The real-world applications often require heavy transformation to turn raw model outputs into structured data. A server must authenticate incoming requests before directing the model service, parsing outputs, and updating the database. 
 
-The challenges of deploying machine learning in production software systems are well documented.
-\textcite{sculleyMLTechDebt2015} introduced the concept of ``hidden technical debt'' in ML
-systems, showing that the ML code itself is a small fraction of a production system; the
-surrounding infrastructure---data collection, feature extraction, serving, monitoring, and
-configuration---constitutes the bulk of the engineering effort. Subsequent work confirms that
-deployment challenges span data management, training, serving, monitoring, and organizational
-concerns \parencite{paleyes2022MLSystemsChallenges}.
+\textcite{sculleyMLTechDebt2015} presented the ``hidden technical debt'' of ML systems.  The major engineering effort goes into the surrounding infrastructure to manage data collection, build active serving setups, and handle complex configurations. The deployment of the end-to-end system complexity could extend deep into data pipelines and organisational limits \parencite{paleyes2022MLSystemsChallenges}. 
 
-Krishi Vaidya's backend addresses several of these challenges explicitly. The Express/Mongoose
-API separates concerns into middleware, controllers, services, repositories, and models. The
-diagnosis pipeline validates uploaded images before calling the VLM service, parses VLM output
-defensively, generates structured advisory content through a schema-validated secondary model
-call, and returns a response with confidence tiers and uncertainty flags. This layered design
-reflects the principle that model outputs should not reach users unvalidated---a principle that
-the ML systems literature identifies as critical for trustworthy deployment
-\parencite{paleyes2022MLSystemsChallenges}.
+Krishi Vaidya runs on an Express and Mongoose API to manage this complexity. The implemented backend codebase isolates middleware functions from request controllers and raw database repositories. The uploaded images are validated thoroughly before it is send to controller layers. The backend then sends the request to the VLM service. Then it parses the raw text output before a secondary model call structures the final advisory against a standard schema. 
 
 \ChapterSubsection{Research Gap and Positioning}
 
-Three gaps emerge from this literature, each of which Krishi Vaidya addresses within the scope
-of a final-year project.
+Current literature shows three clear and major gaps. Krishi Vaidya tackles them within the scope of a final-year project.
 
-\textbf{Gap 1: Integration gap.} The majority of published plant-disease detection systems
-terminate at a classification output. They do not implement the surrounding infrastructure
-required for a farmer to capture an image, receive structured advice, store a diagnosis record,
-manage crop plots, or revisit historical scans. Existing mobile applications such as Plantix and
-PlantVillage Nuru address portions of this workflow but do not combine object detection, VLM-based
-interpretation, backend orchestration, and offline-aware mobile delivery within a single
-integrated system
-\parencite{petrellaPlantix2023,mrishoPlantVillageNuru2020,mohanty2016plantvillage}.
+\textbf{Gap 1: Integration gap.} Most plant-disease systems can only do the disease classification, as they ignore the farmers' need to capture images and read structured advice. Basic tools like plot management or saving past scans are missing. There are some mobile apps such as Plantix and PlantVillage Nuru that provide some features that mentioned before \parencite{petrellaPlantix2023,mrishoPlantVillageNuru2020,mohanty2016plantvillage}. Despite they remain fragmented. A working diagnostic system must combine raw object detection with VLM interpretation and a backend built for offline delivery.
 
-\textbf{Gap 2: Structured-output evaluation gap.} Most VLM and LLM evaluations in agriculture
-report classification accuracy but do not evaluate whether model outputs can be reliably parsed
-into machine-usable fields \parencite{wangAgriLLaVA2024,yangLLMCropDisease2024}. For a system
-that must display structured advisory content in a mobile application, parseability is as
-important as semantic correctness. Krishi Vaidya introduces parseability as an explicit
-evaluation metric alongside conventional classification accuracy.
+\textbf{Gap 2: Structured-output evaluation gap.} Agricultural VLM and LLM benchmarks report classification accuracy \parencite{wangAgriLLaVA2024,yangLLMCropDisease2024}. They often ignore whether a system can parse those outputs into usable data structures like JSON and others. Parseability is essential just as much as semantic correctness for a mobile application. Krishi Vaidya includes it as a core metric alongside standard accuracy.
 
-\textbf{Gap 3: Contextual deployment gap.} Published benchmarks for plant disease detection
-rarely address the deployment constraints of the target context: offline operation, bilingual
-output, per-class quantization behavior, mobile-device inference, and integration with
-farmer-facing record-keeping workflows \parencite{thakurPlantDiseaseFieldGap2022}. Krishi
-Vaidya documents these deployment-oriented concerns as integral parts of the system evaluation
-rather than treating them as engineering afterthoughts.
+\textbf{Gap 3: Contextual deployment gap.} Published benchmarks skip real-world deployment constraints \parencite{thakurPlantDiseaseFieldGap2022}. Most of them ignore offline operation and bilingual or multi-language support. Academic evaluations and tests miss how quantisation shifts model behaviour on a mobile phone linked to actual farm records. Krishi Vaidya evaluates these constraints upfront and end to end. 
 
-Krishi Vaidya does not close these gaps---it is a student prototype, and the VLM results in
-Chapter 5 show that structured diagnostic reliability is still an open problem. The
-contribution is the integration itself: showing that trained models, a validated backend, and
-an offline-aware mobile app can form a working diagnosis workflow, and reporting honestly where
-this workflow currently succeeds and where it falls short.
+Krishi Vaidya does not close these gaps. Rather, it is a student prototype. The major contribution of this project lies in the integration. The trained models, a validated backend, and an offline-aware app can form a cohesive diagnostic pipeline for the farmer with ease of access and usability.
+
