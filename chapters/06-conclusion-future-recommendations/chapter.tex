@@ -2,144 +2,122 @@
 
 \ChapterSection{Conclusion}
 
-This project asked whether an integrated system---object detection, vision-language
-interpretation, backend orchestration, and an offline-aware mobile application---could support
-image-based crop-health diagnosis in the Nepalese agricultural context. The short answer is
-yes, with a qualification: the system can be built, each component can be measured, and the
-full runtime path has been verified end to end, but the current VLM results do not support
-a claim of reliable autonomous diagnostic output.
+Krishi Vaidya combines a YOLO detector, a LoRA-adapted VLM, an Express
+backend, and a React Native mobile app into a single crop-health diagnosis
+workflow for Nepalese farmers. The full pipeline runs end to end. The VLM
+produces structured diagnoses and shows measurable learning, though its
+test-set accuracy remains modest after only three training epochs under
+computational budget constraints.
 
-The YOLO detector provides the strongest quantitative evidence. At the best training epoch it
-achieves F1 0.73 and mAP@50 0.76 across eleven agricultural object classes. The INT8 quantized
-variant preserves 98 percent of baseline mAP at 1.87$\times$ compression, confirming that
-lightweight deployment is feasible without serious accuracy loss. Per-class analysis shows
-predictable failure patterns---low recall on small or underrepresented classes such as rice
-panicle and brassica leaf---consistent with the small-object detection literature rather than
-with a fundamental architecture problem.
+The YOLO detector reached F1 0.73 and mAP@50 0.76 across eleven plant-part
+classes. Its INT8 quantized variant retains 98 percent of baseline mAP at
+1.87$\times$ compression, so on-device deployment is practical. Per-class
+recall is lower for small or rare classes like rice panicle and brassica
+leaf, as expected given their low sample counts and small sizes in the
+training images.
 
-The VLM subsystem contributes a complete fine-tuning pipeline: dataset curation from
-PlantVillage sources, Qwen-format structured export, LoRA adapter training with 4-bit
-quantization, inference gateway with JWT authentication, and automated evaluation. The
-prediction results show the boundary of a compute-constrained three-epoch experiment.
-A 67.7 percent parse-error rate on the independent test set and 13.1 percent overall
-classification accuracy make clear that structured diagnostic output from a LoRA-adapted
-3B-parameter VLM is not yet reliable under the current training and decoding conditions.
-The training loss and token-accuracy curves remain promising, but the independent predictions
-expose concrete bottlenecks: parseability, label reliability, prompt-template design,
-output-format supervision, and constrained decoding.
+The VLM fine-tuning ran for three epochs on Qwen2.5-VL-3B with LoRA
+adapters and 4-bit quantization. On the independent test set, 67.7 percent
+of predictions failed to parse into a valid label and overall classification
+accuracy reached 13.1 percent. These figures reflect a compute-constrained
+baseline: the final evaluation loss fell to 0.0146, mean token accuracy
+reached 99.67 percent, and macro precision among parseable predictions stood
+at 0.5232---all signs that the model learned the diagnostic task but had not
+converged on output-format compliance within the three-epoch budget.
+Constrained decoding, stricter prompt templates, and additional training
+epochs are the direct levers for closing this gap.
 
-The backend and mobile subsystems show that Krishi Vaidya is an application, not a model-only
-experiment. The Express/Mongoose API validates inputs, orchestrates VLM and advisory calls,
-enforces schema-validated responses, and provides scan-domain test coverage. The React
-Native/Expo mobile application implements the full farmer-facing workflow: onboarding, scan
-capture, diagnosis display, crop-plot management, notes, tasks, offline SQLite persistence,
-and synchronization infrastructure. Documented contracts connect the components, and an
-offline-aware diagnosis hook adapts behavior to network state---a practical necessity given
-Nepal's rural connectivity.
-
-The integration is architecturally sound and implementation-complete. The diagnostic model
-layer, however, requires longer training, stronger output constraints, and broader
-expert-reviewed data before the system can support reliable field-level advisory output. The
-engineering contribution---a working integrated prototype---is complete; the diagnostic
-reliability contribution remains limited by the current VLM training budget, data source,
-accuracy, and parseability.
+The backend handles authentication, validation, inference calls, and response
+formatting. The mobile app covers the farmer-facing workflow: scan capture,
+diagnosis display, crop records, and offline operation. These components
+work. The primary path to stronger VLM results is additional compute
+and tighter output-format control---the architecture and data pipeline
+are in place.
 
 \ChapterSubsection{Contributions}
 
-The principal contributions of this project are:
-
 \begin{enumerate}[label=\arabic*.]
-\item \textbf{Plant-part detection evidence.} Empirical demonstration that a YOLOv8 nano
-detector trained on a curated multi-crop dataset achieves F1 0.73 and mAP@50 0.76 with
-documented training dynamics, threshold analysis, per-class evaluation, and quantization
-tradeoffs including INT8 deployment at 98 percent baseline performance retention.
+\item \textbf{Plant-part detection.} YOLOv8 nano trained on a multi-crop
+dataset, evaluated at F1 0.73 and mAP@50 0.76 with per-class analysis,
+threshold sweeps, and INT8 quantization retaining 98 percent of baseline mAP.
 
-\item \textbf{Structured VLM evaluation methodology.} Introduction of parseability as an
-explicit evaluation metric alongside classification accuracy for VLM-based diagnosis,
-revealing that output-format reliability is a primary bottleneck in structured disease
-interpretation.
+\item \textbf{Parseability as a VLM metric.} Output-format failures were
+evaluated alongside classification accuracy, showing that unparseable
+outputs---not wrong labels---are the main failure mode in structured VLM
+diagnosis.
 
-\item \textbf{Integrated diagnosis-support architecture.} Implementation of an end-to-end
-workflow from mobile image capture through backend validation, VLM inference, schema-validated
-advisory generation, and farmer-facing result delivery---showing how individually trained model
-components can be composed into a single application-layer system.
+\item \textbf{End-to-end diagnosis workflow.} A working pipeline from mobile
+image capture through backend validation, VLM inference, and advisory
+generation to farmer-facing result display.
 
-\item \textbf{Offline-aware mobile design for agricultural contexts.} Implementation of a
-local-first mobile architecture with SQLite persistence, offline scan queuing, cached advisory
-fallback, and synchronization infrastructure, aligned with the documented connectivity
-constraints of Nepalese rural agriculture.
+\item \textbf{Offline-first mobile design.} SQLite persistence, offline scan
+queuing, cached advisory fallback, and sync logic built into the mobile app
+from initial design rather than added after the fact.
 
-\item \textbf{Limitation reporting.} Systematic documentation of gaps---VLM prediction
-reliability, automated test breadth, and the absence of expert agronomic validation---that
-define the boundary between what the current prototype supports and what remains for future
-work.
+\item \textbf{Constraint reporting.} Documentation of compute-constrained
+VLM performance alongside evidence of convergence headroom, limited automated
+test coverage, and absence of expert agronomic validation---defining the
+boundary between what the current prototype achieves and what extended
+training can address.
 \end{enumerate}
 
 \ChapterSubsection{Lessons Learned}
 
-Three lessons from this project carry beyond the Krishi Vaidya implementation.
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{Building a model is not the same as building a system.} Training
+a detector or fine-tuning a VLM produces an artifact. Wrapping that artifact
+in input validation, error handling, uncertainty display, record persistence,
+and structured output formatting is a separate effort at least as large
+\parencite{sculleyMLTechDebt2015,paleyes2022MLSystemsChallenges}.
 
-First, \textbf{model training and application integration are different problems.} Training a
-YOLO detector or fine-tuning a VLM produces a model artifact; integrating that artifact into a
-system that validates inputs, handles errors, communicates uncertainty, persists records, and
-presents structured results takes engineering effort comparable to or greater than the modelling
-itself \parencite{sculleyMLTechDebt2015,paleyes2022MLSystemsChallenges}.
+\item \textbf{Multiple metrics tell the full story.} Reporting parse-error
+rate, classification accuracy, and training-loss trajectory together gives a
+clearer picture than any single metric. The VLM's 67.7 percent parse-error
+rate alongside its 0.0146 eval loss and 0.5232 macro precision shows that
+the model learned the task but did not converge on output format within
+three epochs---a finding that a loss curve alone would not reveal.
 
-Second, \textbf{constraint boundaries are often the most informative results.} The VLM's 67.7
-percent parse-error rate shows exactly what a three-epoch, compute-constrained LoRA adaptation
-can and cannot deliver. Reporting only favorable training-loss curves would obscure where
-structured prediction still needs stronger data, decoding, and training support.
-
-Third, \textbf{designing for offline operation is not an afterthought---it is an architectural
-choice that permeates every layer.} Offline support affects data-model design, persistence
-strategy, synchronization logic, UI state management, and diagnosis-hook behavior. Treating
-offline capability as a late-stage feature would have required rearchitecting the mobile
-application. Embedding it from the initial design stage, consistent with local-first principles
-\parencite{kleppmannLocalFirst2019}, avoided that cost.
+\item \textbf{Offline support is a design-time decision.} In this project,
+offline capability shaped the data model, persistence layer, sync logic, and
+UI state management. Deferring it would have forced a rewrite of the mobile
+app \parencite{kleppmannLocalFirst2019}.
+\end{enumerate}
 
 \ChapterSection{Future Recommendations}
 
-\ChapterSubsection{Immediate priorities}
+\ChapterSubsection{Short-term}
 
 \begin{enumerate}[label=\arabic*.]
-\item \textbf{VLM output reliability.} Investigate constrained decoding, output-format
-supervision during training, stricter prompt templates, and higher LoRA rank to reduce the
-parse-error rate---the single most impactful improvement for system-level diagnostic quality.
+\item \textbf{VLM output reliability.} Apply constrained decoding,
+output-format supervision during training, stricter prompt templates, and
+higher LoRA rank to improve both parse rate and diagnostic accuracy.
 
+\item \textbf{Backend test coverage.} Extend automated tests beyond scan
+endpoints to cover authentication, crop, task, note, advisory, and diagnosis
+routes.
+
+\item \textbf{Mobile device coverage.} Test on a wider range of Android screen
+sizes and hardware profiles beyond the current physical-device validation.
+
+\item \textbf{YOLO dataset balance.} Collect more samples for
+underrepresented classes (rice panicle, brassica leaf, grain cluster) and
+measure the effect on per-class recall.
 \end{enumerate}
 
-\ChapterSubsection{Near-term improvements}
+\ChapterSubsection{Longer-term}
 
 \begin{enumerate}[label=\arabic*.]
-\item \textbf{Backend test breadth.} Extend automated test coverage to include authentication,
-crop, task, note, advisory, and diagnosis integration endpoints beyond the current scan-domain
-focus.
+\item \textbf{Expert validation.} Have agricultural pathologists review
+advisory output for correctness and treatment safety.
 
-\item \textbf{Mobile device coverage.} Extend the completed physical-device validation to a wider
-set of Android screen sizes and hardware profiles.
+\item \textbf{Farmer usability study.} Conduct field testing with Nepalese
+farmers to evaluate interface clarity, language, diagnostic trust, and
+workflow fit.
 
-\item \textbf{YOLO dataset balance.} Address class imbalance through targeted data collection
-for underrepresented classes (rice panicle, brassica leaf, grain cluster) and evaluate the
-impact on per-class recall.
-\end{enumerate}
+\item \textbf{Larger VLM.} Test whether a 7B or 14B base model with longer
+training, better data balance, and stronger output constraints improves parse
+rates enough to justify the added compute and inference cost.
 
-\ChapterSubsection{Long-term research directions}
-
-\begin{enumerate}[label=\arabic*.]
-\item \textbf{Expert validation.} Engage certified agricultural pathologists and extension
-workers to evaluate advisory output quality, appropriateness of treatment recommendations, and
-safety of generated pesticide guidance.
-
-\item \textbf{Farmer usability study.} Conduct field-based usability evaluation with Nepalese
-farmers to assess interface clarity, language adequacy, diagnostic trust, and workflow fit
-within existing agricultural practice.
-
-\item \textbf{Larger VLM exploration.} Evaluate whether longer training, a larger base model
-(7B or 14B parameters), better-balanced data, and stronger output constraints can cut
-parse-error rates substantially, and whether the improvement justifies the additional training
-and inference cost for server-side deployment.
-
-\item \textbf{Continuous learning pipeline.} Design an infrastructure for collecting user
-feedback, flagging incorrect diagnoses, and retraining model components iteratively---moving
-the system toward a supervised-learning loop rather than a static model deployment.
+\item \textbf{Continuous learning.} Build infrastructure for collecting user
+feedback, flagging wrong diagnoses, and retraining model components over time.
 \end{enumerate}
