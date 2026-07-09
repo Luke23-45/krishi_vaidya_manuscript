@@ -3,8 +3,8 @@
 \ChapterSection{Design}
 
 Four components move the system from the requirements in Chapter~3 to a deployable diagnosis
-pipeline: a YOLO detector for plant-part localization, a fine-tuned VLM for disease
-classification, a backend that orchestrates inference and advisory generation, and a mobile
+pipeline: a YOLO model for the plant-part localization, a fine-tuned VLM for disease
+classification, a backend that manages inference and advisory generation, and a mobile
 application that delivers results to the farmer. The sections below describe each component with its
 datasets and configuration, followed by the algorithmic procedures that run across them.
 
@@ -12,7 +12,7 @@ datasets and configuration, followed by the algorithmic procedures that run acro
 
 Leaves, panicles, grain clusters, fruits, ears, and vegetable heads --- the YOLO component
 localizes all of them within crop images. Disease classification belongs to the VLM. The
-detector's role is more bounded: it tells the downstream pipeline which plant parts are
+detector's role is to tell the downstream pipeline which plant parts are
 present and where they sit in the frame.
 
 \begin{figure}[htbp]
@@ -29,11 +29,11 @@ ingestion through export.
 
 \subsubsection{Data Sources and Class Mapping}
 
-Our sources span Kaggle and Roboflow datasets covering tomato, rice, potato, maize, brassica,
+Our dataset sources span from Kaggle to Roboflow covering tomato, rice, potato, maize, brassica,
 cauliflower, and cabbage imagery, merged into a single class taxonomy. From 34,992
 candidate images, curation removed 4,011 images and 13,218 annotations flagged for
 out-of-bounds coordinates, sub-pixel area, or collapse after clamping. This imbalance is
-severe: rice panicle holds 115,046 of 147,467 annotations, while maize ear
+severe as rice panicle holds 115,046 of 147,467 annotations, while maize ear
 (106) and rice grain cluster (473) are barely present. Aggregate mAP hides this.
 Per-class metrics, shown in Figure~\ref{fig:yolo-data-pipeline-flow}, are the only way to
 see the real distribution.
@@ -47,8 +47,8 @@ see the real distribution.
 
 \subsubsection{Dataset Construction}
 
-After curation, the final dataset holds 30,981 images and 147,467 annotations across eleven
-classes, split into 27,454 training and 3,527 validation images. Annotations are stored in
+The final dataset contains of around 30,981 images and 147,467 annotations across eleven
+classes. And it was split into 27,454 training and 3,527 validation images. The annotations are stored in
 COCO-style pixel \texttt{xywh} format and converted to YOLO format for training. Per-class
 counts appear in Table~\ref{tab:yolo-dataset-class-distribution}.
 
@@ -82,12 +82,12 @@ Cabbage head & 1,027 \\
 \end{xltabular}
 }
 
-This detector runs on 640-pixel inputs and exports to FP32, FP16, and INT8 TFLite variants
-for mobile deployment. Training and threshold-selection details follow in Algorithm Details.
+The yolo model requires 640-pixel inputs and exports to FP32, FP16, and INT8 TFLite variants
+for mobile deployment. And the training and threshold-selection details follow in Algorithm Details.
 
 \ChapterSubsection{VLM Disease-Diagnosis Dataset}
 
-Disease interpretation runs on Qwen2.5-VL-3B \parencite{bai2025qwen25vl}. Given a crop image
+Disease classification model runs on Qwen2.5-VL-3B \parencite{bai2025qwen25vl}. And it takes a crop image
 and a natural-language instruction, it returns a structured JSON diagnosis. At 3B
 parameters with 4-bit LoRA fine-tuning, the model fits on a single L4 GPU. Since the output
 is generated text rather than a fixed-vocabulary prediction, parseability becomes a first-class
@@ -128,7 +128,7 @@ training: 800 for rice, maize, potato, and tomato; 600 for cauliflower and cabba
 
 \subsubsection{Qwen2.5-VL SFT Export}
 
-Each exported record pairs an image path with a human message that includes the image token and
+Each exported record pairs contains an image path with a human message that includes the image token and
 instruction, an assistant answer, and metadata fields such as split, crop, disease, canonical
 label, template id, and source. The assistant target takes one of three shapes:
 \texttt{disease\_json} requests compact JSON with \texttt{crop}, \texttt{disease},
@@ -141,7 +141,7 @@ modules. Fine-tuning configuration and prediction parsing follow in Algorithm De
 
 \ChapterSubsection{Backend System Architecture}
 
-A TypeScript and Express API sits between the mobile client and every backend concern: farm
+A TypeScript and Express API lie between the mobile client and every backend concern: farm
 records, image storage, authentication, VLM inference, and advisory generation, all behind a
 single versioned interface. Configuration, middleware, routing, controllers, services,
 repositories, and data models each live in separate layers so that HTTP transport, business
@@ -181,38 +181,39 @@ Table~\ref{tab:backend-route-groups} lists the implemented groups and their resp
 All routes sit under \texttt{/api/v1}. In development, Swagger UI at \texttt{/api/docs}
 exposes request schemas, security requirements, and response documentation generated from
 route-level comments.
-
 {\small
 \renewcommand{\arraystretch}{1.3}
-\begin{xltabular}{\textwidth}{@{} l L L @{}}
-\caption{Implemented backend route groups}\label{tab:backend-route-groups}\\
+\begin{xltabular}{\textwidth}{@{} l l L @{}}
+\caption{Backend API domain routes}\label{tab:backend-api-domains}\\
 \toprule
-\textbf{Route group} & \textbf{Base path} & \textbf{Implemented responsibility} \\
+\textbf{Domain} & \textbf{Route} & \textbf{Description} \\
 \midrule
 \endfirsthead
 \multicolumn{3}{l}{\footnotesize\textit{Table \thetable{} \textemdash{} continued from previous page}}\\[3pt]
 \toprule
-\textbf{Route group} & \textbf{Base path} & \textbf{Implemented responsibility} \\
+\textbf{Domain} & \textbf{Route} & \textbf{Description} \\
 \midrule
 \endhead
+\midrule
+\multicolumn{3}{r}{\textit{(continues on next page)}} \\
 \endfoot
 \bottomrule
 \endlastfoot
-Health & \texttt{/api/v1/health} & Server status, runtime mode, uptime, and exposure information \\
-Diagnosis & \texttt{/api/v1/diagnose} & Image validation, VLM inference request, advisory generation, diagnosis response \\
-Authentication & \texttt{/api/v1/auth} & Registration, login, token refresh, logout, OTP, password reset \\
-Users & \texttt{/api/v1/users} & Profile retrieval, profile update, profile image, password change, push tokens \\
-Scans & \texttt{/api/v1/scans} & Scan upload, scan history, statistics, grouping, status, resolution, follow-up linkage \\
-Crops & \texttt{/api/v1/crops} & Crop-plot creation, filtering, archive state, growth stage, health status \\
-Tasks & \texttt{/api/v1/tasks} & Crop-task creation, batch creation, pending/overdue/upcoming views, completion state \\
-Notes & \texttt{/api/v1/notes} & Crop notes, linked scan notes, note images, note-type counts \\
-Advisories & \texttt{/api/v1/advisories} & Advisory creation, filtering, active advisories, dismiss/undismiss actions \\
+Health & \texttt{/api/v1/health} & Status of server, runtime mode, uptime information and exposure of the server to the world \\
+Diagnosis & \texttt{/api/v1/diagnose} & Image validation, request a VLM inference. Generation of advice, diagnosis message \\
+Authentication & \texttt{/api/v1/auth} & Registration of user, login, refreshing token, OTP and reseting password for the user \\
+Users & \texttt{/api/v1/users} & Request profile, update profile, image of the profile for the user, changing password and push tokens for the user \\
+Scans & \texttt{/api/v1/scans} & Uploading scans by user, history, statistics, grouping of scans, status of scans, resolution and follow up linkage for scans uploaded by the user \\
+Crops & \texttt{/api/v1/crops} & Create \& list plots, filter plots, plots archive, growth-state, health-status \\
+Tasks & \texttt{/api/v1/tasks} & Create, edit \& list plot-tasks, create-tasks in batch, pending/overdue/upcoming tasks, \& list tasks \& based on completion state \\
+Notes & \texttt{/api/v1/notes} & Create, list plot-notes, linked scan-notes, note-images and number of notes based on note type. \\
+Advisories & \texttt{/api/v1/advisories} & Create \& list advisories, filter advisories, list active \& dismiss/undismiss advisories \\
 \end{xltabular}
 }
 
-\subsubsection{Controller and Validation Pattern}
+\subsubsection{Controller and Validation Process}
 
-Each controller receives typed service dependencies and exposes Express request handlers. For
+Every controller receives the typed service dependencies and exposes Express request handlers. For
 validation, we use \texttt{express-validator} to check MongoDB identifiers, bound pagination
 values, enumerate types for task categories and advisory severities, and limit text-field
 lengths. A shared response formatter sends back successful responses; a global error
@@ -228,7 +229,7 @@ queries, so access control does not repeat in every controller.
 
 \subsubsection{MongoDB Collections and Domain Entities}
 
-Mongoose models back nine domain entities: users, OTP records, refresh tokens, scans, scan
+Mongoose models have nine domain entities: users, OTP records, refresh tokens, scans, scan
 resolutions, crop plots, crop tasks, crop notes, and advisories
 (Table~\ref{tab:backend-data-models}). Database indexes cover the common access paths: user
 ownership, status filtering, date ordering, and TTL cleanup for expiring documents.
@@ -306,20 +307,19 @@ gateway credentials and checks readiness before forwarding any inference request
 
 \subsubsection{Google AI Advisory Bridge}
 
-On the advisory side, we require a strict JSON response covering disease, confidence,
+On the advisory side, we enforce a strict JSON response covering disease, confidence,
 out-of-distribution state, symptoms, treatment, prevention, safety, source, and
 alternative-diagnosis fields. Zod schema validation gates the response before it reaches the
 mobile application.
 
-\ChapterSubsection{Backend Security, Uploads, and Reliability Controls}
+\ChapterSubsection{Backend Security, Uploads, and Controls}
 
 \subsubsection{Upload Handling and Cloudinary Storage}
 
-Multer memory storage handles incoming files, filtered by MIME type and extension against
-JPEG, PNG, and WEBP. Scan images, profile pictures, and note images upload to
-Cloudinary with secure URLs and automatic quality and format transformations. And if a profile
-picture or note image gets replaced or removed, the backend deletes the previous Cloudinary
-asset too.
+Multer memory storage was used for handling incoming files, filtered by MIME type and extension against
+JPEG, PNG, and WEBP. ALl the images are uploaded to
+Cloudinary with the secure URLs, automatic quality check and format transformations. And if a use changes some images then
+they get replaced or removed.
 
 \subsubsection{Request Safety and Error Handling}
 
@@ -341,15 +341,7 @@ verification, password reset, phone verification --- has its own expiration wind
 
 \subsubsection{Purpose and Implementation Scope}
 
-For the mobile frontend, we used React Native with Expo
-\parencite{reactNativeDocs,expoDocs}. It handles onboarding, crop-plot management,
-offline-aware scan queuing, diagnosis submission, result presentation, and bilingual record
-keeping. The design follows a local-first approach \parencite{kleppmannLocalFirst2019}: user
-actions write to SQLite before synchronizing with the backend. Expo Router handles navigation,
-TanStack Query manages server-state mutations, i18next provides bilingual content,
-VisionCamera handles native capture, and TFLite runs on-device inference. The Android package
-is \texttt{com.krishivaidya.app} under scheme \texttt{krishivaidya}
-(Figure~\ref{fig:mobile-app-architecture}).
+The mobile frontend was built with React Native and Expo \parencite{reactNativeDocs, expoDocs}. It handles onboarding, the management of crop-plots, an offline-aware queue of scans, submitting diagnoses, showing results and keeping records in bilingual form. It was designed according to the paradigm "local-first" \parencite{kleppmannLocalFirst2019}: actions from the user write to SQLite and sync with the backend. Expo Router handles navigation, TanStack Query is used to manage server-state (mutations), i18next manages the content (in both the two languages), VisionCamera records the shots from the natives' devices whilst TFLite undertakes local inference. Android package is \texttt{com. Krishivaidya. App} in scheme \texttt{krishivaidya}.
 
 \begin{figure}[htbp]
 \centering
@@ -384,13 +376,12 @@ two flows.
 \endhead
 \endfoot
 \bottomrule
-\endlastfoot
+\endlastfoot 
 Onboarding & Welcome, language, permission, crop, demo & First-run setup, language selection, permission preparation, crop context \\
 Main tabs & Home, Crops, Scan, History, Settings & Primary application navigation for daily use \\
 Scan stack & Capture, preview, image editor, analysis, final analysis & Image acquisition, review, detection, cloud diagnosis, report viewing \\
 Crop routes & Add/edit crop, crop detail, crop weather, tasks, notes & Farm plot management and agronomic record keeping \\
 Settings routes & Profile, option select, notifications, accessibility, export, model precision & Preference management, data export, accessibility, model deployment controls \\
-Achievements & Achievements view and toast components & Lightweight engagement tracking based on completed app actions \\
 \end{xltabular}
 }
 
@@ -450,13 +441,7 @@ backend coverage, not yet a fully bidirectional system
 \caption{Mobile offline synchronization data flow showing local writes, queue management, connectivity checks, and retry behavior.}
 \label{fig:mobile-offline-sync-data-flow}
 \end{figure}
-
-\subsubsection{Scan Workflow and Diagnosis Flow}
-
-Capture or gallery selection starts the scan workflow, followed by preview, optional editing,
-diagnosis submission, result display, and local history update
-(Figure~\ref{fig:mobile-scan-pipeline-flow}). State transitions, network branching, timeout
-handling, and retry logic are covered in the Algorithm Details section.
+\subsubsection{Scan Workflow and Diagnosis Flow}Capture or gallery selection starts the scan workflow, followed by preview, optional editing,diagnosis submission, result display, and local history update(Figure~\ref{fig:mobile-scan-pipeline-flow}). State transitions, network branching, timeouthandling, and retry logic are covered in the Algorithm Details section.
 
 \begin{figure}[htbp]
 \centering
@@ -711,11 +696,4 @@ We write queued scans to SQLite scan history and the unified sync queue as
 \texttt{scan\_diagnosis} entries. If a cached advisory for the crop context is available, it
 fills in while the scan waits for cloud diagnosis. The API client applies a 60-second timeout
 and retries transient failures (408, 429, 500, 502, 503, 504) with exponential backoff.
-
-\subsubsection{Farmer-Facing Result Mapping}
-
-Completed responses get mapped into bilingual disease details, confidence display, treatment
-timelines, prevention advice, safety warnings, reminders, feedback, PDF export, and share
-cards by the result view. Labels appear in Nepali or English based on the current language
-preference. Treatment steps render as timeline items with optional organic alternatives. The
-completed scan gets saved for later access from crop or history screens.
+\subsubsection{Farmer-Facing Result Mapping}Completed responses get mapped into bilingual disease details, confidence display, treatmenttimelines, prevention advice, safety warnings, reminders, feedback, PDF export, and sharecards by the result view. Based on the selected language the label or text would appear on the mobile app. In the treatment step it would also show the organic alternatives. The completed scan gets saved for later access from crop or history screens.
