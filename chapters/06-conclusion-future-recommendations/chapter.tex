@@ -1,23 +1,24 @@
+
 \chapter{CONCLUSION AND FUTURE RECOMMENDATIONS}
 
 \ChapterSection{Conclusion}
 
 Krishi Vaidya combines a YOLO detector, a LoRA-adapted VLM, an Express
 backend, and a React Native mobile app into a single crop-health diagnosis
-workflow for Nepalese farmers. The full pipeline runs end to end. The VLM
+workflow for Nepalese farmers. The whole pipeline runs end to end. The VLM
 produces structured diagnoses and shows measurable learning, though its
 test-set accuracy remains modest after only three training epochs under
 computational budget constraints.
 
 The YOLO detector reached F1 0.73 and mAP@50 0.76 across eleven plant-part
-classes. Its INT8 quantized variant retains 98 percent of baseline mAP at
+classes. Its INT8 quantised variant retains 98 percent of baseline mAP at
 1.87$\times$ compression, so on-device deployment is practical. Per-class
 recall is lower for small or rare classes like rice panicle and brassica
 leaf, as expected given their low sample counts and small sizes in the
 training images.
 
 The VLM fine-tuning ran for three epochs on Qwen2.5-VL-3B with LoRA
-adapters and 4-bit quantization. On the independent test set, 67.7 percent
+adapters and 4-bit quantisation. On the independent test set, 67.7 percent
 of predictions failed to parse into a valid label and overall classification
 accuracy reached 13.1 percent. These figures reflect a compute-constrained
 baseline: the final evaluation loss fell to 0.0146, mean token accuracy
@@ -37,13 +38,13 @@ are in place.
 \ChapterSubsection{Contributions}
 
 \begin{enumerate}[label=\arabic*.]
-\item \textbf{Plant-part detection.} YOLOv8 nano trained on a multi-crop
+\item \textbf{Plant-part detection.} YOLOv8 nano was trained on a multi-crop
 dataset, evaluated at F1 0.73 and mAP@50 0.76 with per-class analysis,
-threshold sweeps, and INT8 quantization retaining 98 percent of baseline mAP.
+threshold sweeps, and INT8 quantisation retaining 98 percent of baseline mAP.
 
 \item \textbf{Parseability as a VLM metric.} Output-format failures were
 evaluated alongside classification accuracy, showing that unparseable
-outputs---not wrong labels---are the main failure mode in structured VLM
+outputs not wrong labels are the main failure mode in structured VLM
 diagnosis.
 
 \item \textbf{End-to-end diagnosis workflow.} A working pipeline from mobile
@@ -65,20 +66,19 @@ training can address.
 
 \begin{enumerate}[label=\arabic*.]
 \item \textbf{Building a model is not the same as building a system.} Training
-a detector or fine-tuning a VLM produces an artifact. Wrapping that artifact
+a detector or fine-tuning a VLM produces an artefact. Wrapping that artefact
 in input validation, error handling, uncertainty display, record persistence,
 and structured output formatting is a separate effort at least as large
 \parencite{sculleyMLTechDebt2015,paleyes2022MLSystemsChallenges}.
 
 \item \textbf{Multiple metrics tell the full story.} Reporting parse-error
-rate, classification accuracy, and training-loss trajectory together gives a
-clearer picture than any single metric. The VLM's 67.7 percent parse-error
+rate, classification accuracy, and training-loss trajectory together provides a
+clearer picture as compared to a single metric. The VLM's 67.7 percent parse-error
 rate alongside its 0.0146 eval loss and 0.5232 macro precision shows that
 the model learned the task but did not converge on output format within
-three epochs---a finding that a loss curve alone would not reveal.
+three epochs.
 
-\item \textbf{Offline support is a design-time decision.} In this project,
-offline capability shaped the data model, persistence layer, sync logic, and
+\item \textbf{Offline support is a design-time decision.} The project was implemented around the data model, persistence layer, sync logic, and
 UI state management. Deferring it would have forced a rewrite of the mobile
 app \parencite{kleppmannLocalFirst2019}.
 \end{enumerate}
@@ -91,14 +91,7 @@ app \parencite{kleppmannLocalFirst2019}.
 \item \textbf{VLM output reliability.} Apply constrained decoding,
 output-format supervision during training, stricter prompt templates, and
 higher LoRA rank to improve both parse rate and diagnostic accuracy.
-
-\item \textbf{Backend test coverage.} Extend automated tests beyond scan
-endpoints to cover authentication, crop, task, note, advisory, and diagnosis
-routes.
-
-\item \textbf{Mobile device coverage.} Test on a wider range of Android screen
-sizes and hardware profiles beyond the current physical-device validation.
-
+.
 \item \textbf{YOLO dataset balance.} Collect more samples for
 underrepresented classes (rice panicle, brassica leaf, grain cluster) and
 measure the effect on per-class recall.
@@ -107,17 +100,12 @@ measure the effect on per-class recall.
 \ChapterSubsection{Longer-term}
 
 \begin{enumerate}[label=\arabic*.]
-\item \textbf{Expert validation.} Have agricultural pathologists review
-advisory output for correctness and treatment safety.
+\item \textbf{Expert validation. } Agricultural pathologists reviewed advisory output for correctness and treatment safety.
 
-\item \textbf{Farmer usability study.} Conduct field testing with Nepalese
-farmers to evaluate interface clarity, language, diagnostic trust, and
-workflow fit.
+\item  \textbf{Farmer usability study. } Field with Nepalese farmers to test interface clarity, language, trust of diagnosis and fit in their farm workflow.
 
-\item \textbf{Larger VLM.} Test whether a 7B or 14B base model with longer
-training, better data balance, and stronger output constraints improves parse
-rates enough to justify the added compute and inference cost.
+\item \textbf{Larger VLM. } Test whether 7B or 14B VLM improved parse rates enough to justify the additional compute and inference cost.
 
-\item \textbf{Continuous learning.} Build infrastructure for collecting user
-feedback, flagging wrong diagnoses, and retraining model components over time.
+\item \textbf{Continuous learning. } Build infrastructure of user feed back to flag wrong diagnoses and refine components of model.
+
 \end{enumerate}
