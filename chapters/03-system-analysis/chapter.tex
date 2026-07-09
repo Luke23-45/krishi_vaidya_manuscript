@@ -1,22 +1,20 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{aa}
+\author{krishnasubedi219 }
+\date{July 2026}
+
+\begin{document}
 \chapter{SYSTEM ANALYSIS}
 
 \ChapterSection{System Analysis}
+Chapter 1 introduced four major subsystems that include the YOLO detector, the VLM service, backend API infrastructure, and the mobile application. They form a single continuous workflow. This pipeline deals with model inference and the server, along with local mobile storage and offline handling before finally showcasing the advisory details to the farmer.
 
-The four subsystems introduced in Chapter 1---YOLO detector, VLM service, backend API, and
-mobile application---are analyzed here as parts of a single workflow that spans model inference,
-backend orchestration, local mobile storage, offline behavior, and farmer-facing advisory
-presentation.
-
-The primary users are farmers or field-level agricultural users who capture crop images and
-review advisory output. The backend and model services act as system actors that validate input,
-perform inference, generate structured responses, and store scan history.
-
+Farmers and field workers act as the primary users who take the crop photos to receive advisory feedback. The backend and model services work to validate incoming data, run inference to build a structured response, and store the full scan history for future reference.
 \ChapterSubsection{Requirement Analysis}
-
 \subsubsection{Functional Requirements}
-
-The functional requirements were derived from the implemented mobile features, backend route
-groups, model pipelines, and validation artifacts in the project workspace.
+Project workspace artefacts dictate the functional requirements. We had taken these details from the implemented mobile features, the various backend route groups, and the active model pipelines alongside their specific validation rules.
 
 \begin{xltabular}{\textwidth}{@{}p{2.1cm}X@{}}
 \caption{Functional requirements of Krishi Vaidya}\label{tab:functional-requirements}\\
@@ -32,17 +30,17 @@ groups, model pipelines, and validation artifacts in the project workspace.
 \endfoot
 \bottomrule
 \endlastfoot
-FR-01 & The mobile application shall allow users to complete onboarding, choose language preferences, and configure basic app settings. \\
-FR-02 & The system shall allow users to register crop plots and maintain crop-related records, notes, tasks, and scan history. \\
-FR-03 & The mobile application shall allow users to capture or select crop images, preview them, edit them, and submit them for diagnosis. \\
-FR-04 & The backend shall authenticate protected requests and enforce user ownership for scan records and related resources. \\
-FR-05 & The backend shall validate uploaded crop images and reject invalid image payloads before passing them to the diagnosis flow. \\
-FR-06 & The VLM inference service shall accept authorized image-diagnosis requests and return disease-prediction output with parseable fields where possible. \\
-FR-07 & The backend shall assemble diagnosis, severity, confidence, treatment, prevention, and advisory fields into a structured response for the mobile app. \\
-FR-08 & The system shall store scan records, diagnosis state, advisory data, crop records, tasks, and notes using backend persistence and mobile local persistence where applicable. \\
-FR-09 & The mobile application shall support offline-aware behavior through local SQLite storage, scan queues, cached advisory output, and retry logic. \\
-\end{xltabular}
+FR-01 & The mobile application shall enable users to complete registration, language selection and configure app usage settings. \\
+FR-02 & The backend shall allow users to register their crop plots, create crop records and notes, add tasks and view the scan history. \\
+FR-03 & The client shall allow users to take/choose the photo of crops, see the preview photos and be allowed to make adjustments before submitting photos to the system to get the diagnoses. \\ 
+FR-04 & The application backend should verify authenticated requests and verify authorized on the scan record and related resources ownership requests. \\
 
+FR-05 & Uploaded crop images need to validate on the backend. And it immediately rejects the invalid payloads not to be included in the maiun diagnosis flow. \\
+FR-06 & The VLM inference service processes the image-diagnosis requests from verified-auth users. Returns the disease prediction in our case of CLEAR-parsebile-JSON fields. \\
+FR-07 & The backend then builds the structured response for the mobile app. This payload contain core diagnosis, disease severity metrics (like confidence scores)and exact treatment and prevention advisories. \\
+FR-08 & Backend  stores the scan records and crop data in the database. Mobile handles tasks, ongoing notes, and the current diagnosis or advisory state. \\
+FR-09 & The mobile application works also in the offline. Local SQLite storage and scan queues cache advisory outputs, while retry logic manages when internet is not connected. \\
+\end{xltabular}
 \subsubsection{Non-Functional Requirements}
 
 \begin{xltabular}{\textwidth}{@{}p{3.0cm}X@{}}
@@ -59,16 +57,15 @@ FR-09 & The mobile application shall support offline-aware behavior through loca
 \endfoot
 \bottomrule
 \endlastfoot
-Usability & The mobile interface shall present diagnosis output in a farmer-facing form with clear disease, severity, treatment, prevention, and safety information. \\
-Reliability & The system shall prevent malformed model output from directly becoming user-facing advisory content by validating and normalizing diagnosis responses. \\
-Offline support & The mobile app shall continue to support local records, cached information, and queued scan-related work when network access is unavailable. \\
-Security & The backend shall use JWT-based authentication, request validation, rate limiting, CORS configuration, helmet middleware, and protected route boundaries. \\
-Maintainability & Backend controllers, services, repositories, validation logic, model clients, and mobile repositories shall remain separated so that individual modules can be tested and replaced. \\
-Performance & The YOLO detector shall use lightweight and quantized variants for deployment analysis, while VLM inference shall be measured separately because it is heavier and server-oriented. \\
-Testability & The project shall expose automated tests for model utilities, VLM inference API behavior, backend scan services/routes, YOLO pipeline utilities, and mobile inference components. \\
-Safety & The system shall avoid claiming certified agronomic diagnosis and shall communicate that the prototype requires expert validation before real field deployment. \\
-\end{xltabular}
+Usability & The mobile interface formats diagnosis results for farmers so they can get the feedback in the correct way.  \\
+Reliability & The system can detect malformed model outputs before they reach the user. Since the backend has strict validation that normalises every raw diagnosis response. \\
+Offline support & Network drops do not break the mobile app flow. Users can still have access to local records and cached advisories, while new scans queue up in the background. \\
+Security & We have used JWT for the authentication and strict request validation. And also added defenses include rate limits, locked-down CORS settings, and Helmet middleware, to secure protected route boundaries. \\
+Maintainability & We have used the dependency injection design pattern so developers can test or swap out validation logic and model clients without breaking the rest of the application. \\
+Performance & The YOLO model, which is used, is lightweight, and quantised variants for field analysis. VLM inference remains a heavy, server-bound operation. \\
+Testability & Test suites focused on the model utilities and VLM API behaviour, wrapping backend scan services alongside mobile inference components. \\
 
+\end{xltabular}
 \ChapterSubsection{Feasibility Analysis}
 
 \begin{xltabular}{\textwidth}{@{}p{2.7cm}X@{}}
@@ -85,24 +82,25 @@ Safety & The system shall avoid claiming certified agronomic diagnosis and shall
 \endfoot
 \bottomrule
 \endlastfoot
-Technical & All major components are implemented: YOLO training and validation code, VLM data/training/inference code, an Express/Mongoose backend, and a React Native/Expo mobile app. The main remaining risk is diagnostic reliability---particularly VLM output parseability. \\
-Operational & The mobile app supports scan capture, crop records, local persistence, settings, and offline-aware behavior. Physical-device testing confirms the workflow; real field deployment still requires expert agronomic review. \\
-Economic & The prototype uses student-accessible, open-source stacks. Costs are mainly compute for training/inference, optional cloud image storage, and optional external advisory-generation services. \\
-Schedule & The project follows CSIT project phases: proposal defense, midterm progress defense, and final report/demonstration before the board examination. The manuscript organizes completed implementation evidence for final submission. \\
+
+Technical & The centrepiece is ready; devs have built YOLO & VLM Pipelines, they are wrapped inside an Express / Mongoose Backend and run live via a React Native/ Expo mobile application. The main challenge remains reliability of diagnostics; unparseable outputs from the VLM could cause instability. \\
+
+Operational & The phone interface has the ability to process live scans in the field, record a crop's full details and save details locally to ensure off-line working on local data. Workflow has been tested and tested on a hardware successfully. The real -world working still needs to be verified by agricultural specialists. \\
+
+ Economic & It's built out of tech 100% accessible to student developers & free and open source. The majority of costs are funding the raw computer resources to run the model and to continue training. \\
+
+Schedule & Development refers to CSIT project targets and deadlines. It demands presentation of an initial proposal and progress after midterm, along with final demonstration before the board examination time. This manuscript forms the core implementation evidence of the final project submission.
+
 \end{xltabular}
 
 \ChapterSubsection{Object-Oriented Analysis}
 
-The dominant domain objects are User, CropPlot, Scan, Diagnosis, Advisory,
-CropTask, CropNote, and local mobile repositories. The backend stores these
-entities through Mongoose models and repositories, while the mobile application maintains local
-representations through TypeScript types, repositories, SQLite-backed datasources, and feature
-view models.
+The architecture for the seven objects; User, CropPlot and Scan, & Diagnosis, Advisory, CropTask & CropNote revolves around three base objects and related ones. In backend the data is directly exposed with Mongoose models & repository objects by the means of these seven domain objects. Mobile clients work a little differently by having mobile repositories with the backed datasource based on SQLite. State remains to be local. With the Typescript objects mobile clients can have those local states for the feature viewmodels exposed on the mobile applications.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{data/flow_digram_data/build/system_analysis/01_use_case_diagram.pdf}
-\caption{Use case diagram for the Krishi Vaidya diagnosis-support workflow}
+\caption{ Diagnosis-support workflow}
 \label{fig:system-use-case-diagram}
 \vspace{1.5cm}
 \end{figure}
@@ -110,14 +108,14 @@ view models.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{data/flow_digram_data/build/system_analysis/02_object_model_diagram.pdf}
-\caption{Object model showing the main Krishi Vaidya domain entities}
+\caption{Domain entities}
 \label{fig:system-object-model}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{data/flow_digram_data/build/system_analysis/03_sequence_diagram.pdf}
-\caption{Sequence diagram for the online scan diagnosis workflow}
+\caption{Sequence diagram of the online scan diagnosis workflow}
 \label{fig:scan-sequence-diagram}
 \vspace{0.5cm}
 \end{figure}
@@ -125,9 +123,9 @@ view models.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{data/flow_digram_data/build/system_analysis/04_activity_diagram.pdf}
-\caption{Activity diagram for scan submission under online and offline conditions}
+\caption{ Scan submission under online and offline conditions}
 \label{fig:scan-activity-diagram}
 \end{figure}
 
-Chapter 4 translates this analysis into concrete system design, data pipelines, module
-organization, and algorithm details used for implementation.
+
+\end{document}
