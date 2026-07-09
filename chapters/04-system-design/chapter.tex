@@ -2,16 +2,17 @@
 
 \ChapterSection{Design}
 
-The system design refines the analysis from Chapter~3 into four implementation components:
-YOLO object detection, VLM disease interpretation, backend orchestration, and mobile delivery.
-Each component is described in terms of its dataset or data model, its configuration, and its
-role in the integrated diagnosis workflow.
+Four components move the system from the requirements in Chapter~3 to a deployable diagnosis
+pipeline: a YOLO detector for plant-part localization, a fine-tuned VLM for disease
+classification, a backend that orchestrates inference and advisory generation, and a mobile
+application that delivers results to the farmer. Each component is presented below with its
+datasets and configuration, followed by the algorithmic procedures that run across them.
 
 \ChapterSubsection{YOLO Object-Detection Dataset}
 
-The YOLO component localizes plant-part structures within crop images to contextualize
-downstream diagnosis. Rather than yielding a standalone disease label, it identifies leaves,
-panicles, grain clusters, fruits, ears, and vegetable heads for the VLM and advisory pipeline.
+The YOLO component localizes leaves, panicles, grain clusters, fruits, ears, and vegetable
+heads within crop images. Disease classification is left to the VLM --- the detector's job is
+to tell the downstream pipeline which plant parts are present and where they sit in the frame.
 
 \begin{figure}[htbp]
 \centering
@@ -19,21 +20,22 @@ panicles, grain clusters, fruits, ears, and vegetable heads for the VLM and advi
 \caption{YOLO system architecture overview showing the data, training, validation, deployment, and export pipeline.}
 \label{fig:yolo-system-architecture-overview}
 \end{figure}
-YOLOv8 nano was selected for its balance of mean average precision, inference latency, and
-model footprint under lightweight deployment constraints
+YOLOv8 nano fits the deployment target: it is small enough for a mobile TFLite export while
+reaching usable mAP on the eleven-class taxonomy
 \parencite{jiangYOLOSurvey2022,ultralyticsYolov8}.
-Figure~\ref{fig:yolo-system-architecture-overview} shows the overall architecture of this component.
+Figure~\ref{fig:yolo-system-architecture-overview} outlines the detection pipeline from data
+ingestion through export.
 
 \subsubsection{Data Sources and Class Mapping}
 
 Sources span Kaggle and Roboflow datasets covering tomato, rice, potato, maize, brassica,
-cauliflower, and cabbage imagery, all merged into a single class taxonomy. From 34,992
+cauliflower, and cabbage imagery, merged into a single class taxonomy. From 34,992
 candidate images, curation removed 4,011 images and 13,218 annotations flagged for
 out-of-bounds coordinates, sub-pixel area, or collapse after clamping. The class distribution
-is heavily skewed: rice panicle accounts for 115,046 of 147,467 annotations, while maize ear
-(106) and rice grain cluster (473) are the least represented. This imbalance directly shapes
-per-class validation behavior and cannot be read from aggregate precision or mAP alone.
-The data pipeline flow is illustrated in Figure~\ref{fig:yolo-data-pipeline-flow}.
+is heavily skewed: rice panicle holds 115,046 of 147,467 annotations, while maize ear
+(106) and rice grain cluster (473) are the least represented. Aggregate mAP hides this
+imbalance; per-class metrics must be read from individual class scores
+(Figure~\ref{fig:yolo-data-pipeline-flow}).
 
 \begin{figure}[htbp]
 \centering
@@ -44,11 +46,10 @@ The data pipeline flow is illustrated in Figure~\ref{fig:yolo-data-pipeline-flow
 
 \subsubsection{Dataset Construction}
 
-The Krishi Vaidya plant-part detection dataset contains 30,981 images and 147,467 object
-annotations across eleven classes. The training split holds 27,454 images; the validation
-split holds 3,527. Annotations are stored in COCO-style pixel \texttt{xywh} format, with a
-derived YOLO export used directly for training. Table~\ref{tab:yolo-dataset-class-distribution}
-shows the per-class annotation counts after curation.
+The final dataset contains 30,981 images and 147,467 annotations across eleven classes,
+split into 27,454 training and 3,527 validation images. Annotations use COCO-style pixel
+\texttt{xywh} format, converted to YOLO format for training. Per-class counts appear in
+Table~\ref{tab:yolo-dataset-class-distribution}.
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -80,25 +81,17 @@ Cabbage head & 1,027 \\
 \end{xltabular}
 }
 
-
-
-\ChapterSubsection{YOLO Detector Design}
-
-The YOLO detector is designed as a lightweight plant-part localization component rather than a
-final disease classifier. Its design decisions are the use of the YOLOv8 nano architecture,
-the eleven-class plant-part taxonomy, 640-pixel model input, and export targets compatible with
-mobile TFLite deployment. The training, threshold selection, export, and mobile post-processing
-steps are described under Algorithm Details.
+The detector runs on 640-pixel inputs and exports to FP32, FP16, and INT8 TFLite variants
+for mobile deployment; training and threshold-selection details follow in Algorithm Details.
 
 \ChapterSubsection{VLM Disease-Diagnosis Dataset}
 
-Krishi Vaidya uses Qwen2.5-VL-3B as its disease-interpretation engine. Unlike the YOLO
-detector, the VLM processes a full crop image alongside a natural-language instruction and
-returns a structured diagnostic response \parencite{bai2025qwen25vl}. The 3B parameter scale
-with 4-bit LoRA fine-tuning fits within a single L4-class GPU while remaining capable of
-structured JSON generation. Because the output is generated text, evaluation must treat
-structural parseability as a first-class metric alongside classification accuracy.
-Figure~\ref{fig:vlm-system-architecture-overview} shows the overall architecture for the VLM component.
+Disease interpretation runs on Qwen2.5-VL-3B \parencite{bai2025qwen25vl}. The model takes a
+crop image and a natural-language instruction, then returns a structured JSON diagnosis. At 3B
+parameters with 4-bit LoRA fine-tuning, it fits on a single L4 GPU. Because the output is
+generated text --- not a fixed-vocabulary prediction --- parseability is a first-class
+evaluation metric alongside classification accuracy
+(Figure~\ref{fig:vlm-system-architecture-overview}).
 
 \begin{figure}[htbp]
 \centering
@@ -106,23 +99,24 @@ Figure~\ref{fig:vlm-system-architecture-overview} shows the overall architecture
 \caption{VLM system architecture overview separating dataset processing, training, inference, and serving infrastructure.}
 \label{fig:vlm-system-architecture-overview}
 \end{figure}
+
 \subsubsection{Taxonomy and Label Normalization}
 
-The taxonomy spans rice, maize, potato, tomato, cauliflower, and cabbage. The reported
-training and evaluation outputs cover eleven classes: maize common rust, maize healthy, maize
-northern leaf blight, potato early blight, potato healthy, potato late blight, tomato early
-blight, tomato healthy, tomato late blight, tomato leaf mold, and tomato septoria leaf spot.
-Canonical labels follow the format \texttt{crop\_\_disease}
-(e.g., \texttt{potato\_\_late\_blight}). Evaluation uses exact canonical-label matching, so
-alias normalization at export is a hard correctness requirement, not a cosmetic choice.
+The taxonomy covers rice, maize, potato, tomato, cauliflower, and cabbage across eleven
+disease classes: maize common rust, maize healthy, maize northern leaf blight, potato early
+blight, potato healthy, potato late blight, tomato early blight, tomato healthy, tomato late
+blight, tomato leaf mold, and tomato septoria leaf spot. Canonical labels follow the format
+\texttt{crop\_\_disease} (e.g., \texttt{potato\_\_late\_blight}). Evaluation uses exact
+canonical-label matching, so alias normalization at export is a correctness requirement, not a
+cosmetic one.
 
 \subsubsection{Dataset Pipeline}
 
-The VLM dataset pipeline is configured under \texttt{vlm\_model/data/configs} as project
-\texttt{krishivaidya}, dataset \texttt{kv-core5-ms}. The split policy reserves 15\% for a
-locked test set and 15\% for validation. Per-crop record caps --- 800 for rice, maize, potato,
-and tomato; 600 for cauliflower and cabbage --- prevent any single source category from
-dominating training. Figure~\ref{fig:vlm-data-pipeline-flow} illustrates the data pipeline flow.
+The dataset pipeline is configured under \texttt{vlm\_model/data/configs} as project
+\texttt{krishivaidya}, dataset \texttt{kv-core5-ms}. Splits reserve 15\% for a locked test
+set and 15\% for validation. Per-crop record caps --- 800 for rice, maize, potato, and tomato;
+600 for cauliflower and cabbage --- prevent any single crop from dominating training
+(Figure~\ref{fig:vlm-data-pipeline-flow}).
 
 \begin{figure}[htbp]
 \centering
@@ -131,36 +125,30 @@ dominating training. Figure~\ref{fig:vlm-data-pipeline-flow} illustrates the dat
 \label{fig:vlm-data-pipeline-flow}
 \end{figure}
 
-
 \subsubsection{Qwen2.5-VL SFT Export}
 
-Each exported record contains an image path, a human message with the image token and
-instruction, an assistant answer, and metadata fields (split, crop, disease, canonical label,
-template id, source). The \texttt{disease\_json} template asks for compact JSON with \texttt{crop},
-\texttt{disease}, \texttt{canonical\_label}, and \texttt{confidence\_label}. The
-\texttt{label\_only} template requests just the canonical and confidence labels. The
-\texttt{diagnostic\_short} template adds a brief visual diagnosis sentence.
+Each exported record pairs an image path with a human message (containing the image token and
+instruction), an assistant answer, and metadata (split, crop, disease, canonical label,
+template id, source). Three templates shape the assistant target: \texttt{disease\_json}
+requests compact JSON with \texttt{crop}, \texttt{disease}, \texttt{canonical\_label}, and
+\texttt{confidence\_label}; \texttt{label\_only} requests the canonical and confidence labels
+alone; \texttt{diagnostic\_short} adds a brief visual-diagnosis sentence.
 
-\ChapterSubsection{VLM Adapter Design}
-
-The VLM component is designed around Qwen2.5-VL-3B-Instruct, structured Qwen-format
-image-text records, and LoRA adapter fine-tuning. The adapter design targets attention and
-feed-forward projection layers while excluding visual modules, keeping trainable parameters
-focused on language-side adaptation. The quantized fine-tuning and prediction-parsing
-procedure is described under Algorithm Details.
+LoRA adapters target the attention and feed-forward projection layers, excluding visual
+modules; fine-tuning configuration and prediction parsing follow in Algorithm Details.
 
 \ChapterSubsection{Backend System Architecture}
 
-The backend is a TypeScript and Express API that orchestrates the mobile client, farm records,
-image storage, authentication, VLM inference, and advisory generation through a single
-versioned interface. A layered design separates configuration, middleware, routing, controllers,
-services, repositories, and data models --- isolating HTTP transport, business rules, database
-persistence, and external ML integrations from one another \parencite{sculleyMLTechDebt2015}.
+A TypeScript and Express API sits between the mobile client and every backend concern: farm
+records, image storage, authentication, VLM inference, and advisory generation, all behind a
+single versioned interface. The codebase separates configuration, middleware, routing,
+controllers, services, repositories, and data models into layers so that HTTP transport,
+business rules, database persistence, and ML integrations do not leak into each other
+\parencite{sculleyMLTechDebt2015}.
 
-Figure~\ref{fig:backend-architecture} shows the verified backend architecture. The mobile app
-communicates with Express through JSON and multipart requests; controllers validate inputs,
-services apply workflow rules, repositories isolate Mongoose queries, and models define
-persisted MongoDB documents.
+Figure~\ref{fig:backend-architecture} traces the request path: the mobile app sends JSON and
+multipart requests to Express; controllers validate inputs, services enforce workflow rules,
+repositories wrap Mongoose queries, and models define MongoDB documents.
 
 \begin{figure}[htbp]
 \centering
@@ -171,28 +159,25 @@ persisted MongoDB documents.
 
 \subsubsection{Runtime Modes and Application Initialization}
 
-The backend supports three runtime modes through the validated \texttt{BACKEND\_MODE}
+Three runtime modes control which route groups load, set through the \texttt{BACKEND\_MODE}
 environment variable: \texttt{diagnose} (AI routes only), \texttt{non\_ai} (database routes
-only), and \texttt{complete} (all routes enabled). A health endpoint at
-\texttt{/api/v1/health} reports server state, uptime, environment, mode, and the public base
-URL. All configuration is Zod-validated before the server starts, preventing silent startup in
-an incomplete state. Database-backed routes require JWT, Cloudinary, and SMTP credentials; the
-diagnosis stack requires the ML service URL and authentication configuration.
+only), and \texttt{complete} (all routes). A health endpoint at \texttt{/api/v1/health}
+reports server state, uptime, environment, mode, and public base URL. Zod validates all
+configuration before the server starts, preventing silent startup in an incomplete state.
+Database-backed routes require JWT, Cloudinary, and SMTP credentials; the diagnosis stack
+requires the ML service URL and its authentication configuration.
 
-\subsubsection{Dependency Container}
-
-All dependencies are wired in \texttt{src/container.ts}: repositories first, then services,
-controllers, and route modules. Explicit construction keeps the dependency graph visible and
-avoids scattering object creation across route files.
+Dependencies are wired in \texttt{src/container.ts} --- repositories first, then services,
+controllers, and route modules --- keeping the dependency graph in one place instead of
+scattered across route files.
 
 \ChapterSubsection{Backend API Design}
 
 \subsubsection{Route Groups}
 
-All routes are versioned under \texttt{/api/v1}. Table~\ref{tab:backend-route-groups} lists
-the implemented groups and their responsibilities. In development, Swagger UI is served at
-\texttt{/api/docs} with request schemas, security requirements, and response documentation
-generated from route-level Swagger comments.
+All routes sit under \texttt{/api/v1} (Table~\ref{tab:backend-route-groups}). In development,
+Swagger UI at \texttt{/api/docs} exposes request schemas, security requirements, and response
+documentation generated from route-level comments.
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -224,27 +209,25 @@ Advisories & \texttt{/api/v1/advisories} & Advisory creation, filtering, active 
 
 \subsubsection{Controller and Validation Pattern}
 
-Controllers receive typed service dependencies and expose Express request handlers.
-Validation uses \texttt{express-validator} for MongoDB identifier checks, bounded pagination
-values, enumerated types for task categories and advisory severities, and text field length
-limits. Successful responses pass through a shared response formatter; operational failures are
-forwarded to a global error middleware.
+Controllers take typed service dependencies and expose Express request handlers. Validation
+uses \texttt{express-validator} for MongoDB identifier checks, bounded pagination, enumerated
+types (task categories, advisory severities), and text-field length limits. Successful
+responses pass through a shared formatter; failures reach a global error middleware.
 
-Most database-backed routes require authentication. The middleware verifies a Bearer access
-token against the configured JWT secret, rejects expired or malformed tokens, blocks
-pending-verification and suspended users, and attaches the decoded user context to the request.
-Service methods can then enforce ownership through repository queries without repeating access
-control in each controller.
+Most database-backed routes require authentication. The auth middleware verifies a Bearer token
+against the JWT secret, rejects expired or malformed tokens, blocks pending-verification and
+suspended accounts, and attaches the decoded user context to the request. Service methods then
+enforce ownership through repository queries, so access control does not repeat in every
+controller.
 
 \ChapterSubsection{Backend Data Model}
 
 \subsubsection{MongoDB Collections and Domain Entities}
 
-Persistent state uses Mongoose models for nine domain entities: users, OTP records, refresh
-tokens, scans, scan resolutions, crop plots, crop tasks, crop notes, and advisories.
-Table~\ref{tab:backend-data-models} summarizes each model's purpose and key design details.
-Indexes cover common access paths including user ownership, status filtering, date ordering,
-and TTL cleanup for expiring documents.
+Mongoose models back nine domain entities: users, OTP records, refresh tokens, scans, scan
+resolutions, crop plots, crop tasks, crop notes, and advisories
+(Table~\ref{tab:backend-data-models}). Indexes cover user ownership, status filtering, date
+ordering, and TTL cleanup for expiring documents.
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -276,10 +259,10 @@ and TTL cleanup for expiring documents.
 
 \subsubsection{Repository Layer}
 
-Repositories encapsulate all database access for user-owned resources --- scans, crop plots,
-tasks, notes, and advisories. Methods accept user or plot identifiers and apply ownership
-filters before returning results, placing access control inside the data layer rather than
-relying on each controller to replicate it. This persistence flow is shown in Figure~\ref{fig:backend-data-model-persistence-flow}.
+Repositories encapsulate database access for user-owned resources --- scans, crop plots,
+tasks, notes, and advisories. Each method accepts a user or plot identifier and applies
+ownership filters before returning results, so access control lives in the data layer rather
+than in individual controllers (Figure~\ref{fig:backend-data-model-persistence-flow}).
 
 \begin{figure}[!htbp]
 \centering
@@ -292,13 +275,11 @@ relying on each controller to replicate it. This persistence flow is shown in Fi
 
 \subsubsection{Image Validation}
 
-The diagnosis pipeline is designed as a guarded backend boundary between the mobile client,
-the VLM gateway, and the advisory generator. Image validation is placed before model
-inference so malformed files, unsupported formats, unsafe dimensions, and invalid crop hints
-cannot reach the inference or advisory services.
+Image validation runs before model inference: malformed files, unsupported formats,
+out-of-range dimensions, and invalid crop hints are rejected before they reach the VLM or
+advisory services.
 
 \subsubsection{VLM Inference Bridge}
-
 
 \begin{figure}[htbp]
 \centering
@@ -306,13 +287,10 @@ cannot reach the inference or advisory services.
 \caption{VLM API gateway flow showing the backend request path, readiness check, authentication, inference call, and response parsing boundary.}
 \label{fig:vlm-api-gateway-flow}
 \end{figure}
-The VLM bridge is designed as a service-to-service boundary with readiness checking and
-backend-held credentials. The API gateway flow and the backend diagnosis pipeline flow are
-illustrated in Figure~\ref{fig:vlm-api-gateway-flow} and Figure~\ref{fig:backend-diagnosis-pipeline-flow},
-respectively. The request sequence, response parsing, and fallback behavior are described
-under Algorithm Details.
-
-
+The VLM inference gateway is a FastAPI service \parencite{fastapiDocs} that exposes
+\texttt{/health}, \texttt{/ready}, and \texttt{/v1/inference}. The Express backend holds the
+gateway credentials and checks readiness before forwarding any inference request
+(Figures~\ref{fig:vlm-api-gateway-flow} and~\ref{fig:backend-diagnosis-pipeline-flow}).
 
 \begin{figure}[htbp]
 \centering
@@ -323,53 +301,49 @@ under Algorithm Details.
 
 \subsubsection{Google AI Advisory Bridge}
 
-The advisory bridge is designed to require a strict JSON response containing disease,
-confidence, out-of-distribution state, symptoms, treatment, prevention, safety, source, and
-alternative-diagnosis fields. Zod schema validation is used as the acceptance boundary before
-the response is exposed to the mobile application. The detailed orchestration sequence is
-described under Algorithm Details.
+The advisory bridge demands a strict JSON response covering disease, confidence,
+out-of-distribution state, symptoms, treatment, prevention, safety, source, and
+alternative-diagnosis fields. Zod schema validation gates the response before it reaches the
+mobile application.
 
 \ChapterSubsection{Backend Security, Uploads, and Reliability Controls}
 
 \subsubsection{Upload Handling and Cloudinary Storage}
 
 Multer memory storage handles incoming files, filtered by MIME type and extension against
-JPEG, PNG, and WEBP. Scan images, profile pictures, and note images are uploaded to Cloudinary
-with secure URLs and automatic quality and format transformations. The backend also deletes
-Cloudinary assets when existing profile pictures or note images are replaced or removed.
+JPEG, PNG, and WEBP. Scan images, profile pictures, and note images upload to Cloudinary with
+secure URLs and automatic quality and format transformations. When a profile picture or note
+image is replaced or removed, the backend deletes the previous Cloudinary asset.
 
 \subsubsection{Request Safety and Error Handling}
 
-Rate limits are 100 requests per 15 minutes for general routes, 10 per 15 minutes for
-authentication routes, and 5 per hour for OTP requests. The global error handler normalizes
-application errors, Multer upload errors, Mongoose validation errors, duplicate-key errors,
-and JWT errors into consistent JSON responses. In production, unknown errors surface as a
-generic message; development mode exposes additional diagnostic detail.
+Rate limits cap general routes at 100 requests per 15 minutes, authentication routes at 10,
+and OTP routes at 5 per hour. A global error handler folds application errors, Multer upload
+errors, Mongoose validation errors, duplicate-key errors, and JWT errors into a uniform JSON
+shape. Production surfaces unknown errors as a generic message; development mode exposes full
+diagnostic detail.
 
 \subsubsection{Authentication and Session Handling}
 
-Login returns a short-lived access token and stores a refresh token in an HTTP-only cookie.
-Refresh tokens are represented as hashed records with lookup IDs, expiry timestamps, and
-revocation state, supporting both single-session and all-session logout. OTP records use
-hashed values with expiry and attempt tracking under a unique email-purpose index, giving
-each active OTP purpose a controlled lifecycle across email verification, password reset, and
-phone verification flows.
+Login returns a short-lived access token and stores a hashed refresh token in an HTTP-only
+cookie. Refresh tokens carry lookup IDs, expiry timestamps, and revocation state, supporting
+both single-session and all-session logout. OTP records store hashed values with expiry and
+attempt counts under a unique email-purpose index, so each purpose --- email verification,
+password reset, phone verification --- has its own expiration window.
 
 \ChapterSubsection{Mobile Application Architecture}
 
 \subsubsection{Purpose and Implementation Scope}
 
-The mobile application is the primary farmer-facing interface, implemented with React Native
-and Expo for cross-platform delivery \parencite{reactNativeDocs,expoDocs}. Its scope covers
-onboarding, crop-plot management, offline-aware scan queuing, diagnosis submission, structured
-result presentation, and localized record keeping. The design follows a local-first approach
-\parencite{kleppmannLocalFirst2019}: user actions write to local storage immediately, with
-backend synchronization handled separately. The stack uses Expo Router for navigation,
-TanStack Query for server-state mutations, SQLite for local persistence, i18next for bilingual
-content, VisionCamera for native capture, and TFLite for on-device inference. The Android
-package is \texttt{com.krishivaidya.app} under scheme \texttt{krishivaidya}.
-
-Figure~\ref{fig:mobile-app-architecture} shows the implemented architecture.
+The mobile application is built with React Native and Expo
+\parencite{reactNativeDocs,expoDocs} and handles onboarding, crop-plot management,
+offline-aware scan queuing, diagnosis submission, result presentation, and bilingual record
+keeping. A local-first design \parencite{kleppmannLocalFirst2019} writes user actions to
+SQLite before synchronizing with the backend. The stack pairs Expo Router (navigation) with
+TanStack Query (server-state mutations), i18next (bilingual content), VisionCamera (native
+capture), and TFLite (on-device inference). The Android package is
+\texttt{com.krishivaidya.app} under scheme \texttt{krishivaidya}
+(Figure~\ref{fig:mobile-app-architecture}).
 
 \begin{figure}[htbp]
 \centering
@@ -382,13 +356,12 @@ Figure~\ref{fig:mobile-app-architecture} shows the implemented architecture.
 
 The root layout initializes fonts, the splash screen, a QueryClient with offline-tolerant
 defaults, i18n, and the repository bootstrap before rendering the route tree. Route protection
-redirects first-time users through onboarding before they reach the main tab interface.
+redirects first-time users through onboarding before they reach the main tabs.
 
-Table~\ref{tab:mobile-route-groups} lists the implemented route groups. The bottom-tab
-navigator surfaces Home, Crops, Scan, History, and Settings as the primary daily workflows.
-The scan stack --- capture, preview, image editor, analysis, final analysis --- runs
-independently of crop management routes, allowing scan results and follow-up reminders to
-cross-reference crop records without coupling the two flows.
+Five bottom tabs --- Home, Crops, Scan, History, and Settings --- anchor the daily interface
+(Table~\ref{tab:mobile-route-groups}). The scan stack (capture, preview, image editor,
+analysis, final analysis) runs independently of crop management routes, so scan results and
+reminders can cross-reference crop records without coupling the two flows.
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -417,22 +390,22 @@ Achievements & Achievements view and toast components & Lightweight engagement t
 
 \subsubsection{Provider, Repository, and Dependency Structure}
 
-The \texttt{ServicesProvider} exposes camera, network, notification, haptics, voice, and
-location services. The \texttt{RepositoryProvider} exposes repositories for scans, crops,
-tasks, notes, and the data catalog. The repository bootstrap initializes SQLite, runs the
-V3-to-V4 migration, performs a one-time MMKV-to-SQLite migration, constructs datasources,
-creates repository instances, and starts the offline sync manager. Read-only agricultural
-catalog data --- varieties, growth stages, fertilizer recommendations, disease entries, and
-seasonal tips --- is stored as JSON fixtures, kept separate from user-created records in SQLite.
+Two context providers supply dependencies to the component tree.
+\texttt{ServicesProvider} handles camera, network, notification, haptics, voice, and location;
+\texttt{RepositoryProvider} handles scans, crops, tasks, notes, and the data catalog. At
+startup, the repository bootstrap initializes SQLite, runs the V3-to-V4 migration, performs a
+one-time MMKV-to-SQLite migration, constructs datasources, creates repository instances, and
+starts the offline sync manager. Read-only agricultural catalog data --- varieties, growth
+stages, fertilizer recommendations, disease entries, and seasonal tips --- ships as JSON
+fixtures, separate from user records in SQLite.
 
 \subsubsection{Local Persistence and Offline-Aware Design}
 
 The SQLite schema holds scans, offline queue entries, reminders, sync queue entries, crop
 plots, tasks, notes, advisories, custom task categories, settings, achievements, achievement
 statistics, and notifications. Mutable tables carry \texttt{sync\_status},
-\texttt{updated\_at}, and \texttt{deleted\_at} columns, enabling local writes to complete
-before backend synchronization catches up.
-Table~\ref{tab:mobile-local-persistence} summarizes the persistence groups.
+\texttt{updated\_at}, and \texttt{deleted\_at} columns so that writes complete locally before
+backend synchronization runs (Table~\ref{tab:mobile-local-persistence}).
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -459,11 +432,12 @@ Catalog data & JSON fixture files through catalog repository & Read-only crop, g
 \end{xltabular}
 }
 
-The offline sync manager monitors connectivity, resets interrupted processing items on startup,
-and runs a periodic sync on a five-minute interval in batches of ten. Queue processing halts
-when connectivity is lost. Generic table-push behavior currently marks local rows as synced
-pending matching backend endpoints, so offline sync is implemented infrastructure with partial
-backend integration rather than fully proven bidirectional synchronization. Figure~\ref{fig:mobile-offline-sync-data-flow} shows the offline synchronization data flow.
+The offline sync manager monitors connectivity, resets interrupted items on startup, and
+syncs every five minutes in batches of ten. Processing halts when connectivity drops. The
+current table-push logic marks local rows as synced, but not all entity types have matching
+backend endpoints yet --- so offline sync is working infrastructure with partial backend
+coverage, not yet a fully bidirectional system
+(Figure~\ref{fig:mobile-offline-sync-data-flow}).
 
 \begin{figure}[htbp]
 \centering
@@ -474,11 +448,10 @@ backend integration rather than fully proven bidirectional synchronization. Figu
 
 \subsubsection{Scan Workflow and Diagnosis Flow}
 
-The scan workflow is designed as a multi-stage mobile path: capture or selection, preview,
-optional editing, diagnosis submission, result display, and local history update. The scan
-pipeline flow is illustrated in Figure~\ref{fig:mobile-scan-pipeline-flow}. The state
-transitions, network-aware branching, timeout handling, retry behavior, and offline queue
-behavior are described under Algorithm Details.
+The scan workflow moves through capture or gallery selection, preview, optional editing,
+diagnosis submission, result display, and local history update
+(Figure~\ref{fig:mobile-scan-pipeline-flow}). State transitions, network branching, timeout
+handling, and retry logic are covered in the Algorithm Details section.
 
 \begin{figure}[htbp]
 \centering
@@ -491,10 +464,8 @@ behavior are described under Algorithm Details.
 
 A singleton TFLite service manages three precision variants:
 \texttt{krishi\_bouncer\_int8.tflite}, \texttt{krishi\_bouncer\_fp16.tflite}, and
-\texttt{krishi\_bouncer\_fp32.tflite}. The design supports runtime precision selection and
-delegate fallback for native Android inference. Figure~\ref{fig:mobile-ondevice-ml-inference-flow}
-shows the on-device ML inference flow; the input size, confidence filtering, and NMS procedure
-are described under Algorithm Details.
+\texttt{krishi\_bouncer\_fp32.tflite}, with runtime precision selection and delegate fallback
+for Android inference (Figure~\ref{fig:mobile-ondevice-ml-inference-flow}).
 
 \begin{figure}[htbp]
 \centering
@@ -505,21 +476,16 @@ are described under Algorithm Details.
 
 \subsubsection{Localization, Accessibility, and Farmer-Facing Output}
 
-The application defaults to Nepali, resolving language from the SQLite preference first, then
-device locale, then Nepali fallback. Result presentation supports treatment timelines, organic
-alternative toggling, reminder creation, share-card generation, PDF export, voice output, and
-feedback submission.
+Language defaults to Nepali, resolved from the SQLite preference first, then device locale,
+then fallback. Result screens support treatment timelines, organic-alternative toggling,
+reminder creation, share-card generation, PDF export, voice output, and feedback submission.
 
 \ChapterSubsection{Integrated Diagnosis Workflow}
 
-\subsubsection{Integration Objective}
-
-The four subsystems cooperate as one end-to-end workflow: the mobile scan pipeline captures
-and routes the image, the backend validates and orchestrates inference, the VLM gateway
-produces a prediction, and the advisory client produces a structured response the mobile app
-presents to the farmer. Figure~\ref{fig:integration-workflow} provides a combined overview of
-these workflows; the step-by-step online diagnosis procedure is listed in
-Table~\ref{tab:integration-control-flow} under Algorithm Details.
+The four subsystems cooperate in one end-to-end path: the mobile scan pipeline captures and
+routes the image, the backend validates it and calls the VLM gateway, the gateway returns a
+prediction, and the advisory client produces a structured response that the mobile app presents
+to the farmer. Figure~\ref{fig:integration-workflow} shows the combined flow.
 
 \begin{figure}[htbp]
 \centering
@@ -528,80 +494,27 @@ Table~\ref{tab:integration-control-flow} under Algorithm Details.
 \label{fig:integration-workflow}
 \end{figure}
 
-\subsubsection{End-to-End Workflow Boundary}
-
-The integrated workflow design defines the boundary between mobile scan handling, backend
-validation, VLM inference, advisory generation, and mobile result presentation. The procedural
-step sequence for this workflow is listed under Algorithm Details.
-
-\subsubsection{Backend Orchestration Boundary}
-
-The backend protects both the VLM service and the Google AI advisory client from direct mobile
-exposure. Its design role is to receive a validated mobile request, isolate external service
-credentials, enforce schema checks, and return one stable response contract to the mobile
-application.
-
-\subsubsection{VLM Inference Gateway Boundary}
-
-The VLM inference gateway is a FastAPI service \parencite{fastapiDocs} exposing
-\texttt{/health}, \texttt{/ready}, and \texttt{/v1/inference}. Its design role is to separate
-model-serving infrastructure from the Express backend while enforcing readiness, authentication,
-image-validation, and response-metadata boundaries.
-
-\subsubsection{Prediction Parsing and Advisory Generation}
-
-Prediction parsing and advisory generation are separated into two boundaries. The parser
-normalizes model text into backend-readable context, while the advisory client converts that
-context into the schema accepted by the mobile application. The detailed parsing and response
-assembly rules are described under Algorithm Details.
-
-\subsubsection{Mobile Offline and Slow-Network Integration}
-
-The mobile offline design separates user-facing scan progress from backend availability.
-SQLite-backed scan history, offline queues, cached advisory records, and sync-queue entries
-allow the app to preserve work when network conditions are poor. The exact branch logic is
-described under Algorithm Details.
-
-\subsubsection{Structured Response and Farmer-Facing Output}
-
-The structured response design gives the mobile application a stable contract instead of raw
-model output. The response contract includes disease identity, confidence state, symptoms,
-advisory content, processing metadata, and model version, with bilingual fields where required
-by the farmer-facing interface.
-
-\ChapterSubsection{Component and Deployment Design}
-
-The component design is represented through the subsystem architecture views in this chapter:
-the YOLO pipeline in Figure~\ref{fig:yolo-system-architecture-overview}, the VLM pipeline in
-Figure~\ref{fig:vlm-system-architecture-overview}, the backend service architecture in
-Figure~\ref{fig:backend-architecture}, the mobile application architecture in
-Figure~\ref{fig:mobile-app-architecture}, and the integrated diagnosis workflow in
-Figure~\ref{fig:integration-workflow}. Together, these views refine the analysis diagrams from
-Chapter~3 into implementable components: mobile presentation and local storage, backend
-controllers and services, persistence models, VLM inference, advisory generation, and exported
-TFLite model assets.
-
-The deployment view separates runtime responsibilities across the Android mobile device,
-Express backend, database and storage services, Google AI advisory service, and VLM inference
-gateway. The design keeps model-service credentials behind the backend boundary and packages
-the YOLO TFLite variants inside the mobile application for on-device plant-part detection.
+Deployment splits runtime responsibilities across five nodes: the Android device, the Express
+backend, MongoDB and Cloudinary storage, the Google AI advisory service, and the FastAPI VLM
+gateway. Model-service credentials stay behind the backend boundary; YOLO TFLite variants ship
+inside the mobile APK for on-device plant-part detection. The step-by-step online diagnosis
+procedure is listed in Table~\ref{tab:integration-control-flow} under Algorithm Details.
 
 \ChapterSection{Algorithm Details}
 
-The design section defines components, data stores, and service boundaries. This section
-contains the procedures that operate across those components. Configuration values are included
-where they define the procedure itself; measured outcomes remain in Chapter~5.
+The procedures below operate across the components, data stores, and boundaries defined above.
+Configuration values appear where they shape the procedure; measured outcomes are reported in
+Chapter~5.
 
 \ChapterSubsection{YOLO Training, Validation, and Deployment Procedure}
 
 \subsubsection{Training Setup}
 
-The YOLO procedure starts from the curated plant-part dataset described in the design section.
-Image records and bounding-box annotations are exported to YOLO format and trained from
-\texttt{yolov8n.pt} on 640-pixel inputs for 100 epochs with validation enabled.
-Mosaic augmentation runs at probability 1.0 and is closed during the final 10 epochs to reduce
-late-stage training noise; mixup and copy-paste are disabled. Table~\ref{tab:yolo-training-configuration}
-lists the configuration used by the procedure.
+Training begins from the curated plant-part dataset. Image records and bounding-box
+annotations are exported to YOLO format, then trained on \texttt{yolov8n.pt} with 640-pixel
+inputs for 100 epochs. Mosaic augmentation runs at probability 1.0 and shuts off during the
+final 10 epochs to reduce late-stage noise; mixup and copy-paste are disabled
+(Table~\ref{tab:yolo-training-configuration}).
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -641,41 +554,38 @@ Close mosaic & Last 10 epochs \\
 
 \subsubsection{Validation and Threshold Selection}
 
-Validation uses precision, recall, F1-score, mAP@50, and mAP@50-95. mAP@50 evaluates
-detections at a single IoU threshold of 0.50, while mAP@50-95 applies the COCO range from
-0.50 to 0.95. A confidence sweep from 0.05 to 0.95 is used to select a deployment threshold
-for the mobile diagnosis context. Lower thresholds preserve more detections but admit weaker
-predictions; higher thresholds remove weak detections but increase missed objects. The
-operating point is therefore treated as a precision--recall tradeoff rather than a single
-metric maximum.
+Validation reports precision, recall, F1-score, mAP@50, and mAP@50-95. mAP@50 evaluates
+detections at IoU 0.50; mAP@50-95 applies the COCO range from 0.50 to 0.95. A confidence
+sweep from 0.05 to 0.95 selects the deployment threshold: lower values preserve more
+detections but admit weaker predictions; higher values suppress weak detections but miss more
+objects. The operating point is a precision--recall tradeoff, not a single-metric maximum.
 
 \subsubsection{Export and Mobile Post-Processing}
 
-After training and validation, the detector is exported into FP32, FP16, and INT8 TFLite
-variants without changing the class taxonomy. On mobile, the selected TFLite variant runs on a
-640-pixel RGB input. The raw output is scanned per detection row, the highest class score is
-selected, objectness is multiplied by that class score to compute confidence, candidates below
-the configured confidence threshold are removed, and non-maximum suppression filters
-overlapping boxes using the configured IoU threshold. The remaining boxes are returned as
-plant-part detections with class id, class name, confidence, and bounding-box coordinates.
+After training, the detector exports to FP32, FP16, and INT8 TFLite variants with the same
+class taxonomy. On mobile, the selected variant takes a 640-pixel RGB input. For each
+detection row, the post-processor picks the highest class score, multiplies it by objectness
+to get confidence, drops candidates below the confidence threshold, and runs non-maximum
+suppression at the configured IoU threshold. Surviving boxes are returned with class id, class
+name, confidence, and bounding-box coordinates.
 
 \ChapterSubsection{VLM Fine-Tuning and Prediction-Parsing Procedure}
 
 \subsubsection{Adapter Fine-Tuning}
 
-The VLM procedure converts curated crop-disease records into Qwen-compatible prompt-response
-examples, then fine-tunes \texttt{Qwen/Qwen2.5-VL-3B-Instruct} using LoRA adapters
-\parencite{hu2021lora}. Adapter targets are attention and feed-forward projection layers:
+Curated crop-disease records are converted into Qwen-compatible prompt-response examples and
+fine-tuned on \texttt{Qwen/Qwen2.5-VL-3B-Instruct} with LoRA adapters
+\parencite{hu2021lora}. Adapters target the attention and feed-forward projection layers:
 \texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, \texttt{o\_proj},
 \texttt{gate\_proj}, \texttt{up\_proj}, and \texttt{down\_proj}. Modules matching
-\texttt{visual}, \texttt{vision}, or \texttt{merger} are excluded, keeping adapter training
-focused on language-side adaptation.
+\texttt{visual}, \texttt{vision}, or \texttt{merger} are excluded so that only language-side
+weights are adapted.
 
-The model loads with 4-bit NF4 quantization, double quantization, bfloat16 compute dtype,
-flash attention, and automatic device mapping. The three-epoch schedule reflects the available
-GPU budget rather than a deliberate early stop: training consumed 12.56 GB of 22.03 GB
-available on the L4 GPU. The Liger kernel is enabled; \texttt{torch.compile} is disabled.
-Table~\ref{tab:vlm-finetuning-configuration} lists the fine-tuning configuration.
+The model loads under 4-bit NF4 quantization with double quantization, bfloat16 compute dtype,
+flash attention, and automatic device mapping. Three epochs reflect the available GPU budget,
+not a deliberate early stop --- training consumed 12.56~GB of the 22.03~GB available on the
+L4. The Liger kernel is enabled; \texttt{torch.compile} is disabled
+(Table~\ref{tab:vlm-finetuning-configuration}).
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -713,46 +623,43 @@ GPU & NVIDIA L4 \\
 
 \subsubsection{Prediction Parsing}
 
-During inference, the request contains the crop image and a diagnosis prompt. Generated text is
-parsed as a complete JSON object first. If that fails, the parser extracts and parses the first
-embedded JSON object. If a \texttt{canonical\_label} field is available, that value becomes the
-predicted label. If no canonical label can be extracted, the prediction is assigned
-\texttt{\_\_parse\_error\_\_}. This rule prevents free-form text from being treated as a valid
-backend diagnosis and makes parseability part of model evaluation.
+At inference time, the gateway receives a crop image and a diagnosis prompt. The generated text
+is parsed as a complete JSON object; if that fails, the parser extracts the first embedded JSON
+object. A \texttt{canonical\_label} field, if present, becomes the predicted label. Without one,
+the prediction is tagged \texttt{\_\_parse\_error\_\_} --- preventing free-form text from
+passing as a valid diagnosis and making parseability part of model evaluation.
 
 \ChapterSubsection{Backend Diagnosis-Orchestration Procedure}
 
 \subsubsection{Request Validation and VLM Call}
 
-For \texttt{POST /api/v1/diagnose}, the backend receives a multipart request with the image in
-the \texttt{image} field and an optional crop-name hint. The validation service checks file
-existence, upload size, image headers, MIME consistency, dimensions, and supported formats.
-Images outside the \(64 \times 64\) to \(4096 \times 4096\) pixel range are rejected; the
-crop-name hint is capped at 80 characters. Accepted formats are JPEG, PNG, and WEBP.
+\texttt{POST /api/v1/diagnose} accepts a multipart request with the image in the
+\texttt{image} field and an optional crop-name hint. Validation checks file existence, upload
+size, image headers, MIME consistency, dimensions, and format. Images outside
+\(64 \times 64\) to \(4096 \times 4096\) pixels are rejected; the crop-name hint is capped at
+80 characters. Accepted formats are JPEG, PNG, and WEBP.
 
-After validation, the diagnosis service checks VLM gateway readiness through \texttt{/ready}.
-If the gateway is not configured, unreachable, timed out, or not ready, the backend raises a
-service-unavailable error rather than returning a partial diagnosis. If ready, the backend
-sends an authorized \texttt{/v1/inference} request containing base64 image data, media type,
-request id, deterministic generation settings, a 320-token output limit, and a compact
-crop-disease prompt. Authentication uses either a static bearer token or a cached RS256 JWT.
+Once validated, the diagnosis service checks VLM gateway readiness at \texttt{/ready}. If the
+gateway is unconfigured, unreachable, timed out, or not ready, the backend raises a
+service-unavailable error instead of returning a partial result. Otherwise it sends an
+authorized \texttt{/v1/inference} request with base64 image data, media type, request id,
+deterministic generation settings, a 320-token output limit, and a crop-disease prompt.
+Authentication uses either a static bearer token or a cached RS256 JWT.
 
 \subsubsection{Advisory Generation and Response Assembly}
 
-The backend parses the VLM prediction using the JSON rules described above and forwards the
-parsed or raw context, together with the validated image, to the Google AI advisory client. The
-advisory response must satisfy the configured schema before it is accepted. Confidence is
-clamped to \([0, 1]\), alternatives are limited to at most three items, and confidence tier is
-computed from the advisory confidence and out-of-distribution flag: values at or above 0.85
-are high, 0.60 to below 0.85 are medium, lower non-out-of-distribution values are low, and
-out-of-distribution or confidence below 0.30 is marked OOD. The final response includes request
-metadata, disease fields, symptoms, advisory fields, processing time, and model version.
+The backend parses the VLM prediction with the JSON rules above, then forwards the parsed (or
+raw) context and validated image to the Google AI advisory client. The advisory response must
+pass schema validation before acceptance. Confidence is clamped to \([0, 1]\), alternatives are
+capped at three, and a confidence tier is assigned: \(\geq 0.85\) maps to high, 0.60--0.85 to
+medium, lower non-OOD values to low, and out-of-distribution or below 0.30 to OOD. The
+assembled response carries request metadata, disease fields, symptoms, advisory content,
+processing time, and model version.
 
 \ChapterSubsection{Integrated Online Diagnosis Procedure}
 
-The online diagnosis procedure joins the mobile, backend, VLM, advisory, and result-display
-components into one request lifecycle. Table~\ref{tab:integration-control-flow} lists the
-implemented control flow from image capture to the farmer-facing report.
+Table~\ref{tab:integration-control-flow} traces the full request lifecycle from image capture
+to farmer-facing report.
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -787,24 +694,22 @@ implemented control flow from image capture to the farmer-facing report.
 
 \subsubsection{Scan State and Network Branching}
 
-The mobile procedure begins with image capture or gallery selection, preview, optional editing,
-and image-quality review. The analysis view model uses the phases \texttt{ready},
-\texttt{scanning}, \texttt{reviewed}, \texttt{sending}, \texttt{success}, \texttt{failed}, and
-\texttt{queued}. When the network state is online, the diagnosis hook sends a cloud request.
-When the network state is slow, it races the cloud request against a five-second timeout and
-falls back if the request does not finish. When offline, it skips the backend call and queues
-the scan directly.
+After image capture (or gallery selection), preview, optional editing, and quality review, the
+analysis view model enters one of seven phases: \texttt{ready}, \texttt{scanning},
+\texttt{reviewed}, \texttt{sending}, \texttt{success}, \texttt{failed}, or \texttt{queued}.
+Network state determines the next step: online sends a cloud request; slow races the request
+against a five-second timeout and falls back on failure; offline skips the backend and queues
+the scan.
 
-Queued scans are written to SQLite-backed scan history and to the unified sync queue as
-\texttt{scan\_diagnosis} work. If a cached advisory is available for the crop context, it can
-be returned while the scan remains queued for later cloud diagnosis. The API client uses a
-60-second timeout for diagnosis requests and retries transient failures such as 408, 429, 500,
-502, 503, and 504 with exponential backoff.
+Queued scans are written to SQLite scan history and the unified sync queue as
+\texttt{scan\_diagnosis} entries. A cached advisory for the crop context, if available, can
+fill in while the scan waits for cloud diagnosis. The API client applies a 60-second timeout
+and retries transient failures (408, 429, 500, 502, 503, 504) with exponential backoff.
 
 \subsubsection{Farmer-Facing Result Mapping}
 
-Completed responses are mapped into bilingual disease details, confidence display, treatment
-steps, prevention advice, safety warnings, reminders, feedback, PDF export, share-card output,
-and local scan history. The result view selects Nepali or English labels from the current
-language preference, maps treatment steps into timeline items, supports organic alternative
-display, and saves the completed scan so it can be revisited from crop or history screens.
+The result view maps completed responses into bilingual disease details, confidence display,
+treatment timelines, prevention advice, safety warnings, reminders, feedback, PDF export, and
+share cards. Labels appear in Nepali or English based on the current language preference,
+treatment steps render as timeline items with optional organic alternatives, and the completed
+scan is saved for later access from crop or history screens.
