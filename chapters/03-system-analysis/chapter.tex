@@ -2,12 +2,15 @@
 \chapter{SYSTEM ANALYSIS}
 
 \ChapterSection{System Analysis}
-Chapter 1 introduced four major subsystems that include the YOLO detector, the VLM service, backend API infrastructure, and the mobile application. They form a single continuous workflow. This pipeline deals with model inference and the server, along with local mobile storage and offline handling before finally showcasing the advisory details to the farmer.
 
-Farmers and field workers act as the primary users who take the crop photos to receive advisory feedback. The backend and model services work to validate incoming data, run inference to build a structured response, and store the full scan history for future reference.
+
+Krishi Vaidya crop health detection project has four components which are mobile app, backend API, YOLO detector, and vision model. The initial step of this project flow is to take a picture of the crop, which would be done by farmers or field workers using the mobile app features. The mobile app supports local storage when it is not connected to the internet and synchronises the data when the internet is connected. The mobile send the captured image to the backend, which then sends the request to the VLM server, which processes the image and responds with the disease and others detail. After receiving the request from the VLM, the backend generates the advisory feedback and sends the response to the mobile app, which would present those results to the farmers or field workers. 
+
 \ChapterSubsection{Requirement Analysis}
+
 \subsubsection{Functional Requirements}
-Project workspace artefacts dictate the functional requirements. We had taken these details from the implemented mobile features, the various backend route groups, and the active model pipelines alongside their specific validation rules.
+
+The different tools and system that we have used to build the Krishi Vaidya project would determine the functional requirements. We had taken these details from the implemented mobile features, the backend route groups, and the active model pipelines alongside their specific validation rules.
 
 \begin{xltabular}{\textwidth}{@{}p{2.1cm}X@{}}
 \caption{Functional requirements of Krishi Vaidya}\label{tab:functional-requirements}\\
@@ -32,7 +35,8 @@ FR-05 & Uploaded crop images need to validate on the backend. And it immediately
 FR-06 & The VLM inference service processes the image-diagnosis requests from verified-auth users. Returns the disease prediction in our case of CLEAR-parsebile-JSON fields. \\
 FR-07 & The backend then builds the structured response for the mobile app. This payload contain core diagnosis, disease severity metrics (like confidence scores)and exact treatment and prevention advisories. \\
 FR-08 & Backend  stores the scan records and crop data in the database. Mobile handles tasks, ongoing notes, and the current diagnosis or advisory state. \\
-FR-09 & The mobile application works also in the offline. Local SQLite storage and scan queues cache advisory outputs, while retry logic manages when internet is not connected. \\
+FR-09 & In the rural areas of Nepal, where there is still no strong internet connection, the Krishi Vaidya mobile app is designed to work even when it is not connected to the internet. When the app is connected to the internet, the locally saved data from offline use is synchronised with the server or backend. 
+ \\
 \end{xltabular}
 \subsubsection{Non-Functional Requirements}
 
@@ -50,9 +54,9 @@ FR-09 & The mobile application works also in the offline. Local SQLite storage a
 \endfoot
 \bottomrule
 \endlastfoot
-Usability & The mobile interface formats diagnosis results for farmers so they can get the feedback in the correct way.  \\
-Reliability & The system can detect malformed model outputs before they reach the user. Since the backend has strict validation that normalises every raw diagnosis response. \\
-Offline support & Network drops do not break the mobile app flow. Users can still have access to local records and cached advisories, while new scans queue up in the background. \\
+Usability & We had started to design the mobile app from the user's perspective to ensure that they would feel comfortable while using it and could take use of all the features that it could offer.   \\
+Reliability & When designing the Krishi Vaidya project, we were aware of the cost of misdiagnosis; therefore, throughout the flow, we have implemented different levels of filters and validations that would gracefully handle errors or incorrect responses. \\
+Offline support & It is common not to have internet connections in the crop fields. And this should not prevent users or farmers from using the mobile app. Therefore, we have designed the mobile app in such a way that it provides a good experience even when it's not connected to the internet. It could automatically detect the network connection and resume the tasks that were saved or pending during offline use.  \\
 Security & We have used JWT for the authentication and strict request validation. And also added defenses include rate limits, locked-down CORS settings, and Helmet middleware, to secure protected route boundaries. \\
 Maintainability & We have used the dependency injection design pattern so developers can test or swap out validation logic and model clients without breaking the rest of the application. \\
 Performance & The YOLO model, which is used, is lightweight, and quantised variants for field analysis. VLM inference remains a heavy, server-bound operation. \\
