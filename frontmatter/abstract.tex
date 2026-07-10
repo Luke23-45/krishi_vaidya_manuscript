@@ -1,19 +1,14 @@
 \PrelimHeading{Abstract}
 \PrelimEntry{Abstract}
 
-Smallholder farmers in Nepal often lack timely access to plant disease diagnosis, as expert consultation is sparse in rural areas and unavailable at the moment symptoms first appear. This project presents Krishi Vaidya, an integrated crop-health diagnosis-support system that connects a YOLOv8 plant-part detector, a Qwen2.5-VL vision-language model for disease interpretation, an Express/Mongoose backend for orchestration and advisory generation, and a React Native/Expo mobile application for offline-aware farmer-facing delivery.
+Nepali farmers from rural areas have rare access to plant disease diagnosis.
+Expert consultation for plant disease is very low outside urban centres, and it is often unavailable at the time when symptoms first appear in the plant. Therefore, Krishi Vaidya was developed in order to have access to plant disease diagnosis even in rural areas. A YOLOv8 model that is part of Krishi Vaidya detects plant parts in a crop image, and a Qwen2.5-VL vision-language model processes those parts from the image for symptoms of disease. A backend connects different components and creates the advisory text based on the symptoms, and a mobile app shows the result to the farmer.
 
-The YOLO detector was trained on a curated dataset of 30,981 images with 147,467 annotations
-across eleven plant-part classes, achieving F1 of 0.73 and mAP@50 of 0.76; its INT8-quantized
-variant retains 98 percent of baseline performance at 1.87$\times$ compression, confirming
-feasibility for mobile deployment. The vision-language model, fine-tuned from
-Qwen2.5-VL-3B-Instruct using LoRA adapters with 4-bit quantization over three training epochs,
-produces low evaluation loss but a 67.7 percent parse-error rate on the independent test set,
-identifying output parseability as the principal bottleneck for structured diagnosis.
+30,981 images with 147,467 labels across eleven plant-part classes were used to train the YOLO model. The results from the evaluations of the YOLO model are an F1 is 0.73 and an mAP@50 is 0.76. The INT8-quantized which is the version of the YOLO model has 98 percent of that accuracy at 1.87$\times$ smaller size, which is also small enough to run on a mobile phone. Qwen2.5-VL-3B-Instruct was fine-tuned using LoRA adapters and 4-bit quantisation for three epochs. Its evaluation loss is low, but 67.7 percent of its outputs fail to parse.
 
-The backend validates uploaded images, orchestrates VLM inference, and assembles schema-validated bilingual advisory responses through a layered API with JWT authentication and scan-domain test coverage. The mobile application supports image capture, on-device detection using packaged TFLite models, local SQLite persistence, offline scan queuing with cached advisory fallback, crop-plot management, and bilingual result presentation in Nepali and English. End-to-end integration was verified through distributed deployment on physical Android devices.
+The backend validates every uploaded image from the mobile app, sends the request to the vision-language model that is deployed on the cloud, and response an advisory results to the mobile app. And it is layered, secured with JWT, and verified across the scan workflow. The Krishi Vaidya mobile app takes the crop images, runs a YOLO model on-device using packaged TFLite models, and stores data in SQLite. It queues scan requests when the mobile app is offline, falls back to previously saved advisory results, and also it allows a farmer to manage crop plots, with results shown in both Nepali and English. 
 
-The main contribution is an architecture: a working prototype tying together trained models, a validated backend and an offline-aware mobile interface in one diagnosis workflow, presenting parseability with classification accuracy as a first-class evaluation metric. As the VLM does not yet provide any reliable diagnostic output and the agricultural expert advisory content has not yet been evaluated, both will be a prerequisite before any field deployment apart from the current prototype.
+The main contribution from the Krishi Vaidya project is the architecture itself. A working project that has the trained models, a validated backend, and an offline-aware mobile app into a single diagnosis workflow. But two gaps that are still remain in the Krishi Vaidya project, which are that the VLM does not yet produce diagnoses reliable enough to trust, and the advisory content it generates has not yet been evaluated by professionals.
 
 \vspace{2\baselineskip}
 \noindent{\bfseries\fontsize{12}{14}\selectfont Keywords:} \textit{crop disease diagnosis, plant-part detection, vision-language model, LoRA fine-tuning, structured diagnostic output, offline-first mobile design, agricultural decision support, Nepal}
