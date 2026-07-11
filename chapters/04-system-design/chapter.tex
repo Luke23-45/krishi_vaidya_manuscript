@@ -18,39 +18,30 @@ present and where they sit in the frame.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{data/flow_digram_data/build/yolo/06_system_architecture_overview.pdf}
-\caption{YOLO system architecture overview showing the data, training, validation, deployment, and export pipeline.}
+\caption{YOLO System Architecture Overview}
 \label{fig:yolo-system-architecture-overview}
 \end{figure}
 We chose YOLOv8 nano specifically because it is small enough for mobile TFLite export while
 reaching usable mAP on the eleven-class taxonomy
 \parencite{jiangYOLOSurvey2022,ultralyticsYolov8}.
-Figure~\ref{fig:yolo-system-architecture-overview} outlines the detection pipeline from data
-ingestion through export.
+Figure~\ref{fig:yolo-system-architecture-overview} presents the detection pipeline.
 
 \subsubsection{Data Sources and Class Mapping}
 
-Our dataset sources span from Kaggle to Roboflow covering tomato, rice, potato, maize, brassica,
-cauliflower, and cabbage imagery, merged into a single class taxonomy. From 34,992
-candidate images, curation removed 4,011 images and 13,218 annotations flagged for
-out-of-bounds coordinates, sub-pixel area, or collapse after clamping. This imbalance is
-severe as rice panicle holds 115,046 of 147,467 annotations, while maize ear
-(106) and rice grain cluster (473) are barely present. Aggregate mAP hides this.
-Per-class metrics, shown in Figure~\ref{fig:yolo-data-pipeline-flow}, are the only way to
-see the real distribution.
+We have collected different datasets of plant classes such as tomato, rice, potato, maize, brassica, cauliflower, and cabbage imagery from the resources Kaggle and Roboflow. 
+We have merged the different sources of plant datasets into a single final dataset. In total, there were 34,992 images; out of them, we removed 4,011 images and 13,213 annotations because of the incorrect out-of-bounds coordinates. 
+Since we have different classes of plants from multiple sources, there was an imbalance in classes, as rice panicle has 115,046 of 147,467 annotations. But the maize ear has only th 106, and rice grain clusters have only 473. Figure~\ref{fig:yolo-data-pipeline-flow} presents the data distribution based on the different classes. 
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1\textwidth,height=0.5\textheight,keepaspectratio]{data/flow_digram_data/build/yolo/01_data_pipeline_flow.pdf}
-\caption{YOLO data pipeline flow from raw annotations to canonical export, splitting, and training structure.}
+\caption{YOLO Data Pipeline Flow}
 \label{fig:yolo-data-pipeline-flow}
 \end{figure}
 
 \subsubsection{Dataset Construction}
 
-The final dataset contains of around 30,981 images and 147,467 annotations across eleven
-classes. And it was split into 27,454 training and 3,527 validation images. The annotations are stored in
-COCO-style pixel \texttt{xywh} format and converted to YOLO format for training. Per-class
-counts appear in Table~\ref{tab:yolo-dataset-class-distribution}.
+Our final dataset for the YOLO  training has 11 classes with 30.981 images and 147,467 annotations. For training and validation, the dataset was split into 27,454 images for training and 3,527 for validation. COCO-style pixel \texttt{xywh} format was used to store the annotations or labels. During the training of the YOLO model, the stored COCO-style pixels were converted into the YOLO format. The number of images per class is shown in the table Table~\ref{tab:yolo-dataset-class-distribution}.
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -82,16 +73,9 @@ Cabbage head & 1,027 \\
 \end{xltabular}
 }
 
-The yolo model requires 640-pixel inputs and exports to FP32, FP16, and INT8 TFLite variants
-for mobile deployment. And the training and threshold-selection details follow in Algorithm Details.
-
 \ChapterSubsection{VLM Disease-Diagnosis Dataset}
 
-Disease classification model runs on Qwen2.5-VL-3B \parencite{bai2025qwen25vl}. And it takes a crop image
-and a natural-language instruction, it returns a structured JSON diagnosis. At 3B
-parameters with 4-bit LoRA fine-tuning, the model fits on a single L4 GPU. Since the output
-is generated text rather than a fixed-vocabulary prediction, parseability becomes a first-class
-evaluation metric alongside classification accuracy. Figure~\ref{fig:vlm-system-architecture-overview}
+The VLM model Qwen2.5-VL-3B  was fine-tuned for disease classification \parencite{bai2025qwen25vl}. It would take the image of the crop or plan and instructions and process it. After process it would create a JSON diagnosis which would contain the disease, confidence, and other information. As we have used the 4-bit LoRA fine-tuning, it has 3 billion parameters. It could run on a single L4 Nvidia GPU. Figure~\ref{fig:vlm-system-architecture-overview}
 shows the architecture for this component.
 
 \begin{figure}[htbp]
@@ -114,8 +98,7 @@ requirement, not a cosmetic one.
 \subsubsection{Dataset Pipeline}
 
 We configured the dataset pipeline under \texttt{vlm\_model/data/configs} as project
-\texttt{krishivaidya}, dataset \texttt{kv-core5-ms}. Splits reserve 15\% for a locked test
-set and 15\% for validation. Per-crop record caps prevent any single crop from dominating
+\texttt{krishivaidya}, dataset \texttt{kv-core5-ms}. During the dataset split into training, validation and test, the test split contains 15\% which would later be used for testing and 15\% for validation, which would be used during validation during the training phase. Per-crop record caps prevent any single crop from dominating
 training: 800 for rice, maize, potato, and tomato; 600 for cauliflower and cabbage
 (Figure~\ref{fig:vlm-data-pipeline-flow}).
 
@@ -148,9 +131,6 @@ repositories, and data models each live in separate layers so that HTTP transpor
 rules, database persistence, and ML integrations do not leak into each other
 \parencite{sculleyMLTechDebt2015}.
 
-The request path, traced in Figure~\ref{fig:backend-architecture}, shows how the mobile app
-sends JSON and multipart requests to Express, controllers validate inputs, services enforce
-workflow rules, repositories wrap Mongoose queries, and models define MongoDB documents.
 
 \begin{figure}[htbp]
 \centering
@@ -231,8 +211,7 @@ queries, so access control does not repeat in every controller.
 
 Mongoose models have nine domain entities: users, OTP records, refresh tokens, scans, scan
 resolutions, crop plots, crop tasks, crop notes, and advisories
-(Table~\ref{tab:backend-data-models}). Database indexes cover the common access paths: user
-ownership, status filtering, date ordering, and TTL cleanup for expiring documents.
+(Table~\ref{tab:backend-data-models}). 
 
 {\small
 \renewcommand{\arraystretch}{1.3}
@@ -266,14 +245,12 @@ ownership, status filtering, date ordering, and TTL cleanup for expiring documen
 
 Repositories encapsulate database access for user-owned resources --- scans, crop plots,
 tasks, notes, and advisories. Each method accepts a user or plot identifier and applies
-ownership filters before returning results. This keeps access control inside the data layer
-instead of duplicating it across controllers, as Figure~\ref{fig:backend-data-model-persistence-flow}
-shows.
+ownership filters before returning results. Figure~\ref{fig:backend-data-model-persistence-flow} shows the access control inside the data layer.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.9\textwidth,height=0.40\textheight,keepaspectratio]{data/flow_digram_data/build/backend/03_data_models_persistence_flow.pdf}
-\caption{Backend data model and persistence flow showing the relationship between controllers, services, repositories, and MongoDB collections.}
+\caption{Backend Data Model and Persistence Flow}
 \label{fig:backend-data-model-persistence-flow}
 \end{figure}
 
@@ -290,7 +267,7 @@ rejected before it reaches the VLM or advisory services.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\textwidth,height=0.4\textheight,keepaspectratio]{data/flow_digram_data/build/vlm/04_api_gateway_flow.pdf}
-\caption{VLM API gateway flow showing the backend request path, readiness check, authentication, inference call, and response parsing boundary.}
+\caption{VLM API Fateway Flow}
 \label{fig:vlm-api-gateway-flow}
 \end{figure}
 Built as a FastAPI service, the VLM inference gateway exposes three endpoints:
@@ -301,39 +278,29 @@ gateway credentials and checks readiness before forwarding any inference request
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\textwidth,height=0.4\textheight,keepaspectratio]{data/flow_digram_data/build/backend/02_diagnosis_pipeline_flow.pdf}
-\caption{Backend diagnosis pipeline flow showing image validation, VLM inference bridging, advisory generation, and response assembly.}
+\caption{Backend Diagnosis Pipeline}
 \label{fig:backend-diagnosis-pipeline-flow}
 \end{figure}
 
 \subsubsection{Google AI Advisory Bridge}
 
-On the advisory side, we enforce a strict JSON response covering disease, confidence,
+The mobile app expects a specific structure from the response since it has to parse it and present it to the farmers. Therefore, we have enforced the validations and filters to ensure that the JSON response covers disease, confidence,
 out-of-distribution state, symptoms, treatment, prevention, safety, source, and
-alternative-diagnosis fields. Zod schema validation gates the response before it reaches the
-mobile application.
+alternative-diagnosis fields. 
 
 \ChapterSubsection{Backend Security, Uploads, and Controls}
 
 \subsubsection{Upload Handling and Cloudinary Storage}
 
-Multer memory storage was used for handling incoming files, filtered by MIME type and extension against
-JPEG, PNG, and WEBP. ALl the images are uploaded to
-Cloudinary with the secure URLs, automatic quality check and format transformations. And if a use changes some images then
-they get replaced or removed.
+The images have been the central part of the whole flow, such as the crop image. Therefore, we have used the standard tools to process and deal with them efficiently. We have used multer for processing the image, and with this, we also imposed strict validations. If the image could not meet the standard quality, then the request would be rejected. The images after the successful request are stored in Cloudinary with secure URLs. 
 
 \subsubsection{Request Safety and Error Handling}
 
-Rate limits are set at 100 requests per 15 minutes for general routes, 10 per 15 minutes for
-authentication routes, and 5 per hour for OTP routes. Errors of all kinds --- application
-errors, Multer upload errors, Mongoose validation errors, duplicate-key errors, JWT errors ---
-get folded into uniform JSON responses by a global error handler. In production, unknown errors
-surface as a generic message; development mode exposes the full diagnostic detail.
+DDoS attacks are common; therefore, we have added rate-limiting features to the backends. The user can send 100 requests in 15 minutes for the general routes, 10 requests in 15 minutes for authentication, and 5 requests in an hour for OTP. In the backend, it is designed to work efficiently even if there is an error. It would send a generic error in production and a detailed error in the development response. 
 
 \subsubsection{Authentication and Session Handling}
 
-When a user logs in, they get a short-lived access token and a hashed refresh token stored
-in an HTTP-only cookie. Refresh tokens carry lookup IDs, expiry timestamps, and revocation
-state, supporting both single-session and all-session logout. For OTP, we store hashed values
+We have used JWT-based authentication with an access token and refresh token. When the user logs in, they will receive both the access token and refresh token. The access token is sent and used in every request. It has an expiration date, and if the access token expires, the refresh token is consumed, and new access and refresh tokens are used. For OTP, we store hashed values
 with expiry and attempt counts under a unique email-purpose index, so each purpose --- email
 verification, password reset, phone verification --- has its own expiration window.
 
@@ -356,8 +323,7 @@ At startup, the root layout initializes fonts, the splash screen, a QueryClient 
 offline-tolerant defaults, i18n, and the repository bootstrap before rendering the route tree.
 Route protection redirects first-time users through onboarding before they reach the main tabs.
 
-Five bottom tabs --- Home, Crops, Scan, History, and Settings --- anchor the daily interface
-(Table~\ref{tab:mobile-route-groups}). The scan stack runs independently of crop management
+(Table~\ref{tab:mobile-route-groups}) shows the Five bottom tabs. The scan stack runs independently of crop management
 routes, so scan results and reminders can cross-reference crop records without coupling the
 two flows.
 
@@ -643,19 +609,16 @@ Parsing the VLM prediction uses the JSON rules described above. From there, the 
 forwards the parsed context and validated image to the Google AI advisory client. The advisory
 response must pass schema validation before acceptance. We clamp confidence to \([0, 1]\),
 cap alternatives at three, and assign a confidence tier: \(\geq 0.85\) maps to high, 0.60--0.85
-to medium, lower non-OOD values to low, and out-of-distribution or below 0.30 to OOD. The
-assembled response carries request metadata, disease fields, symptoms, advisory content,
-processing time, and model version.
+to medium, lower non-OOD values to low, and out-of-distribution or below 0.30 to OOD. The final response that would be sent to the mobile app is then the user made the request for diagnosis with the crop image, containing request metadata, disease fields, symptoms, advisory content, processing time, and model version.
 
-\ChapterSubsection{Integrated Online Diagnosis Procedure}
+\ChapterSubsection{ Online Diagnosis Procedure}
 
-Table~\ref{tab:integration-control-flow} traces the full request lifecycle from image capture
-to farmer-facing report.
+Table~\ref{tab:integration-control-flow} shows the complete request lifecycle, from when the user made the diagnosis request with the crop image to when the farmer gets the report about the diagnosis.
 
 {\small
 \renewcommand{\arraystretch}{1.3}
 \begin{xltabular}{\textwidth}{@{} l L L L @{}}
-\caption{Integrated online diagnosis control flow}\label{tab:integration-control-flow}\\
+\caption{ Online Diagnosis Control Flow}\label{tab:integration-control-flow}\\
 \toprule
 \textbf{Step} & \textbf{Source component} & \textbf{Implementation evidence} & \textbf{Output} \\
 \midrule
@@ -670,14 +633,14 @@ to farmer-facing report.
 \endlastfoot
 1 & Mobile scan workflow & Capture, preview, editor, analysis view models & Image URI and optional crop context \\
 2 & Mobile diagnosis hook & Network-aware mutation with online, slow, offline branches & Cloud request, cached result, or queued scan \\
-3 & Mobile API client & Multipart \texttt{/api/v1/diagnose} request with retry and timeout & Backend diagnosis request \\
-4 & Backend diagnosis route & Single-image upload middleware and diagnosis controller & Validated service input \\
-5 & Backend validation & MIME, header, size, dimension, and crop-name checks & Validated image object \\
-6 & VLM client & \texttt{/ready} then \texttt{/v1/inference} with prompt and bearer/JWT auth & Raw VLM prediction text and metadata \\
-7 & Backend parser & JSON extraction with raw text preservation & Parsed VLM prediction context \\
-8 & Advisory client & Google AI request with strict schema validation & Structured diagnosis and advisory payload \\
-9 & Backend response assembly & Request ID, timing, confidence tier, model version & Application-facing JSON response \\
-10 & Mobile result workflow & Result view model, history, reminders, feedback, PDF export & Farmer-facing report and local record \\
+3 & Mobile API & Multipart \texttt{/api/v1/diagnose} request & Send diagnosis request \\
+4 & Route of Backend diagnosis  & image upload middleware and diagnosis controller & Correct Diagnosis Input \\
+5 & Backend validation & image size, dimension, and crop-name checks & Correct Diagnosis Input \\
+6 & VLM client & \texttt{/ready} and then request to \texttt{/v1/inference} with prompt and auth token & VLM response data \\
+7 & Backend parser & Parsing the response & Structured diagnosis json data \\
+8 & Diagnosis client & Request to the AI for the structured json response & Correct diagnosis and advisory data \\
+9 & Response of Backend  & time, confidence level, model versions & Application-facing JSON response \\
+10 & Mobile result & Result page, history, reminders, feedbacks, data export & Farmer-facing report and local record \\
 \end{xltabular}
 }
 
