@@ -3,9 +3,7 @@
 
 \ChapterSection{Conclusion}
 
-The project Krishi Vaidya uses different components, namely a YOLO detector, a LoRA-adapted VLM, an Express
-backend, and a React Native mobile app into a single crop-health diagnosis
-workflow for Nepalese farmers. Krishi Vaidya runs end to end, and it was verifed thought the field test. The VLM
+Krishi Vaidya is a crop health diagnosis project, and it has different component as mobile app, YOLO, VLM, LLM and backend.  Krishi Vaidya runs end to end, and it was verifed thought the field test. The VLM
 outputs the structured diagnoses based on the provided image and shows measurable learning, though its
 test-set accuracy remains modest after three epochs during training under
 computational budget constraints.
@@ -67,40 +65,33 @@ in input validation, error handling, uncertainty display, record persistence,
 and structured output formatting is a separate effort at least as large
 \parencite{sculleyMLTechDebt2015,paleyes2022MLSystemsChallenges}.
 
-\item \textbf{Multiple metrics tell the full story.} Reporting parse-error
-rate, classification accuracy, and training-loss trajectory together provides a
-clearer picture as compared to a single metric. The VLM's 67.7 percent parse-error
-rate alongside its 0.0146 eval loss and 0.5232 macro precision shows that
-the model learned the task but did not converge on output format within
-three epochs.
+    \item \textbf{VLM Performance.} The VLM was trained on limited compute, and it achieved eval loss of 0.0146 and macro precision of 0.523,2 which shows that the model had learned the core task. But it had a parse error rate of 67.7 \% which reflects that the model failed to format the output in the correct order. 
 
-\item \textbf{Offline support is a design-time decision.} The project was implemented around the data model, persistence layer, sync logic, and
-UI state management. Deferring it would have forced a rewrite of the mobile
-app \parencite{kleppmannLocalFirst2019}.
-\end{enumerate}
+    \item \textbf{Offline architecture.} The Krishi Vaidya project was often used in remote places like crop fields and others. Therefore, the implementation of the mobile app was around the offline-based architecture. \parencite{kleppmannLocalFirst2019}.
 
 \ChapterSection{Future Recommendations}
 
 \ChapterSubsection{Short-term}
 
 \begin{enumerate}[label=\arabic*.]
-\item \textbf{VLM output reliability.} Apply constrained decoding,
-output-format supervision during training, stricter prompt templates, and
-higher LoRA rank to improve both parse rate and diagnostic accuracy.
-.
-\item \textbf{YOLO dataset balance.} Collect more samples for
-underrepresented classes (rice panicle, brassica leaf, grain cluster) and
-measure the effect on per-class recall.
+
+
+\item \textbf{VLM output.} To improve the VLM performance, we need to apply constraints to decoding, supervision of the output format during the training phase, a correct prompt template and increased LoRA rank.
+
+\item \textbf{YOLO dataset.} In our current dataset for training the YOLO model, it contains lots of images related to rice panicle, and it has few images of maize leaf; such an imbalance could affect the performance; therefore, the dataset needs to be balanced. 
+
+
 \end{enumerate}
 
 \ChapterSubsection{Longer-term}
 
 \begin{enumerate}[label=\arabic*.]
-\item \textbf{Expert validation. } Agricultural pathologists reviewed advisory output for correctness and treatment safety.
 
-\item  \textbf{Farmer usability study. } Field with Nepalese farmers to test interface clarity, language, trust of diagnosis and fit in their farm workflow.
+\item \textbf{Expert Reviews. } In our current approach of Krishi Vaidya, we are relying on LLM and VLM to produce the diagnosis results; therefore, agricultural experts need to review the diagnosis output. 
 
-\item \textbf{Larger VLM. } Test whether 7B or 14B VLM improved parse rates enough to justify the additional compute and inference cost.
+\item  \textbf{Farmer uses feasibility. } Krishi Vaidya project needs to provide for lots of farmers and collect feedback on the interface, language, trust of diagnosis, and crop management. 
+
+\item \textbf{ VLM. } We have not tested how the larger-sized VLM would perform, for example,e like 7B or 14B VLM, along with the cost and compute. 
 
 \item \textbf{Continuous learning. } Build infrastructure of user feed back to flag wrong diagnoses and refine components of model.
 
