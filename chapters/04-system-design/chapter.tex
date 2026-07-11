@@ -631,16 +631,7 @@ Table~\ref{tab:integration-control-flow} shows the complete request lifecycle, f
 \endfoot
 \bottomrule
 \endlastfoot
-1 & Mobile scan workflow & Capture, preview, editor, analysis view models & Image URI and optional crop context \\
-2 & Mobile diagnosis hook & Network-aware mutation with online, slow, offline branches & Cloud request, cached result, or queued scan \\
-3 & Mobile API & Multipart \texttt{/api/v1/diagnose} request & Send diagnosis request \\
-4 & Route of Backend diagnosis  & image upload middleware and diagnosis controller & Correct Diagnosis Input \\
-5 & Backend validation & image size, dimension, and crop-name checks & Correct Diagnosis Input \\
-6 & VLM client & \texttt{/ready} and then request to \texttt{/v1/inference} with prompt and auth token & VLM response data \\
-7 & Backend parser & Parsing the response & Structured diagnosis json data \\
-8 & Diagnosis client & Request to the AI for the structured json response & Correct diagnosis and advisory data \\
-9 & Response of Backend  & time, confidence level, model versions & Application-facing JSON response \\
-10 & Mobile result & Result page, history, reminders, feedbacks, data export & Farmer-facing report and local record \\
+1 & Mobile scan workflow & Capture, preview, editor, analysis view models & Image URI and optional crop context \\2 & Mobile diagnosis hook & Network-aware mutation with online, slow, offline branches & Cloud request, cached result, or queued scan \\3 & Mobile API & Multipart \texttt{/api/v1/diagnose} request & Send diagnosis request \\4 & Route of Backend diagnosis  & image upload middleware and diagnosis controller & Correct Diagnosis Input \\5 & Backend validation & image size, dimension, and crop-name checks & Correct Diagnosis Input \\6 & VLM client & \texttt{/ready} and then request to \texttt{/v1/inference} with prompt and auth token & VLM response data \\7 & Backend parser & Parsing the response & Structured diagnosis json data \\8 & Diagnosis client & Request to the AI for the structured json response & Correct diagnosis and advisory data \\9 & Response of Backend  & time, confidence level, model versions & Application-facing JSON response \\10 & Mobile result & Result page, history, reminders, feedbacks, data export & Farmer-facing report and local record \\
 \end{xltabular}
 }
 
